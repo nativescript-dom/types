@@ -1,0 +1,34 @@
+{
+  "name": "@nativescript-dom/solidjs-types",
+  "version": "1.0.0",
+  "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for solidjs",
+  "main": "",
+  "types": "index.d.ts",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nativescript-dom/types.git"
+  },
+  "keywords": [
+    "dom",
+    "html",
+    "types",
+    "typescript",
+    "nativescript",
+    "elements",
+    "ui",
+    "views",
+    "solidjs"
+  ],
+  "author": "Ammar Ahmed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nativescript-dom/types/issues"
+  },
+  "homepage": "https://github.com/nativescript-dom/types/tree/main/dom",
+  "devDependencies": {
+    "@nativescript/core": "^8.4.7",
+    "@nativescript-dom/core-types": "1.0.0",
+    "solid-js": "1.6.11"
+  }
+}

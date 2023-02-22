@@ -1,0 +1,31 @@
+{
+  "name": "@nativescript-dom/core-types",
+  "version": "1.0.1",
+  "description": "Renderer agnostic typeScript definitions for @nativescript/core views exposed as HTML DOM elements",
+  "main": "",
+  "types": "index.d.ts",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nativescript-dom/types.git"
+  },
+  "keywords": [
+    "dom",
+    "html",
+    "types",
+    "typescript",
+    "nativescript",
+    "elements",
+    "ui",
+    "views"
+  ],
+  "author": "Ammar Ahmed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nativescript-dom/types/issues"
+  },
+  "homepage": "https://github.com/nativescript-dom/types/tree/main/dom",
+  "devDependencies": {
+    "@nativescript/core": "^8.4.7"
+  }
+}
