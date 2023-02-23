@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/core-types",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Renderer agnostic typeScript definitions for @nativescript/core views exposed as HTML DOM elements",
   "main": "",
   "types": "index.d.ts",

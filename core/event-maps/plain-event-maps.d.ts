@@ -30,6 +30,14 @@ declare global {
   interface NativeDOMEvent<T extends EventTarget = EventTarget> extends Event {
     currentTarget: T;
     target: T;
+    /**
+     * Name of the event
+     */
+    eventName: string;
+    /**
+     * The native object that emitted the event.
+     */
+    object: T;
   }
 
   type NativeDOMPropertyChangeEvent<T extends EventTarget = EventTarget> =

@@ -1,0 +1,40 @@
+{
+  "name": "@nativescript-dom/svelte-types",
+  "version": "1.0.0",
+  "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for svelte",
+  "main": "",
+  "types": "index.d.ts",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nativescript-dom/types.git"
+  },
+  "keywords": [
+    "dom",
+    "html",
+    "types",
+    "typescript",
+    "nativescript",
+    "elements",
+    "ui",
+    "views",
+    "svelte",
+    "svelte-native"
+  ],
+  "author": "Ammar Ahmed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nativescript-dom/types/issues"
+  },
+  "homepage": "https://github.com/nativescript-dom/types/tree/main/svelte",
+  "devDependencies": {
+    "@nativescript-dom/core-types": "^1.0.5",
+    "@nativescript/core": "^8.4.7",
+    "svelte": "3.55.1"
+  },
+  "peerDependencies": {
+    "@nativescript-dom/core-types": "*",
+    "@nativescript/core": "*",
+    "svelte": "3.55.1"
+  }
+}
