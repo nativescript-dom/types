@@ -1,36 +1,49 @@
 import "solid-js";
 import "@nativescript-dom/core-types";
+import {
+  OmittedStyleObjectKeys,
+  HTMLActionBarElementAttributeKeys,
+  HTMLActionItemElementAttributeKeys,
+  HTMLActivityIndicatorElementAttributeKeys,
+  HTMLButtonAttributeKeys,
+  HTMLContentViewElementAttributeKeys,
+  HTMLDockLayoutElementAttributeKeys,
+  HTMLEditableTextBaseElementAttributeKeys,
+  HTMLFlexboxLayoutAttributeKeys,
+  HTMLFormattedStringElementAttributeKeys,
+  HTMLFrameElementAttributeKeys,
+  HTMLGridLayoutAttributeKeys,
+  HTMLHTMLViewElementAttributes,
+  HTMLImageElementAttributeKeys,
+  HTMLLabelElementAttributeKeys,
+  HTMLLayoutBaseAttributeKeys,
+  HTMLListPickerElementAttributeKeys,
+  HTMLListViewElementAttributeKeys,
+  HTMLNavigationButtonElementAttributeKeys,
+  HTMLPageElementAttributeKeys,
+  HTMLProgressElementAttributeKeys,
+  HTMLScrollViewElementAttributeKeys,
+  HTMLSearchBarElementAttributeKeys,
+  HTMLSegmentedBarElementAttributeKeys,
+  HTMLSegmentedBarItemElementAttributeKeys,
+  HTMLSliderElementAttributeKeys,
+  HTMLSpanElementAttributeKeys,
+  HTMLStackLayoutAttributeKeys,
+  HTMLSwitchElementAttributeKeys,
+  HTMLTabViewElementAttributeKeys,
+  HTMLTabViewItemELementAttributeKeys,
+  HTMLTextBaseElementAttributeKeys,
+  HTMLTextFieldElementAttributeKeys,
+  HTMLTextViewElementAttributeKeys,
+  HTMLTimePickerElementAttributeKeys,
+  HTMLViewBaseElementAttributeKeys,
+  HTMLViewElementAttributeKeys,
+  HTMLWebViewElementAttributeKeys,
+  HTMLWrapLayoutElementAttributeKeys,
+} from "@nativescript-dom/core-types/attr-literals/index";
 
 declare module "solid-js" {
   export namespace JSX {
-    // Omit keys from Style interface that should not be exposed in JSX.
-    type OmittedStyleObjectKeys =
-      | "PropertyBag"
-      | "_createPropertyChangeData"
-      | "_emit"
-      | "_isViewBase"
-      | "_fontScale"
-      | "addEventListener"
-      | "get"
-      | "hasCssVariable"
-      | "hasListeners"
-      | "notify"
-      | "notifyPropertyChange"
-      | "on"
-      | "off"
-      | "once"
-      | "removeEventListener"
-      | "removeScopedCssVariable"
-      | "removeUnscopedCssVariable"
-      | "resetScopedCssVariables"
-      | "resetUnscopedCssVariables"
-      | "set"
-      | "setProperty"
-      | "setScopedCssVariable"
-      | "setUnscopedCssVariable"
-      | "toString"
-      | "getCssVariable";
-
     // Converts camelCase to kebab-case
     type Kebab<
       T extends string,
@@ -42,7 +55,7 @@ declare module "solid-js" {
       [K in keyof T as K extends string ? Kebab<K> : K]: T[K];
     } & T;
 
-    // Allows both kebab-case & camelCase keys on the style object.
+    // Allows both kebab-case & camelCase keys in style object.
     type Style = KebabKeys<
       Omit<import("@nativescript/core").Style, OmittedStyleObjectKeys>
     >;
@@ -53,10 +66,16 @@ declare module "solid-js" {
       [Key in keyof T as `on:${Key}`]?: (event: T[Key]) => void;
     };
 
+    /**
+     * Generates ios:propertyName
+     */
     type PlatformIOSKeyMap<T> = {
       [K in keyof T as `ios:${K}`]: string | T[K];
     };
 
+    /**
+     * Generates android:propertyName
+     */
     type PlatformAndroidKeyMap<T> = {
       [K in keyof T as `android:${K}`]: string | T[K];
     };
@@ -66,33 +85,12 @@ declare module "solid-js" {
     type BaseAttributes<T> = {
       [K in keyof T]: string | T[K];
     };
-
+    /**
+     * Extend attributes with `android:attribute` & `ios:attribute` variants.
+     */
     type HTMLExtendedAttributes<T> = BaseAttributes<T> &
       PlatformAndroidKeyMap<T> &
       PlatformIOSKeyMap<T>;
-
-    type HTMLViewBaseElementAttributeKeys =
-      | "class"
-      | "className"
-      | "hidden"
-      | "recycleNativeView"
-      | "reusable"
-      | "style"
-      // Styles
-      | "dock"
-      | "alignSelf"
-      | "flexGrow"
-      | "flexShrink"
-      | "flexWrapBefore"
-      | "top"
-      | "left"
-      | "order"
-      | "col"
-      | "colSpan"
-      | "column"
-      | "columnSpan"
-      | "row"
-      | "rowSpan";
 
     interface HTMLViewBaseElementAttributes<T = HTMLViewBaseElement>
       extends DOMAttributes<T>,
@@ -103,82 +101,6 @@ declare module "solid-js" {
       style: string | Style;
     }
 
-    type HTMLViewElementAttributeKeys =
-      | "testID"
-      | "visibility"
-      | "isUserInteractionEnabled"
-      | "iosOverflowSafeAreaEnabled"
-      | "iosOverflowSafeArea"
-      // Style props
-      | "css"
-      | "color"
-      | "boxShadow"
-      | "opacity"
-      | "verticalAlignment"
-      | "horizontalAlignment"
-      // Position
-      | "originX"
-      | "originY"
-      // Transforms
-      | "textTransform"
-      | "translateX"
-      | "translateY"
-      | "scaleX"
-      | "scaleY"
-      | "rotateX"
-      | "rotateY"
-      | "rotate"
-      | "perspective"
-      // Size
-      | "height"
-      | "width"
-      | "minWidth"
-      | "minHeight"
-      // margin
-      | "margin"
-      | "marginTop"
-      | "marginLeft"
-      | "marginRight"
-      | "marginBottom"
-      // border width
-      | "borderWidth"
-      | "borderBottomWidth"
-      | "borderTopWidth"
-      | "borderLeftWidth"
-      | "borderRigthWidth"
-      // border radius
-      | "borderTopRightRadius"
-      | "borderTopLeftRadius"
-      | "borderBottomRightRadius"
-      | "borderBottomLeftRadius"
-      // border color
-      | "borderColor"
-      | "borderTopColor"
-      | "borderLeftColor"
-      | "borderRightColor"
-      // Background
-      | "backgroundSize"
-      | "backgroundColor"
-      | "backgroundRepeat"
-      | "backgroundImage"
-      | "backgroundPosition"
-      | "backgroundSize"
-      | "automationText"
-      | "androidElevation"
-      // Accessibility props
-      | "accessible"
-      | "accessibilityValue"
-      | "accessibilityState"
-      | "accessibilityRole"
-      | "accessibilityMediaSession"
-      | "accessibilityLiveRegion"
-      | "accessibilityLanguage"
-      | "accessibilityLabel"
-      | "accessibilityIgnoresInvertColors"
-      | "accessibilityIdentifier"
-      | "accessibilityHint"
-      | "accessibilityHidden";
-
     interface HTMLViewElementAttributes<
       T extends HTMLViewElement = HTMLViewElement
     > extends HTMLViewBaseElementAttributes<T>,
@@ -187,14 +109,6 @@ declare module "solid-js" {
           PickAttributes<HTMLViewElement, HTMLViewElementAttributeKeys>
         > {}
 
-    type HTMLPageElementAttributeKeys =
-      | "accessibilityAnnouncePageEnabled"
-      | "actionBar"
-      | "actionBarHidden"
-      | "androidStatusBarBackground"
-      | "enableSwipeBackNavigation"
-      | "navigationContext"
-      | "statusBarStyle";
     interface HTMLPageElementAttributes
       extends HTMLViewElementAttributes<HTMLPageElement>,
         OnNativeViewEvents<HTMLPageElementEventsMap>,
@@ -202,11 +116,6 @@ declare module "solid-js" {
           PickAttributes<HTMLPageElement, HTMLPageElementAttributeKeys>
         > {}
 
-    type HTMLFrameElementAttributeKeys =
-      | "actionBarVisibility"
-      | "animated"
-      | "navigationBarHeight"
-      | "transition";
     interface HTMLFrameElementAttributes
       extends HTMLViewElementAttributes<HTMLFrameElement>,
         OnNativeViewEvents<HTMLFrameElementEventsMap>,
@@ -216,42 +125,24 @@ declare module "solid-js" {
       defaultPage?: string;
     }
 
-    type HTMLLayoutBaseAttributeKeys =
-      | "padding"
-      | "paddingBottom"
-      | "paddingTop"
-      | "paddingLeft"
-      | "paddingRight"
-      | "clipToBounds"
-      | "isPassThroughEnabled";
-
     interface HTMLAbsoluteLayoutElementAttributes
       extends HTMLViewElementAttributes<HTMLAbsoluteLayoutElement>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLAbsoluteLayoutElement, HTMLLayoutBaseAttributeKeys>
         > {}
 
-    type HTMLGridLayoutAttributeKeys =
-      | HTMLLayoutBaseAttributeKeys
-      | "columns"
-      | "rows";
     interface HTMLGridLayoutElementAttributes
       extends HTMLViewElementAttributes<HTMLGridLayoutElement>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLGridLayoutElement, HTMLGridLayoutAttributeKeys>
         > {}
-    type HTMLStackLayoutAttributeKeys = "orientation";
+
     interface HTMLStackLayoutElementAttributes
       extends HTMLViewElementAttributes<HTMLStackLayoutElement>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLStackLayoutElement, HTMLStackLayoutAttributeKeys>
         > {}
 
-    type HTMLWrapLayoutElementAttributeKeys =
-      | HTMLLayoutBaseAttributeKeys
-      | "itemHeight"
-      | "itemWidth"
-      | "orientation";
     interface HTMLWrapLayoutElementAttributes
       extends HTMLViewElementAttributes<HTMLWrapLayoutElement>,
         HTMLExtendedAttributes<
@@ -261,9 +152,6 @@ declare module "solid-js" {
           >
         > {}
 
-    type HTMLDockLayoutElementAttributeKeys =
-      | HTMLLayoutBaseAttributeKeys
-      | "stretchLastChild";
     interface HTMLDockLayoutElementAttributes
       extends HTMLViewElementAttributes<HTMLDockLayoutElement>,
         HTMLExtendedAttributes<
@@ -273,13 +161,6 @@ declare module "solid-js" {
           >
         > {}
 
-    type HTMLFlexboxLayoutAttributeKeys =
-      | HTMLLayoutBaseAttributeKeys
-      | "justifyContent"
-      | "flexWrap"
-      | "flexDirection"
-      | "alignItems"
-      | "alignContent";
     interface HTMLFlexboxLayoutElementAttributes
       extends HTMLViewElementAttributes<HTMLFlexboxLayoutElement>,
         HTMLExtendedAttributes<
@@ -295,10 +176,6 @@ declare module "solid-js" {
           PickAttributes<HTMLRootLayoutElement, HTMLGridLayoutAttributeKeys>
         > {}
 
-    type HTMLContentViewElementAttributeKeys =
-      | HTMLLayoutBaseAttributeKeys
-      | "content"
-      | "layoutView";
     interface HTMLContentViewElementAttributes
       extends HTMLViewElementAttributes<HTMLContentViewElement>,
         HTMLExtendedAttributes<
@@ -307,17 +184,6 @@ declare module "solid-js" {
             HTMLContentViewElementAttributeKeys
           >
         > {}
-
-    type HTMLActionBarElementAttributeKeys =
-      | "actionItems"
-      | "androidContentInset"
-      | "androidContentInsetRight"
-      | "androidContentInsetLeft"
-      | "iosIconRenderingMode"
-      | "navigationButton"
-      | "flat"
-      | "title"
-      | "titleView";
 
     interface HTMLActionBarElementAttributes
       extends HTMLViewElementAttributes<HTMLActionBarElement>,
@@ -328,7 +194,6 @@ declare module "solid-js" {
           >
         > {}
 
-    type HTMLActionItemElementAttributeKeys = "icon" | "text" | "visibility";
     interface HTMLActionItemElementAttributes
       extends HTMLViewElementAttributes<HTMLActionItemElement>,
         HTMLExtendedAttributes<
@@ -338,7 +203,6 @@ declare module "solid-js" {
           >
         > {}
 
-    type HTMLActivityIndicatorElementAttributeKeys = "busy";
     interface HTMLActivityIndicatorElementAttributes
       extends HTMLViewElementAttributes<HTMLActivityIndicatorElement>,
         HTMLExtendedAttributes<
@@ -348,37 +212,12 @@ declare module "solid-js" {
           >
         > {}
 
-    type HTMLTextBaseElementAttributeKeys =
-      | "textShadow"
-      | "whiteSpace"
-      | "textTransform"
-      | "textDecoration"
-      | "textAlignment"
-      | "text"
-      | "paddingTop"
-      | "paddingBottom"
-      | "paddingRight"
-      | "paddingLeft"
-      | "padding"
-      | "lineHeight"
-      | "letterSpacing"
-      | "formattedText"
-      | "fontWeight"
-      | "fontStyle"
-      | "fontFamily"
-      | "fontSize";
-
     interface HTMLTextBaseElementAttributes<
       T extends HTMLTextBaseElement = HTMLTextBaseElement
     > extends HTMLViewElementAttributes<T>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLTextBaseElement, HTMLTextBaseElementAttributeKeys>
         > {}
-
-    type HTMLButtonAttributeKeys =
-      | "textWrap"
-      | "accessible"
-      | "accessibilityRole";
 
     interface HTMLButtonElementAttributes
       extends HTMLTextBaseElementAttributes<HTMLButtonElement>,
@@ -398,15 +237,6 @@ declare module "solid-js" {
           >
         > {}
 
-    type HTMLFormattedStringElementAttributeKeys =
-      | "backgroundColor"
-      | "color"
-      | "fontSize"
-      | "fontFamily"
-      | "fontWeight"
-      | "fontStyle"
-      | "textDecoration";
-
     type FormattedStringElementStyle = KebabKeys<
       Pick<Style, HTMLFormattedStringElementAttributeKeys>
     >;
@@ -422,28 +252,18 @@ declare module "solid-js" {
       style: string | FormattedStringElementStyle;
     }
 
-    type HTMLHTMLViewElementAttributes = "html";
     interface HTMLHTMLViewElementAttributes
       extends HTMLViewElementAttributes<HTMLHTMLViewElement>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLHTMLViewElement, HTMLHTMLViewElementAttributes>
         > {}
 
-    type HTMLImageElementAttributeKeys =
-      | "imageSource"
-      | "loadMode"
-      | "src"
-      | "stretch"
-      | "decodeHeight"
-      | "decodeWidth"
-      | "tintColor";
     interface HTMLImageElementAttributes
       extends HTMLViewElementAttributes<HTMLImageElementAttributes>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLImageElement, HTMLImageElementAttributeKeys>
         > {}
     // Label
-    type HTMLLabelElementAttributeKeys = "textWrap";
     interface HTMLLabelElementAttributes
       extends HTMLTextBaseElementAttributes<HTMLLabelElement>,
         HTMLExtendedAttributes<
@@ -452,13 +272,6 @@ declare module "solid-js" {
     // Extends html label element attributes with nativescript button attributes
     interface LabelHTMLAttributes extends HTMLLabelElementAttributes {}
     // ListPicker
-    type HTMLListPickerElementAttributeKeys =
-      | "items"
-      | "textField"
-      | "valueField"
-      | "selectedIndex"
-      | "selectedValue"
-      | "isItemsSource";
     interface HTMLListPickerElementAttributes
       extends HTMLViewElementAttributes<HTMLListPickerElement>,
         OnNativeViewEvents<HTMLListPickerElementEventsMap>,
@@ -469,14 +282,6 @@ declare module "solid-js" {
           >
         > {}
     // ListView
-    type HTMLListViewElementAttributeKeys =
-      | "iosEstimatedRowHeight"
-      | "itemTemplate"
-      | "itemTemplateSelector"
-      | "itemTemplates"
-      | "items"
-      | "rowHeight"
-      | "sepratorColor";
     interface HTMLListViewElementAttributes
       extends HTMLViewElementAttributes<HTMLListViewElement>,
         OnNativeViewEvents<HTMLListViewElementEventsMap>,
@@ -500,7 +305,6 @@ declare module "solid-js" {
       extends HTMLViewElementAttributes<HTMLPlaceholderElement>,
         OnNativeViewEvents<HTMLPlaceholderElementEventsMap> {}
     // Progress
-    type HTMLProgressElementAttributeKeys = "maxValue" | "value";
     interface HTMLProgressElementAttributes
       extends HTMLViewElementAttributes<HTMLProgressElement>,
         OnNativeViewEvents<HTMLProgressElementEventsMap>,
@@ -511,14 +315,6 @@ declare module "solid-js" {
     interface HTMLProxyViewContainerElementAttributes
       extends HTMLViewElementAttributes<HTMLProxyViewContainerElement> {}
     // ScrollView
-    type HTMLScrollViewElementAttributeKeys =
-      | "isScrollEnabled"
-      | "verticalOffset"
-      | "scrollableWidth"
-      | "scrollableHeight"
-      | "scrollBarIndicatorVisible"
-      | "orientation"
-      | "horizontalOffset";
     interface HTMLScrollViewElement
       extends HTMLViewElementAttributes<HTMLScrollViewElement>,
         OnNativeViewEvents<HTMLScrollViewElementEventsMap>,
@@ -529,11 +325,6 @@ declare module "solid-js" {
           >
         > {}
     //#region SearchBar
-    type HTMLSearchBarElementAttributeKeys =
-      | "textFieldHintColor"
-      | "textFieldBackgroundColor"
-      | "text"
-      | "hint";
     interface HTMLSearchBarElementAttributes
       extends HTMLViewElementAttributes<HTMLSearchBarElement>,
         OnNativeViewEvents<HTMLSearchBarElementEventsMap>,
@@ -546,10 +337,6 @@ declare module "solid-js" {
     //#endregion SearchBar
 
     //#region  SegementedBar
-    type HTMLSegmentedBarElementAttributeKeys =
-      | "items"
-      | "selectedBackgroundColor"
-      | "selectedIndex";
     interface HTMLSegmentedBarElementAttributes
       extends HTMLViewElementAttributes<HTMLSegmentedBarElement>,
         OnNativeViewEvents<HTMLSegmentedBarElementEventsMap>,
@@ -562,7 +349,6 @@ declare module "solid-js" {
     //#endregion SegmentedBar
 
     //#region SegmentedBarItem
-    type HTMLSegmentedBarItemElementAttributeKeys = "title";
     interface HTMLSegmentedBarItemElementAttributes
       extends HTMLViewElementAttributes<HTMLSegmentedBarItemElement>,
         HTMLExtendedAttributes<
@@ -574,10 +360,6 @@ declare module "solid-js" {
     //#endregion SegmentedBarItem
 
     //#region Span
-    type HTMLSpanElementAttributeKeys =
-      | "tappable"
-      | "text"
-      | HTMLFormattedStringElementAttributeKeys;
     interface HTMLSpanElementAttributes
       extends HTMLViewBaseElementAttributes<HTMLSpanElement>,
         OnNativeViewEvents<HTMLNSpanElementEventsMap>,
@@ -589,7 +371,6 @@ declare module "solid-js" {
     //#endregion Span
 
     //#region Switch
-    type HTMLSwitchElementAttributeKeys = "offBackgroundColor" | "checked";
     interface HTMLSwitchELementAttributes
       extends HTMLViewElementAttributes<HTMLSwitchELement>,
         OnNativeViewEvents<HTMLSwitchELementEventsMap>,
@@ -599,18 +380,6 @@ declare module "solid-js" {
     //#endregion Switch
 
     //#region TabView
-    type HTMLTabViewElementAttributeKeys =
-      | "androidOffscreenTabLimit"
-      | "androidSelectedTabHighlightColor"
-      | "androidSwipeEnabled"
-      | "androidTabsPosition"
-      | "iosIconRenderingMode"
-      | "items"
-      | "selectedIndex"
-      | "selectedTabTextColor"
-      | "tabBackgroundColor"
-      | "tabTextColor"
-      | "tabTextFontSize";
     interface HTMLTabViewELementAttributes
       extends HTMLViewElementAttributes<HTMLTabViewELement>,
         OnNativeViewEvents<HTMLTabViewElementEventsMap>,
@@ -620,11 +389,6 @@ declare module "solid-js" {
     //#endregion TabView
 
     //#region TabViewItem
-    type HTMLTabViewItemELementAttributeKeys =
-      | "canBeLoaded"
-      | "textTransform"
-      | "iconSource"
-      | "title";
     interface HTMLTabViewItemELementAttributes
       extends HTMLViewElementAttributes<HTMLTabViewItemELement>,
         OnNativeViewEvents<HTMLTabViewItemElementEventsMap>,
@@ -637,18 +401,6 @@ declare module "solid-js" {
 
     //#endregion TabViewItem
 
-    type HTMLEditableTextBaseElementAttributeKeys =
-      | "updateTextTrigger"
-      | "autocapitalizationType"
-      | "autocorrect"
-      | "autofillType"
-      | "editable"
-      | "hint"
-      | "keyboardType"
-      | "maxLength"
-      | "maxLines"
-      | "returnKeyType";
-
     interface HTMLEditableTextBaseElementAttributes<
       T extends HTMLEditableTextBaseElement = HTMLEditableTextBaseElement
     > extends HTMLTextBaseElementAttributes<T>,
@@ -657,11 +409,6 @@ declare module "solid-js" {
         > {}
 
     //#region TextField
-    type HTMLTextFieldElementAttributeKeys =
-      | "closeOnReturn"
-      | "secure"
-      | "secureWithoutAutofill"
-      | "title";
     interface HTMLTextFieldElementAttributes
       extends HTMLEditableTextBaseElementAttributes<HTMLTextFieldElement>,
         HTMLViewElementAttributes<HTMLTextFieldElement>,
@@ -676,7 +423,6 @@ declare module "solid-js" {
     //#endregion TextField
 
     //#region TextView
-    type HTMLTextViewElementAttributeKeys = "maxLines";
     interface HTMLTextViewElementAttributes
       extends HTMLEditableTextBaseElementAttributes<HTMLTextViewElement>,
         HTMLViewElementAttributes<HTMLTextViewElement>,
@@ -687,13 +433,6 @@ declare module "solid-js" {
     //#endregion TextView
 
     //#region Slider
-    type HTMLSliderElementAttributeKeys =
-      | "maxValue"
-      | "minValue"
-      | "value"
-      | "accessible"
-      | "accessibilityStep"
-      | "accessibilityRole";
     interface HTMLSliderElementAttributes
       extends HTMLViewElementAttributes<HTMLSliderElement>,
         OnNativeViewEvents<HTMLSliderElementEventsMap>,
@@ -702,14 +441,6 @@ declare module "solid-js" {
         > {}
     //#endregion Slider
     //#region TimePicker
-    type HTMLTimePickerElementAttributeKeys =
-      | "hour"
-      | "iosPreferredDatePickerStyle"
-      | "maxHour"
-      | "maxMinute"
-      | "minute"
-      | "minuteInterval"
-      | "time";
     interface HTMLTimePickerElementAttributes<
       T extends HTMLTimePickerElement = HTMLTimePickerElement
     > extends HTMLViewElementAttributes<HTMLTimePickerElement>,
@@ -724,11 +455,6 @@ declare module "solid-js" {
     //#endregion TimePicker
 
     //#region WebView
-    type HTMLWebViewElementAttributeKeys =
-      | "src"
-      | "disableZoom"
-      | "canGoForward"
-      | "canGoBackward";
     interface HTMLWebViewElementAttributes<
       T extends HTMLWebViewElement = HTMLWebViewElement
     > extends HTMLViewElementAttributes<T>,
@@ -899,6 +625,12 @@ separated by a comma. You set the number of rows by listing their heights, separ
        * A UI component that lets users select time.
        */
       timepicker: HTMLTimePickerElementAttributes;
+    }
+
+    interface IntrinsicElements {
+      // allow arbitrary elements
+      // @ts-ignore suppress ts:2374 = Duplicate string index signature.
+      [name: string]: any;
     }
   }
 }
