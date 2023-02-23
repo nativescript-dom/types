@@ -71,7 +71,7 @@ declare module "solid-js" {
       PlatformAndroidKeyMap<T> &
       PlatformIOSKeyMap<T>;
 
-    type HTMLViewBaseAttributeKeys =
+    type HTMLViewBaseElementAttributeKeys =
       | "class"
       | "className"
       | "hidden"
@@ -98,7 +98,7 @@ declare module "solid-js" {
       extends DOMAttributes<T>,
         OnNativeViewEvents<HTMLViewBaseElementEventsMap<T>>,
         HTMLExtendedAttributes<
-          PickAttributes<HTMLViewBaseElement, HTMLViewBaseAttributeKeys>
+          PickAttributes<HTMLViewBaseElement, HTMLViewBaseElementAttributeKeys>
         > {
       style: string | Style;
     }

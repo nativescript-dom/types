@@ -13,6 +13,7 @@ import {
   AccessibilityDecrementEventData,
   AccessibilityIncrementEventData,
 } from "@nativescript/core/ui/slider";
+import "event-maps/plain-event-maps";
 
 export type ItemLoadingEventData = {
   view?: NS.ViewBase;
@@ -22,16 +23,6 @@ export type ItemLoadingEventData = {
 };
 
 declare global {
-  type NativeDOMEventWithData<
-    T extends EventTarget = EventTarget,
-    D = any
-  > = DOMEvent<T> & D;
-
-  interface DOMEvent<T extends EventTarget = EventTarget> extends Event {
-    currentTarget: T;
-    target: T;
-  }
-
   type NativeScriptViewOmittedProps =
     | "addEventListener"
     | "removeEventListener"
@@ -40,13 +31,6 @@ declare global {
     | "focus"
     | "removeChild"
     | "animate";
-
-  interface HTMLViewBaseElementEventsMap<T extends EventTarget = EventTarget> {
-    loaded: DOMEvent<T>;
-    unloaded: DOMEvent<T>;
-    created: DOMEvent<T>;
-    disposeNativeView: DOMEvent<T>;
-  }
 
   interface HTMLViewBaseElement
     extends Omit<NS.ViewBase, NativeScriptViewOmittedProps>,
@@ -84,29 +68,6 @@ declare global {
     new (): HTMLViewBaseElement;
   };
 
-  interface HTMLViewElementEventsMap<T extends EventTarget = EventTarget>
-    extends HTMLViewBaseElementEventsMap<T> {
-    layoutChanged: DOMEvent<T>;
-    shownModally: DOMEvent<T>;
-    showingModally: DOMEvent<T>;
-    accessibilityBlur: DOMEvent<T>;
-    accessibilityFocus: DOMEvent<T>;
-    accessibilityPerformEscape: DOMEvent<T>;
-    accessibilityFocusChanged: DOMEvent<T>;
-    tap: NativeDOMEventWithData<T, NS.TapGestureEventData>;
-    doubleTap: NativeDOMEventWithData<T, NS.TapGestureEventData>;
-    pan: NativeDOMEventWithData<T, NS.PanGestureEventData>;
-    swipe: NativeDOMEventWithData<T, NS.SwipeGestureEventData>;
-    rotation: NativeDOMEventWithData<T, NS.RotationGestureEventData>;
-    longPress: NativeDOMEventWithData<T, NS.GestureEventData>;
-    touch: NativeDOMEventWithData<T, NS.TouchGestureEventData>;
-    pinch: NativeDOMEventWithData<T, NS.PinchGestureEventData>;
-    androidBackPressed: NativeDOMEventWithData<
-      T,
-      NS.AndroidActivityBackPressedEventData
-    >;
-  }
-
   interface HTMLViewElement
     extends Omit<NS.View, NativeScriptViewOmittedProps>,
       HTMLElement {
@@ -142,13 +103,6 @@ declare global {
     new (): HTMLViewElement;
   };
 
-  interface HTMLPageElementEventsMap extends HTMLViewElementEventsMap {
-    navigatingTo: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
-    navigatedTo: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
-    navigatingFrom: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
-    navigatedFrom: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
-  }
-
   interface HTMLPageElement
     extends Omit<NS.Page, NativeScriptViewOmittedProps>,
       HTMLElement {
@@ -183,11 +137,6 @@ declare global {
     prototype: HTMLPageElement;
     new (): HTMLPageElement;
   };
-
-  interface HTMLFrameElementEventsMap extends HTMLViewElementEventsMap {
-    navigatingTo: NativeDOMEventWithData<HTMLFrameElement, NavigatedData>;
-    navigatedTo: NativeDOMEventWithData<HTMLFrameElement, NavigatedData>;
-  }
 
   interface HTMLFrameElement
     extends Omit<NS.Page, NativeScriptViewOmittedProps> {
@@ -228,9 +177,6 @@ declare global {
     prototype: HTMLFrameElement;
     new (): HTMLFrameElement;
   };
-
-  type DOMPropertyChangeEvent<T extends EventTarget = EventTarget> =
-    NativeDOMEventWithData<T, NS.PropertyChangeData>;
 
   // Layouts
 
@@ -365,9 +311,6 @@ declare global {
     new (): HTMLContentViewElement;
   };
 
-  interface HTMLActionBarElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLActionBarElement> {}
-
   interface HTMLActionBarElement
     extends Omit<HTMLViewElement, "android">,
       Omit<NS.ActionBar, NativeScriptViewOmittedProps> {
@@ -407,9 +350,6 @@ declare global {
     prototype: HTMLActionBarElement;
     new (): HTMLActionBarElement;
   };
-
-  interface HTMLActionItemElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLActionItemElement> {}
 
   interface HTMLActionItemElement
     extends HTMLElement,
@@ -451,9 +391,6 @@ declare global {
     prototype: HTMLActionItemElement;
     new (): HTMLActionItemElement;
   };
-
-  interface HTMLActivityIndicatorElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLActivityIndicatorElement> {}
 
   interface HTMLActivityIndicatorElement
     extends HTMLViewElement,
@@ -503,9 +440,6 @@ declare global {
     extends HTMLViewElement,
       Omit<NS.TextBase, NativeScriptViewOmittedProps | "on"> {}
 
-  interface HTMLNButtonElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLButtonElement> {}
-
   interface HTMLButtonElement
     extends Omit<NS.Button, NativeScriptViewOmittedProps | "on"> {
     addEventListener<K extends keyof HTMLNButtonElementEventsMap>(
@@ -545,10 +479,6 @@ declare global {
     prototype: HTMLButtonElement;
     new (): HTMLButtonElement;
   };
-
-  interface HTMLDatePickerElementEventsMap extends HTMLViewElementEventsMap {
-    dateChange: DOMPropertyChangeEvent<HTMLDatePickerElement>;
-  }
 
   interface HTMLDatePickerElement
     extends HTMLViewElement,
@@ -591,9 +521,6 @@ declare global {
     new (): HTMLDatePickerElement;
   };
 
-  interface HTMLFormattedStringElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLFormattedStringElement> {}
-
   interface HTMLFormattedStringElement
     extends HTMLElement,
       Omit<NS.FormattedString, NativeScriptViewOmittedProps> {
@@ -634,9 +561,6 @@ declare global {
     prototype: HTMLFormattedStringElement;
     new (): HTMLFormattedStringElement;
   };
-
-  interface HTMLHTMLViewElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLHTMLViewElement> {}
 
   interface HTMLHTMLViewElement
     extends HTMLViewElement,
@@ -679,9 +603,6 @@ declare global {
     new (): HTMLHTMLViewElement;
   };
 
-  interface HTMLImageElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLImageElement> {}
-
   interface HTMLImageElement
     extends Omit<NS.Image, NativeScriptViewOmittedProps> {
     addEventListener<K extends keyof HTMLImageElementEventsMap>(
@@ -722,9 +643,6 @@ declare global {
     new (): HTMLImageElement;
   };
 
-  interface HTMLLabelElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLLabelElement> {}
-
   interface HTMLLabelElement
     extends Omit<NS.Label, NativeScriptViewOmittedProps> {
     addEventListener<K extends keyof HTMLLabelElementEventsMap>(
@@ -764,16 +682,6 @@ declare global {
     prototype: HTMLLabelElement;
     new (): HTMLLabelElement;
   };
-
-  interface HTMLListPickerElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLListPickerElement> {
-    selectedIndexChange?: (
-      event: DOMPropertyChangeEvent<HTMLListPickerElement>
-    ) => void;
-    selectedValueChange?: (
-      event: DOMPropertyChangeEvent<HTMLListPickerElement>
-    ) => void;
-  }
 
   interface HTMLListPickerElement
     extends Omit<HTMLElement, "animate">,
@@ -816,13 +724,6 @@ declare global {
     new (): HTMLListPickerElement;
   };
 
-  interface HTMLListViewElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLListViewElement> {
-    itemLoading: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>;
-    itemTap: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>;
-    loadMoreItems: DOMEvent<HTMLListViewElement>;
-  }
-
   interface HTMLListViewElement
     extends HTMLElement,
       Omit<NS.ListView, NativeScriptViewOmittedProps> {
@@ -863,9 +764,6 @@ declare global {
     prototype: HTMLListViewElement;
     new (): HTMLListViewElement;
   };
-
-  interface HTMLNavigationButtonElementEventsMap
-    extends HTMLViewElementEventsMap<HTMLNavigationButtonElement> {}
 
   interface HTMLNavigationButtonElement
     extends HTMLElement,
@@ -908,13 +806,6 @@ declare global {
     new (): HTMLNavigationButtonElement;
   };
 
-  interface HTMLPlaceholderElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLPlaceholderElement> {
-    creatingView: NativeDOMEventWithData<
-      HTMLPlaceholderElement,
-      CreateViewEventData
-    >;
-  }
   interface HTMLPlaceholderElement
     extends HTMLElement,
       Omit<NS.Placeholder, NativeScriptViewOmittedProps | "on"> {
@@ -956,10 +847,6 @@ declare global {
     new (): HTMLPlaceholderElement;
   };
 
-  interface HTMLProgressElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLProgressElement> {
-    valueChange: DOMPropertyChangeEvent<HTMLProgressElement>;
-  }
   interface HTMLProgressElement
     extends Omit<NS.Progress, NativeScriptViewOmittedProps | "on" | "animate"> {
     addEventListener<K extends keyof HTMLProgressElementEventsMap>(
@@ -1000,8 +887,6 @@ declare global {
     new (): HTMLProgressElement;
   };
 
-  interface HTMLProxyViewContainerElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLProxyViewContainerElement> {}
   interface HTMLProxyViewContainerElement
     extends HTMLElement,
       Omit<NS.ProxyViewContainer, NativeScriptViewOmittedProps | "on"> {
@@ -1043,10 +928,6 @@ declare global {
     new (): HTMLProxyViewContainerElement;
   };
 
-  interface HTMLScrollViewElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLScrollViewElement> {
-    scroll: NativeDOMEventWithData<HTMLScrollViewElement, ScrollEventData>;
-  }
   interface HTMLScrollViewElement
     extends HTMLElement,
       Omit<NS.ScrollView, NativeScriptViewOmittedProps | "on"> {
@@ -1088,12 +969,6 @@ declare global {
     new (): HTMLScrollViewElement;
   };
 
-  interface HTMLSearchBarElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLSearchBarElement> {
-    submit: DOMEvent<HTMLSearchBarElement>;
-    clear: DOMEvent<HTMLSearchBarElement>;
-    close: DOMEvent<HTMLSearchBarElement>;
-  }
   interface HTMLSearchBarElement
     extends HTMLElement,
       Omit<NS.SearchBar, NativeScriptViewOmittedProps | "on"> {
@@ -1135,13 +1010,6 @@ declare global {
     new (): HTMLSearchBarElement;
   };
 
-  interface HTMLSegmentedBarElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLSegmentedBarElement> {
-    selectedIndexChanged: NativeDOMEventWithData<
-      HTMLSegmentedBarElement,
-      SelectedIndexChangedEventData
-    >;
-  }
   interface HTMLSegmentedBarElement
     extends HTMLElement,
       Omit<NS.SearchBar, NativeScriptViewOmittedProps | "on"> {
@@ -1183,8 +1051,6 @@ declare global {
     new (): HTMLSegmentedBarElement;
   };
 
-  interface HTMLSegmentedBarItemElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLSegmentedBarElement> {}
   interface HTMLSegmentedBarItemElement
     extends HTMLElement,
       Omit<NS.SegmentedBarItem, NativeScriptViewOmittedProps | "on"> {
@@ -1225,11 +1091,6 @@ declare global {
     prototype: HTMLSegmentedBarItemElement;
     new (): HTMLSegmentedBarItemElement;
   };
-
-  interface HTMLNSpanElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLSpanElement> {
-    linkTap: DOMEvent<HTMLSpanElement>;
-  }
 
   interface HTMLSpanElement
     extends HTMLElement,
@@ -1272,11 +1133,6 @@ declare global {
     new (): HTMLSpanElement;
   };
 
-  interface HTMLSwitchELementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLSwitchELement> {
-    checkedChange: DOMPropertyChangeEvent<HTMLSwitchELement>;
-  }
-
   interface HTMLSwitchELement
     extends HTMLElement,
       Omit<NS.Switch, NativeScriptViewOmittedProps | "on"> {
@@ -1317,14 +1173,6 @@ declare global {
     prototype: HTMLSwitchELement;
     new (): HTMLSwitchELement;
   };
-
-  interface HTMLTabViewElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLTabViewELement> {
-    selectedIndexChanged: NativeDOMEventWithData<
-      HTMLTabViewELement,
-      SelectedIndexChangedEventData
-    >;
-  }
 
   interface HTMLTabViewELement
     extends HTMLElement,
@@ -1417,14 +1265,6 @@ declare global {
     extends HTMLTextBaseElement,
       Omit<NS.EditableTextBase, NativeScriptViewOmittedProps | "on"> {}
 
-  interface HTMLTextFieldElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLTextFieldElement> {
-    focus: DOMPropertyChangeEvent<HTMLTextFieldElement>;
-    returnPress: DOMPropertyChangeEvent<HTMLTextFieldElement>;
-    blur: DOMPropertyChangeEvent<HTMLTextFieldElement>;
-    textChange: DOMPropertyChangeEvent<HTMLTextFieldElement>;
-  }
-
   interface HTMLTextFieldElement
     extends HTMLEditableTextBaseElement,
       Omit<NS.TextField, NativeScriptViewOmittedProps | "on"> {
@@ -1465,14 +1305,6 @@ declare global {
     prototype: HTMLTextFieldElement;
     new (): HTMLTextFieldElement;
   };
-
-  interface HTMLTextViewElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLTextViewElement> {
-    //focus: DOMPropertyChangeEvent<HTMLTextViewElement>;
-    returnPress: DOMPropertyChangeEvent<HTMLTextViewElement>;
-    blur: DOMPropertyChangeEvent<HTMLTextViewElement>;
-    textChange: DOMPropertyChangeEvent<HTMLTextViewElement>;
-  }
 
   interface HTMLTextViewElement
     extends HTMLElement,
@@ -1515,18 +1347,6 @@ declare global {
     new (): HTMLTextViewElement;
   };
 
-  interface HTMLSliderElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLSliderElement> {
-    accessibilityDecrement: NativeDOMEventWithData<
-      HTMLSliderElement,
-      AccessibilityIncrementEventData
-    >;
-    accessibilityIncrement: NativeDOMEventWithData<
-      HTMLSliderElement,
-      AccessibilityDecrementEventData
-    >;
-  }
-
   interface HTMLSliderElement
     extends HTMLElement,
       Omit<NS.Slider, NativeScriptViewOmittedProps | "on"> {
@@ -1568,11 +1388,6 @@ declare global {
     new (): HTMLSliderElement;
   };
 
-  interface HTMLTimePickerElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLTimePickerElement> {
-    timeChange?: (event: DOMPropertyChangeEvent<HTMLTimePickerElement>) => void;
-  }
-
   interface HTMLTimePickerElement
     extends HTMLElement,
       Omit<NS.Slider, NativeScriptViewOmittedProps | "on"> {
@@ -1613,12 +1428,6 @@ declare global {
     prototype: HTMLTimePickerElement;
     new (): HTMLTimePickerElement;
   };
-
-  interface HTMLWebViewElementEventsMap
-    extends HTMLViewBaseElementEventsMap<HTMLWebViewElement> {
-    loadStarted: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>;
-    loadFinished: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>;
-  }
 
   interface HTMLWebViewElement
     extends HTMLElement,

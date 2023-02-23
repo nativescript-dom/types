@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/solidjs-types",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for solidjs",
   "main": "",
   "types": "index.d.ts",
@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/nativescript-dom/types/tree/main/solid-js",
   "devDependencies": {
+    "@nativescript-dom/core-types": "^1.0.3",
     "@nativescript/core": "^8.4.7",
-    "@nativescript-dom/core-types": "1.0.0",
     "solid-js": "1.6.11"
   }
 }
