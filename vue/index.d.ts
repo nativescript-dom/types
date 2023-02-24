@@ -108,8 +108,14 @@ interface HTMLViewBaseElementAttributes<T = HTMLViewBaseElement>
   style: string | Style;
 }
 
+declare module "@vue/runtime-dom" {
+  interface HTMLAttributes<T> extends HTMLViewBaseElementAttributes<T> {
+    style: string | Style;
+  }
+}
+
 interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement>
-  extends HTMLViewBaseElementAttributes<T>,
+  extends HTMLAttributes<T>,
     OnNativeViewEvents<HTMLViewElementEventsMap<T>>,
     HTMLExtendedAttributes<
       PickAttributes<HTMLViewElement, HTMLViewElementAttributeKeys>

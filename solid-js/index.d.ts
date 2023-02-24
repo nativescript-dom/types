@@ -101,9 +101,11 @@ declare module "solid-js" {
       style: string | Style;
     }
 
+    interface DOMAttributes<T> extends HTMLViewBaseElementAttributes<T> {}
+
     interface HTMLViewElementAttributes<
       T extends HTMLViewElement = HTMLViewElement
-    > extends HTMLViewBaseElementAttributes<T>,
+    > extends DOMAttributes<T>,
         OnNativeViewEvents<HTMLViewElementEventsMap<T>>,
         HTMLExtendedAttributes<
           PickAttributes<HTMLViewElement, HTMLViewElementAttributeKeys>

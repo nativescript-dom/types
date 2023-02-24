@@ -1,11 +1,5 @@
-import "@nativescript-dom/core-types/event-maps/plain-event-maps";
+import { HTMLAttributes, DetailedHTMLProps } from "react";
 import "@nativescript-dom/core-types";
-
-import "@nativescript-dom/core-types/name-maps/kebab-cased";
-import "@nativescript-dom/core-types/name-maps/camel-cased";
-
-import { HTMLAttributes } from "svelte/elements";
-
 import {
   OmittedStyleObjectKeys,
   HTMLActionBarElementAttributeKeys,
@@ -48,37 +42,36 @@ import {
   HTMLWrapLayoutElementAttributeKeys,
 } from "@nativescript-dom/core-types/attr-literals/index";
 
-// Omit the following keys from Style interface that should not be exposed in JSX.
+// Converts camelCase to kebab-case
 
 // Allows both kebab-case & camelCase keys in style object.
+type Style = Omit<import("@nativescript/core").Style, OmittedStyleObjectKeys>;
 /**
- * Generates `onEventName` from `eventName which is required by vue to
- * detect which props are events.
+ * Generates `on:eventName` from `eventName.
  */
 type OnNativeViewEvents<T> = {
-  [Key in keyof T as `on:${Key}`]?: ((event: T[Key]) => void) | undefined;
+  [Key in keyof T as `on${Capitalize<Key>}`]?: (event: T[Key]) => void;
 };
 
 /**
  * Generates ios:propertyName
  */
 type PlatformIOSKeyMap<T> = {
-  [K in keyof T as `ios:${K}`]?: string | T[K];
+  [K in keyof T as `ios:${K}`]: string | T[K];
 };
 
 /**
  * Generates android:propertyName
  */
 type PlatformAndroidKeyMap<T> = {
-  [K in keyof T as `android:${K}`]?: string | T[K];
+  [K in keyof T as `android:${K}`]: string | T[K];
 };
 
 type PickAttributes<T, Keys> = Pick<T, Keys>;
 
 type BaseAttributes<T> = {
-  [K in keyof T]?: string | T[K];
+  [K in keyof T]: string | T[K];
 };
-type Style = Omit<import("@nativescript/core").Style, OmittedStyleObjectKeys>;
 /**
  * Extend attributes with `android:attribute` & `ios:attribute` variants.
  */
@@ -88,6 +81,7 @@ type HTMLExtendedAttributes<T> = BaseAttributes<T> &
 
 interface HTMLViewBaseElementAttributes<T = HTMLViewBaseElement>
   extends HTMLAttributes<T>,
+    DetailedHTMLProps<T>,
     OnNativeViewEvents<HTMLViewBaseElementEventsMap<T>>,
     HTMLExtendedAttributes<
       PickAttributes<HTMLViewBaseElement, HTMLViewBaseElementAttributeKeys>
@@ -95,8 +89,10 @@ interface HTMLViewBaseElementAttributes<T = HTMLViewBaseElement>
   style: string | Style;
 }
 
-declare module "svelte/elements" {
-  interface HTMLAttributes<T> extends HTMLViewBaseElementAttributes<T> {}
+declare module "react" {
+  interface HTMLAttributes<T> extends HTMLViewBaseElementAttributes<T> {
+    style: string | Style;
+  }
 }
 
 interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement>
@@ -133,6 +129,7 @@ interface HTMLGridLayoutElementAttributes
     HTMLExtendedAttributes<
       PickAttributes<HTMLGridLayoutElement, HTMLGridLayoutAttributeKeys>
     > {}
+
 interface HTMLStackLayoutElementAttributes
   extends HTMLViewElementAttributes<HTMLStackLayoutElement>,
     HTMLExtendedAttributes<
@@ -243,7 +240,6 @@ interface HTMLImageElementAttributes
       PickAttributes<HTMLImageElement, HTMLImageElementAttributeKeys>
     > {}
 // Label
-
 interface HTMLLabelElementAttributes
   extends HTMLTextBaseElementAttributes<HTMLLabelElement>,
     HTMLExtendedAttributes<
@@ -252,7 +248,6 @@ interface HTMLLabelElementAttributes
 // Extends html label element attributes with nativescript button attributes
 interface LabelHTMLAttributes extends HTMLLabelElementAttributes {}
 // ListPicker
-
 interface HTMLListPickerElementAttributes
   extends HTMLViewElementAttributes<HTMLListPickerElement>,
     OnNativeViewEvents<HTMLListPickerElementEventsMap>,
@@ -260,7 +255,6 @@ interface HTMLListPickerElementAttributes
       PickAttributes<HTMLListPickerElement, HTMLListPickerElementAttributeKeys>
     > {}
 // ListView
-
 interface HTMLListViewElementAttributes
   extends HTMLViewElementAttributes<HTMLListViewElement>,
     OnNativeViewEvents<HTMLListViewElementEventsMap>,
@@ -268,6 +262,8 @@ interface HTMLListViewElementAttributes
       PickAttributes<HTMLListViewElement, HTMLListViewElementAttributeKeys>
     > {}
 
+type HTMLNavigationButtonElementAttributeKeys =
+  HTMLActionItemElementAttributeKeys;
 // NavigationButton
 interface HTMLNavigationButtonElementAttributes
   extends HTMLViewElementAttributes<HTMLNavigationButtonElement>,
@@ -282,7 +278,6 @@ interface HTMLPlaceholderElementAttributes
   extends HTMLViewElementAttributes<HTMLPlaceholderElement>,
     OnNativeViewEvents<HTMLPlaceholderElementEventsMap> {}
 // Progress
-
 interface HTMLProgressElementAttributes
   extends HTMLViewElementAttributes<HTMLProgressElement>,
     OnNativeViewEvents<HTMLProgressElementEventsMap>,
@@ -293,7 +288,6 @@ interface HTMLProgressElementAttributes
 interface HTMLProxyViewContainerElementAttributes
   extends HTMLViewElementAttributes<HTMLProxyViewContainerElement> {}
 // ScrollView
-
 interface HTMLScrollViewElement
   extends HTMLViewElementAttributes<HTMLScrollViewElement>,
     OnNativeViewEvents<HTMLScrollViewElementEventsMap>,
@@ -301,7 +295,6 @@ interface HTMLScrollViewElement
       PickAttributes<HTMLScrollViewElement, HTMLScrollViewElementAttributeKeys>
     > {}
 //#region SearchBar
-
 interface HTMLSearchBarElementAttributes
   extends HTMLViewElementAttributes<HTMLSearchBarElement>,
     OnNativeViewEvents<HTMLSearchBarElementEventsMap>,
@@ -311,7 +304,6 @@ interface HTMLSearchBarElementAttributes
 //#endregion SearchBar
 
 //#region  SegementedBar
-
 interface HTMLSegmentedBarElementAttributes
   extends HTMLViewElementAttributes<HTMLSegmentedBarElement>,
     OnNativeViewEvents<HTMLSegmentedBarElementEventsMap>,
@@ -324,7 +316,6 @@ interface HTMLSegmentedBarElementAttributes
 //#endregion SegmentedBar
 
 //#region SegmentedBarItem
-
 interface HTMLSegmentedBarItemElementAttributes
   extends HTMLViewElementAttributes<HTMLSegmentedBarItemElement>,
     HTMLExtendedAttributes<
@@ -336,7 +327,6 @@ interface HTMLSegmentedBarItemElementAttributes
 //#endregion SegmentedBarItem
 
 //#region Span
-
 interface HTMLSpanElementAttributes
   extends HTMLViewBaseElementAttributes<HTMLSpanElement>,
     OnNativeViewEvents<HTMLNSpanElementEventsMap>,
@@ -348,7 +338,6 @@ interface HTMLSpanElementAttributes
 //#endregion Span
 
 //#region Switch
-
 interface HTMLSwitchELementAttributes
   extends HTMLViewElementAttributes<HTMLSwitchELement>,
     OnNativeViewEvents<HTMLSwitchELementEventsMap>,
@@ -358,7 +347,6 @@ interface HTMLSwitchELementAttributes
 //#endregion Switch
 
 //#region TabView
-
 interface HTMLTabViewELementAttributes
   extends HTMLViewElementAttributes<HTMLTabViewELement>,
     OnNativeViewEvents<HTMLTabViewElementEventsMap>,
@@ -368,7 +356,6 @@ interface HTMLTabViewELementAttributes
 //#endregion TabView
 
 //#region TabViewItem
-
 interface HTMLTabViewItemELementAttributes
   extends HTMLViewElementAttributes<HTMLTabViewItemELement>,
     OnNativeViewEvents<HTMLTabViewItemElementEventsMap>,
@@ -389,7 +376,6 @@ interface HTMLEditableTextBaseElementAttributes<
     > {}
 
 //#region TextField
-
 interface HTMLTextFieldElementAttributes
   extends HTMLEditableTextBaseElementAttributes<HTMLTextFieldElement>,
     HTMLViewElementAttributes<HTMLTextFieldElement>,
@@ -411,7 +397,6 @@ interface HTMLTextViewElementAttributes
 //#endregion TextView
 
 //#region Slider
-
 interface HTMLSliderElementAttributes
   extends HTMLViewElementAttributes<HTMLSliderElement>,
     OnNativeViewEvents<HTMLSliderElementEventsMap>,
@@ -420,7 +405,6 @@ interface HTMLSliderElementAttributes
     > {}
 //#endregion Slider
 //#region TimePicker
-
 interface HTMLTimePickerElementAttributes<
   T extends HTMLTimePickerElement = HTMLTimePickerElement
 > extends HTMLViewElementAttributes<HTMLTimePickerElement>,
@@ -432,7 +416,6 @@ interface HTMLTimePickerElementAttributes<
 //#endregion TimePicker
 
 //#region WebView
-
 interface HTMLWebViewElementAttributes<
   T extends HTMLWebViewElement = HTMLWebViewElement
 > extends HTMLViewElementAttributes<T>,
@@ -443,157 +426,79 @@ interface HTMLWebViewElementAttributes<
 //#endregion WebView
 
 declare global {
-  namespace svelteNative.JSX {
-    // Every namespace eligible for use with the new Svelte intellisense needs to implement the following two functions
-
-    // Every namespace eligible for use needs to implement the following two functions
-    /**
-     * @internal do not use
-     */
-    function mapElementTag<K extends keyof ElementTagNameMap>(
-      tag: K
-    ): ElementTagNameMap[K];
-    function mapElementTag<K extends keyof SVGElementTagNameMap>(
-      tag: K
-    ): SVGElementTagNameMap[K];
-    function mapElementTag(tag: any): any; // needs to be any because used in context of <svelte:element>
-
-    /**
-     * @internal do not use
-     */
-    function createElement<
-      Elements extends IntrinsicElements,
-      Key extends keyof Elements
-    >(
-      // "undefined | null" because of <svelte:element>
-      element: Key | undefined | null,
-      attrs: string extends Key ? HTMLViewElementAttributes<any> : Elements[Key]
-    ): Key extends keyof ElementTagNameMap
-      ? ElementTagNameMap[Key]
-      : Key extends keyof SVGElementTagNameMap
-      ? SVGElementTagNameMap[Key]
-      : any;
-
-    function createElement<
-      Elements extends IntrinsicElements,
-      Key extends keyof Elements,
-      T
-    >(
-      // "undefined | null" because of <svelte:element>
-      element: Key | undefined | null,
-      attrsEnhancers: T,
-      attrs: (string extends Key
-        ? HTMLViewElementAttributes<any>
-        : Elements[Key]) &
-        T
-    ): Key extends keyof ElementTagNameMap
-      ? ElementTagNameMap[Key]
-      : Key extends keyof SVGElementTagNameMap
-      ? SVGElementTagNameMap[Key]
-      : any;
-
-    //
-
-    function mapElementTag(tag: any): HTMLElement;
-
-    function createElement<
-      Elements extends IntrinsicElements,
-      Key extends keyof Elements
-    >(
-      // "undefined | null" because of <svelte:element>
-      element: Key | undefined | null,
-      attrs: Elements[Key]
-    ): HTMLElement;
-
-    function createElement<
-      Elements extends IntrinsicElements,
-      Key extends keyof Elements,
-      T
-    >(
-      // "undefined | null" because of <svelte:element>
-      element: Key | undefined | null,
-      attrsEnhancers: T,
-      attrs: Elements[Key] & T
-    ): HTMLElement;
-
-    export type DefineNativeComponent<T> = Partial<T>;
-
-    /**
-     * @nativescript Define all components as kebab-case.
-     */
-    export interface IntrinsicElements {
+  namespace JSX {
+    interface IntrinsicElements {
       /**
-       * A UI component used to display <Page> elements. Every app needs at least a single <Frame> element, usually set as the root element.
+       * A UI component used to display `<Page>` elements. Every app needs at least a single <Frame> element, usually set as the root element.
        */
-      frame: DefineNativeComponent<HTMLFrameElementAttributes>;
+      frame: HTMLFrameElementAttributes;
       /**
        * A UI component that represents an application screen. NativeScript apps typically consist of one or more `<Page>` that wrap content such as an `<ActionBar>` and other UI widgets.
        */
-      page: DefineNativeComponent<HTMLPageElementAttributes>;
+      page: HTMLPageElementAttributes;
       /**
        * This class is the base class for all UI components. A View occupies a rectangular area on the screen and is responsible for drawing and layouting of all UI components within.
        */
-      view: DefineNativeComponent<HTMLViewElementAttributes>;
-
+      view: HTMLViewElementAttributes;
       /**
        * A layout container that lets you stack the child elements vertically (default) or horizontally.
        */
-      "stack-layout": DefineNativeComponent<HTMLStackLayoutElementAttributes>;
+      stacklayout: HTMLStackLayoutElementAttributes;
       /**
        * A layout container that provides a non-exact implementation of the CSS Flexbox layout. This layout lets you arrange child components both horizontally and vertically.
        */
-      "flexbox-layout": DefineNativeComponent<HTMLFlexboxLayoutElementAttributes>;
+      flexboxlayout: HTMLFlexboxLayoutElementAttributes;
       /**
-          * A layout container that lets you arrange its child elements in a table-like manner.
-     
-     The grid consists of rows, columns, and cells. A cell can span one or more rows and one or more columns. 
-     It can contain multiple child elements which can span over multiple rows and columns, and even overlap each other.
-     
-     By default, <GridLayout> has one column and one row. You can add columns and rows by configuring the columns and the rows properties. 
-     In these properties, you need to set the number of columns and rows and their width and height. You set the number of columns by listing their widths, 
-     separated by a comma. You set the number of rows by listing their heights, separated by a comma.
-          */
-      "grid-layout": DefineNativeComponent<HTMLGridLayoutElementAttributes>;
+     * A layout container that lets you arrange its child elements in a table-like manner.
+
+      The grid consists of rows, columns, and cells. A cell can span one or more rows and one or more columns. 
+      It can contain multiple child elements which can span over multiple rows and columns, and even overlap each other.
+
+      By default, <GridLayout> has one column and one row. You can add columns and rows by configuring the columns and the rows properties. 
+      In these properties, you need to set the number of columns and rows and their width and height. You set the number of columns by listing their widths, 
+      separated by a comma. You set the number of rows by listing their heights, separated by a comma.
+     */
+      gridlayout: HTMLGridLayoutElementAttributes;
       /**
        * A UI component that shows an editable or a read-only multi-line text container. You can use it to let users type large text in your app or to show longer, multi-line text on the screen.
        */
-      "text-view": DefineNativeComponent<HTMLTextViewElementAttributes>;
+      textview: HTMLTextViewElementAttributes;
       /**
        * An input component that creates an editable single-line box.
        */
-      "text-field": DefineNativeComponent<HTMLTextFieldElementAttributes>;
+      textfield: HTMLTextFieldElementAttributes;
       /**
        * A layout container that lets you position items in rows or columns, based on the orientation property.
        * When the space is filled, the container automatically wraps items onto a new row or column.
        */
-      "wrap-layout": DefineNativeComponent<HTMLWrapLayoutElementAttributes>;
+      wraplayout: HTMLWrapLayoutElementAttributes;
       /**
        * The WebView component is used to display web content within your application.
        * You use the control by providing a `src` attribute that accepts a URL,a path
        * to a local HTML file or directly HTML string.
        */
-      "web-view": DefineNativeComponent<HTMLWebViewElementAttributes>;
+      webview: HTMLWebViewElementAttributes;
       /**
        * A layout that lets you specify exact locations (left/top coordinates) of its children.
        */
-      "absolute-layout": DefineNativeComponent<HTMLAbsoluteLayoutElementAttributes>;
+      absolutelayout: HTMLAbsoluteLayoutElementAttributes;
       /**
        * Provides an abstraction over the ActionBar (android) and NavigationBar (iOS).
        */
-      "action-bar": DefineNativeComponent<HTMLActionBarElementAttributes>;
+      actionbar: HTMLActionBarElementAttributes;
       /**
        * Represents an action item in the action bar.
        */
-      "action-item": DefineNativeComponent<HTMLActionItemElementAttributes>;
+      actionitem: HTMLActionItemElementAttributes;
       /**
        * Represents a UI widget which displays a progress indicator hinting the user for some background operation running.
        */
-      "activity-indicator": DefineNativeComponent<HTMLActivityIndicatorElementAttributes>;
-      "content-view": DefineNativeComponent<HTMLContentViewElementAttributes>;
+      activityindicator: HTMLActivityIndicatorElementAttributes;
+      contentview: HTMLContentViewElementAttributes;
       /**
        * A UI component that lets users select a date from a pre-configured range.
        */
-      "date-picker": DefineNativeComponent<HTMLDatePickerElementAttributes>;
+      datepicker: HTMLDatePickerElementAttributes;
       /**
        * a layout container that lets you dock child elements to the sides or the center of the layout.
        *
@@ -601,220 +506,94 @@ declare global {
        * To dock a child element to the center, it must be the last child of the container and you must set
        * the `stretchLastChild` property of the parent to `true`.
        */
-      "dock-layout": DefineNativeComponent<HTMLDockLayoutElementAttributes>;
+      docklayout: HTMLDockLayoutElementAttributes;
       /**
        * A View to support various text transformations and decorations. The FormattedString class can be used
        * with all text-related components like `Label`, `TextView`, `TextField` and even `Button`.
        *
        * FormattedString only accepts `span` as it's children.
        */
-      "formatted-string": DefineNativeComponent<HTMLFormattedStringElementAttributes>;
+      formattedstring: HTMLFormattedStringElementAttributes;
       /**
        * The HtmlView represents a view with HTML content. Use this component instead of a WebView when you want to show static HTML content with base HTML support.
        */
-      "html-view": DefineNativeComponent<HTMLHTMLViewElementAttributes>;
+      htmlview: HTMLHTMLViewElementAttributes;
       /**
        * The Image widget shows an image in your mobile application.
        */
-      image: DefineNativeComponent<HTMLImageElementAttributes>;
+      image: HTMLImageElementAttributes;
       /**
        * The ListPicker is a spinner type component for listing options.
        */
-      "list-picker": DefineNativeComponent<HTMLListPickerElementAttributes>;
+      listpicker: HTMLListPickerElementAttributes;
       /**
        * A UI component that is used to render large lists of data.
        */
-      "list-view": DefineNativeComponent<HTMLListViewElementAttributes>;
+      listview: HTMLListViewElementAttributes;
       /**
        *
        */
-      "navigation-button": DefineNativeComponent<HTMLNavigationButtonElementAttributes>;
+      navigationbutton: HTMLNavigationButtonElementAttributes;
       /**
        * `<Placeholder>` allows you to add any native widget to your application. To do that, you need to put a Placeholder somewhere in
        * the UI hierarchy and then create and configure the native widget that you want to appear there. Finally,
        * pass your native widget to the event arguments of the creatingView event.
        */
-      placeholder: DefineNativeComponent<HTMLPlaceholderElementAttributes>;
+      placeholder: HTMLPlaceholderElementAttributes;
       /**
        * A UI component that shows a bar to indicate the progress of a task.
        */
-      progress: DefineNativeComponent<HTMLProgressElementAttributes>;
+      progress: HTMLProgressElementAttributes;
 
-      "proxy-view": DefineNativeComponent<HTMLProxyViewContainerElementAttributes>;
+      proxyview: HTMLProxyViewContainerElementAttributes;
       /**
        * A layout container designed to be used as the primary root layout container for your app with a built in api to easily control dynamic view layers. It extends a GridLayout so has all the features of a grid but enhanced with additional apis.
        */
-      "root-layout": DefineNativeComponent<HTMLRootLayoutElementAttributes>;
+      rootlayout: HTMLRootLayoutElementAttributes;
       /**
        * A UI component that shows a scrollable content area. Content can be scrolled vertically or horizontally.
        */
-      "scroll-view": DefineNativeComponent<HTMLScrollViewElementAttributes>;
+      scrollview: HTMLScrollViewElementAttributes;
       /**
        * A UI component that provides a user interface for entering search queries and submitting requests to the search provider.
        */
-      "search-bar": DefineNativeComponent<HTMLSearchBarElementAttributes>;
+      searchbar: HTMLSearchBarElementAttributes;
       /**
        * A UI bar component that displays a set of buttons for discrete selection. Can show text or images.
        */
-      segmentedbar: DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
+      segmentedbar: HTMLSegmentedBarElementAttributes;
       /**
        * An item displayed inside SegmentedBar.
        */
-      "segmentedbar-item": DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
+      segmentedbaritem: HTMLSegmentedBarElementAttributes;
       /**
        * A UI component that provides a slider control for picking values within a specified numeric range.
        */
-      slider: DefineNativeComponent<HTMLSliderElementAttributes>;
+      slider: HTMLSliderElementAttributes;
       /**
        * A UI component that lets users toggle between two states.
        */
-      switch: DefineNativeComponent<HTMLSwitchELementAttributes>;
+      switch: HTMLSwitchELementAttributes;
       /**
        * A navigation component that shows content grouped into tabs and lets users switch between tabs.
        */
-      tabview: DefineNativeComponent<HTMLTabViewELementAttributes>;
+      tabview: HTMLTabViewELementAttributes;
       /**
        * A screen inside TabView.
        *
        * Currently, TabViewItem expects a single child element. In most cases, you might want to wrap your content in a layout.
        */
-      "tabview-item": DefineNativeComponent<HTMLTabViewItemElementAttributes>;
+      tabitem: HTMLTabViewItemElementAttributes;
       /**
        * A UI component that lets users select time.
        */
-      "time-picker": DefineNativeComponent<HTMLTimePickerElementAttributes>;
-      label: DefineNativeComponent<HTMLLabelElementAttributes>;
-      span: DefineNativeComponent<HTMLSpanElementAttributes>;
-      button: DefineNativeComponent<HTMLButtonElementAttributes>;
+      timepicker: HTMLTimePickerElementAttributes;
+    }
 
-      /**
-       * A layout container that lets you stack the child elements vertically (default) or horizontally.
-       */
-      stackLayout: DefineNativeComponent<HTMLStackLayoutElementAttributes>;
-      /**
-       * A layout container that provides a non-exact implementation of the CSS Flexbox layout. This layout lets you arrange child components both horizontally and vertically.
-       */
-      flexboxLayout: DefineNativeComponent<HTMLFlexboxLayoutElementAttributes>;
-      /**
-           * A layout container that lets you arrange its child elements in a table-like manner.
-      
-      The grid consists of rows, columns, and cells. A cell can span one or more rows and one or more columns. 
-      It can contain multiple child elements which can span over multiple rows and columns, and even overlap each other.
-      
-      By default, <GridLayout> has one column and one row. You can add columns and rows by configuring the columns and the rows properties. 
-      In these properties, you need to set the number of columns and rows and their width and height. You set the number of columns by listing their widths, 
-      separated by a comma. You set the number of rows by listing their heights, separated by a comma.
-           */
-      gridLayout: DefineNativeComponent<HTMLGridLayoutElementAttributes>;
-      /**
-       * A UI component that shows an editable or a read-only multi-line text container. You can use it to let users type large text in your app or to show longer, multi-line text on the screen.
-       */
-      textView: DefineNativeComponent<HTMLTextViewElementAttributes>;
-      /**
-       * An input component that creates an editable single-line box.
-       */
-      textField: DefineNativeComponent<HTMLTextFieldElementAttributes>;
-      /**
-       * A layout container that lets you position items in rows or columns, based on the orientation property.
-       * When the space is filled, the container automatically wraps items onto a new row or column.
-       */
-      wrapLayout: DefineNativeComponent<HTMLWrapLayoutElementAttributes>;
-      /**
-       * The WebView component is used to display web content within your application.
-       * You use the control by providing a `src` attribute that accepts a URL,a path
-       * to a local HTML file or directly HTML string.
-       */
-      webView: DefineNativeComponent<HTMLWebViewElementAttributes>;
-      /**
-       * A layout that lets you specify exact locations (left/top coordinates) of its children.
-       */
-      absoluteLayout: DefineNativeComponent<HTMLAbsoluteLayoutElementAttributes>;
-      /**
-       * Provides an abstraction over the ActionBar (android) and NavigationBar (iOS).
-       */
-      actionBar: DefineNativeComponent<HTMLActionBarElementAttributes>;
-      /**
-       * Represents an action item in the action bar.
-       */
-      actionItem: DefineNativeComponent<HTMLActionItemElementAttributes>;
-      /**
-       * Represents a UI widget which displays a progress indicator hinting the user for some background operation running.
-       */
-      activityIndicator: DefineNativeComponent<HTMLActivityIndicatorElementAttributes>;
-      contentView: DefineNativeComponent<HTMLContentViewElementAttributes>;
-      /**
-       * A UI component that lets users select a date from a pre-configured range.
-       */
-      datePicker: DefineNativeComponent<HTMLDatePickerElementAttributes>;
-      /**
-       * a layout container that lets you dock child elements to the sides or the center of the layout.
-       *
-       * Use the `dock` property to dock its children to the `left`, `right`, `top`, `bottom` or `center` of the layout.
-       * To dock a child element to the center, it must be the last child of the container and you must set
-       * the `stretchLastChild` property of the parent to `true`.
-       */
-      dockLayout: DefineNativeComponent<HTMLDockLayoutElementAttributes>;
-      /**
-       * A View to support various text transformations and decorations. The FormattedString class can be used
-       * with all text-related components like `Label`, `TextView`, `TextField` and even `Button`.
-       *
-       * FormattedString only accepts `span` as it's children.
-       */
-      formattedString: DefineNativeComponent<HTMLFormattedStringElementAttributes>;
-      /**
-       * The HtmlView represents a view with HTML content. Use this component instead of a WebView when you want to show static HTML content with base HTML support.
-       */
-      htmlView: DefineNativeComponent<HTMLHTMLViewElementAttributes>;
-
-      /**
-       * The ListPicker is a spinner type component for listing options.
-       */
-      listPicker: DefineNativeComponent<HTMLListPickerElementAttributes>;
-      /**
-       * A UI component that is used to render large lists of data.
-       */
-      listView: DefineNativeComponent<HTMLListViewElementAttributes>;
-      /**
-       *
-       */
-      navigationButton: DefineNativeComponent<HTMLNavigationButtonElementAttributes>;
-
-      proxyView: DefineNativeComponent<HTMLProxyViewContainerElementAttributes>;
-      /**
-       * A layout container designed to be used as the primary root layout container for your app with a built in api to easily control dynamic view layers. It extends a GridLayout so has all the features of a grid but enhanced with additional apis.
-       */
-      rootLayout: DefineNativeComponent<HTMLRootLayoutElementAttributes>;
-      /**
-       * A UI component that shows a scrollable content area. Content can be scrolled vertically or horizontally.
-       */
-      scrollView: DefineNativeComponent<HTMLScrollViewElementAttributes>;
-      /**
-       * A UI component that provides a user interface for entering search queries and submitting requests to the search provider.
-       */
-      searchBar: DefineNativeComponent<HTMLSearchBarElementAttributes>;
-      /**
-       * A UI bar component that displays a set of buttons for discrete selection. Can show text or images.
-       */
-      segmentedBar: DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
-      /**
-       * An item displayed inside SegmentedBar.
-       */
-      segmentedBarItem: DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
-
-      /**
-       * A navigation component that shows content grouped into tabs and lets users switch between tabs.
-       */
-      tabView: DefineNativeComponent<HTMLTabViewELementAttributes>;
-      /**
-       * A screen inside TabView.
-       *
-       * Currently, TabViewItem expects a single child element. In most cases, you might want to wrap your content in a layout.
-       */
-      tabViewTtem: DefineNativeComponent<HTMLTabViewItemElementAttributes>;
-      /**
-       * A UI component that lets users select time.
-       */
-      timePicker: DefineNativeComponent<HTMLTimePickerElementAttributes>;
+    interface IntrinsicElements {
+      // allow arbitrary elements
+      // @ts-ignore suppress ts:2374 = Duplicate string index signature.
+      [name: string]: any;
     }
   }
 }

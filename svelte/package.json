@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/svelte-types",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for svelte",
   "main": "",
   "types": "index.d.ts",
@@ -28,13 +28,13 @@
   },
   "homepage": "https://github.com/nativescript-dom/types/tree/main/svelte",
   "devDependencies": {
-    "@nativescript-dom/core-types": "^1.0.5",
+    "@nativescript-dom/core-types": "^1.0.7",
     "@nativescript/core": "^8.4.7",
     "svelte": "3.55.1"
   },
   "peerDependencies": {
     "@nativescript-dom/core-types": "*",
     "@nativescript/core": "*",
-    "svelte": "3.55.1"
+    "svelte": "*"
   }
 }
