@@ -19,7 +19,7 @@ npm install @nativescript-dom/core-types @nativescript-dom/react-types --save-de
     "types": [
         "node",
         "@nativescript-dom/core-types",
-        "@nativescript-dom/svelte-types"
+        "@nativescript-dom/react-types"
         ],
 ...
   }
