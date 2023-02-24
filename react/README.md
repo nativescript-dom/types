@@ -1,4 +1,4 @@
-# svelte-types
+# react-types
 
 Typescript types for react-nativescript that give you proper and complete intellisense in code editors.
 
