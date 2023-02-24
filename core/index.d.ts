@@ -1133,14 +1133,14 @@ declare global {
     new (): HTMLSpanElement;
   };
 
-  interface HTMLSwitchELement
+  interface HTMLSwitchElement
     extends HTMLElement,
       Omit<NS.Switch, NativeScriptViewOmittedProps | "on"> {
-    addEventListener<K extends keyof HTMLSwitchELementEventsMap>(
+    addEventListener<K extends keyof HTMLSwitchElementEventsMap>(
       type: K,
       listener: (
-        this: HTMLSwitchELement,
-        ev: HTMLSwitchELementEventsMap[K]
+        this: HTMLSwitchElement,
+        ev: HTMLSwitchElementEventsMap[K]
       ) => any,
       options?: boolean | AddEventListenerOptions
     ): void;
@@ -1149,11 +1149,11 @@ declare global {
       listener: EventListenerOrEventListenerObject,
       options?: boolean | AddEventListenerOptions
     ): void;
-    removeEventListener<K extends keyof HTMLSwitchELementEventsMap>(
+    removeEventListener<K extends keyof HTMLSwitchElementEventsMap>(
       type: K,
       listener: (
-        this: HTMLSwitchELement,
-        ev: HTMLSwitchELementEventsMap[K]
+        this: HTMLSwitchElement,
+        ev: HTMLSwitchElementEventsMap[K]
       ) => any,
       options?: boolean | EventListenerOptions
     ): void;
@@ -1169,18 +1169,18 @@ declare global {
     animate(options: AnimationDefinition): AnimationPromise;
   }
 
-  var HTMLSwitchELement: {
-    prototype: HTMLSwitchELement;
-    new (): HTMLSwitchELement;
+  var HTMLSwitchElement: {
+    prototype: HTMLSwitchElement;
+    new (): HTMLSwitchElement;
   };
 
-  interface HTMLTabViewELement
+  interface HTMLTabViewElement
     extends HTMLElement,
       Omit<NS.TabView, NativeScriptViewOmittedProps | "on"> {
     addEventListener<K extends keyof HTMLTabViewElementEventsMap>(
       type: K,
       listener: (
-        this: HTMLTabViewELement,
+        this: HTMLTabViewElement,
         ev: HTMLTabViewElementEventsMap[K]
       ) => any,
       options?: boolean | AddEventListenerOptions
@@ -1193,7 +1193,7 @@ declare global {
     removeEventListener<K extends keyof HTMLTabViewElementEventsMap>(
       type: K,
       listener: (
-        this: HTMLTabViewELement,
+        this: HTMLTabViewElement,
         ev: HTMLTabViewElementEventsMap[K]
       ) => any,
       options?: boolean | EventListenerOptions
@@ -1210,9 +1210,9 @@ declare global {
     animate(options: AnimationDefinition): AnimationPromise;
   }
 
-  var HTMLTabViewELement: {
-    prototype: HTMLTabViewELement;
-    new (): HTMLTabViewELement;
+  var HTMLTabViewElement: {
+    prototype: HTMLTabViewElement;
+    new (): HTMLTabViewElement;
   };
 
   interface HTMLTabViewItemElementEventsMap

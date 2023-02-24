@@ -35,7 +35,7 @@ import {
   HTMLStackLayoutAttributeKeys,
   HTMLSwitchElementAttributeKeys,
   HTMLTabViewElementAttributeKeys,
-  HTMLTabViewItemELementAttributeKeys,
+  HTMLTabViewItemElementAttributeKeys,
   HTMLTextBaseElementAttributeKeys,
   HTMLTextFieldElementAttributeKeys,
   HTMLTextViewElementAttributeKeys,
@@ -364,32 +364,32 @@ interface HTMLSpanElementAttributes
 
 //#region Switch
 
-interface HTMLSwitchELementAttributes
-  extends HTMLViewElementAttributes<HTMLSwitchELement>,
-    OnNativeViewEvents<HTMLSwitchELementEventsMap>,
+interface HTMLSwitchElementAttributes
+  extends HTMLViewElementAttributes<HTMLSwitchElement>,
+    OnNativeViewEvents<HTMLSwitchElementEventsMap>,
     HTMLExtendedAttributes<
-      PickAttributes<HTMLSwitchELement, HTMLSwitchElementAttributeKeys>
+      PickAttributes<HTMLSwitchElement, HTMLSwitchElementAttributeKeys>
     > {}
 //#endregion Switch
 
 //#region TabView
 
-interface HTMLTabViewELementAttributes
-  extends HTMLViewElementAttributes<HTMLTabViewELement>,
+interface HTMLTabViewElementAttributes
+  extends HTMLViewElementAttributes<HTMLTabViewElement>,
     OnNativeViewEvents<HTMLTabViewElementEventsMap>,
     HTMLExtendedAttributes<
-      PickAttributes<HTMLTabViewELement, HTMLTabViewElementAttributeKeys>
+      PickAttributes<HTMLTabViewElement, HTMLTabViewElementAttributeKeys>
     > {}
 //#endregion TabView
 
 //#region TabViewItem
 
-interface HTMLTabViewItemELementAttributes
-  extends HTMLViewElementAttributes<HTMLTabViewItemELement>,
+interface HTMLTabViewItemElementAttributes
+  extends HTMLViewElementAttributes<HTMLTabViewItemElement>,
     OnNativeViewEvents<HTMLTabViewItemElementEventsMap>,
     HTMLExtendedAttributes<
       PickAttributes<
-        HTMLTabViewItemELement,
+        HTMLTabViewItemElement,
         HTMLTabViewItemElementAttributeKeys
       >
     > {}
@@ -618,11 +618,11 @@ declare module "@vue/runtime-core" {
     /**
      * A UI component that lets users toggle between two states.
      */
-    Switch: DefineNativeComponent<HTMLSwitchELementAttributes>;
+    Switch: DefineNativeComponent<HTMLSwitchElementAttributes>;
     /**
      * A navigation component that shows content grouped into tabs and lets users switch between tabs.
      */
-    TabView: DefineNativeComponent<HTMLTabViewELementAttributes>;
+    TabView: DefineNativeComponent<HTMLTabViewElementAttributes>;
     /**
      * A screen inside TabView.
      *
@@ -785,11 +785,11 @@ declare module "@vue/runtime-core" {
     /**
      * A UI component that lets users toggle between two states.
      */
-    switch: DefineNativeComponent<HTMLSwitchELementAttributes>;
+    switch: DefineNativeComponent<HTMLSwitchElementAttributes>;
     /**
      * A navigation component that shows content grouped into tabs and lets users switch between tabs.
      */
-    tabview: DefineNativeComponent<HTMLTabViewELementAttributes>;
+    tabview: DefineNativeComponent<HTMLTabViewElementAttributes>;
     /**
      * A screen inside TabView.
      *

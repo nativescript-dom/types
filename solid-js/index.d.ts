@@ -31,7 +31,7 @@ import {
   HTMLStackLayoutAttributeKeys,
   HTMLSwitchElementAttributeKeys,
   HTMLTabViewElementAttributeKeys,
-  HTMLTabViewItemELementAttributeKeys,
+  HTMLTabViewItemElementAttributeKeys,
   HTMLTextBaseElementAttributeKeys,
   HTMLTextFieldElementAttributeKeys,
   HTMLTextViewElementAttributeKeys,
@@ -373,30 +373,30 @@ declare module "solid-js" {
     //#endregion Span
 
     //#region Switch
-    interface HTMLSwitchELementAttributes
-      extends HTMLViewElementAttributes<HTMLSwitchELement>,
-        OnNativeViewEvents<HTMLSwitchELementEventsMap>,
+    interface HTMLSwitchElementAttributes
+      extends HTMLViewElementAttributes<HTMLSwitchElement>,
+        OnNativeViewEvents<HTMLSwitchElementEventsMap>,
         HTMLExtendedAttributes<
-          PickAttributes<HTMLSwitchELement, HTMLSwitchElementAttributeKeys>
+          PickAttributes<HTMLSwitchElement, HTMLSwitchElementAttributeKeys>
         > {}
     //#endregion Switch
 
     //#region TabView
-    interface HTMLTabViewELementAttributes
-      extends HTMLViewElementAttributes<HTMLTabViewELement>,
+    interface HTMLTabViewElementAttributes
+      extends HTMLViewElementAttributes<HTMLTabViewElement>,
         OnNativeViewEvents<HTMLTabViewElementEventsMap>,
         HTMLExtendedAttributes<
-          PickAttributes<HTMLTabViewELement, HTMLTabViewElementAttributeKeys>
+          PickAttributes<HTMLTabViewElement, HTMLTabViewElementAttributeKeys>
         > {}
     //#endregion TabView
 
     //#region TabViewItem
-    interface HTMLTabViewItemELementAttributes
-      extends HTMLViewElementAttributes<HTMLTabViewItemELement>,
+    interface HTMLTabViewItemElementAttributes
+      extends HTMLViewElementAttributes<HTMLTabViewItemElement>,
         OnNativeViewEvents<HTMLTabViewItemElementEventsMap>,
         HTMLExtendedAttributes<
           PickAttributes<
-            HTMLTabViewItemELement,
+            HTMLTabViewItemElement,
             HTMLTabViewItemElementAttributeKeys
           >
         > {}
@@ -612,11 +612,11 @@ separated by a comma. You set the number of rows by listing their heights, separ
       /**
        * A UI component that lets users toggle between two states.
        */
-      switch: HTMLSwitchELementAttributes;
+      switch: HTMLSwitchElementAttributes;
       /**
        * A navigation component that shows content grouped into tabs and lets users switch between tabs.
        */
-      tabview: HTMLTabViewELementAttributes;
+      tabview: HTMLTabViewElementAttributes;
       /**
        * A screen inside TabView.
        *

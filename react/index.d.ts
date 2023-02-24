@@ -1,4 +1,4 @@
-import { HTMLAttributes, DetailedHTMLProps } from "react";
+import { HTMLAttributes, DetailedHTMLProps, Key, LegacyRef, Ref } from "react";
 import "@nativescript-dom/core-types";
 import {
   OmittedStyleObjectKeys,
@@ -31,7 +31,7 @@ import {
   HTMLStackLayoutAttributeKeys,
   HTMLSwitchElementAttributeKeys,
   HTMLTabViewElementAttributeKeys,
-  HTMLTabViewItemELementAttributeKeys,
+  HTMLTabViewItemElementAttributeKeys,
   HTMLTextBaseElementAttributeKeys,
   HTMLTextFieldElementAttributeKeys,
   HTMLTextViewElementAttributeKeys,
@@ -79,8 +79,19 @@ type HTMLExtendedAttributes<T> = BaseAttributes<T> &
   PlatformAndroidKeyMap<T> &
   PlatformIOSKeyMap<T>;
 
+interface Attributes {
+  key?: Key | null | undefined;
+}
+interface RefAttributes<T> extends Attributes {
+  ref?: Ref<T> | undefined;
+}
+interface ClassAttributes<T> extends Attributes {
+  ref?: LegacyRef<T> | undefined;
+}
+
 interface HTMLViewBaseElementAttributes<T = HTMLViewBaseElement>
-  extends HTMLAttributes<T>,
+  extends ClassAttributes<T>,
+    HTMLAttributes<T>,
     DetailedHTMLProps<T>,
     OnNativeViewEvents<HTMLViewBaseElementEventsMap<T>>,
     HTMLExtendedAttributes<
@@ -96,7 +107,8 @@ declare module "react" {
 }
 
 interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement>
-  extends HTMLAttributes<T>,
+  extends ClassAttributes<T>,
+    HTMLAttributes<T>,
     OnNativeViewEvents<HTMLViewElementEventsMap<T>>,
     HTMLExtendedAttributes<
       PickAttributes<HTMLViewElement, HTMLViewElementAttributeKeys>
@@ -338,30 +350,30 @@ interface HTMLSpanElementAttributes
 //#endregion Span
 
 //#region Switch
-interface HTMLSwitchELementAttributes
-  extends HTMLViewElementAttributes<HTMLSwitchELement>,
-    OnNativeViewEvents<HTMLSwitchELementEventsMap>,
+interface HTMLSwitchElementAttributes
+  extends HTMLViewElementAttributes<HTMLSwitchElement>,
+    OnNativeViewEvents<HTMLSwitchElementEventsMap>,
     HTMLExtendedAttributes<
-      PickAttributes<HTMLSwitchELement, HTMLSwitchElementAttributeKeys>
+      PickAttributes<HTMLSwitchElement, HTMLSwitchElementAttributeKeys>
     > {}
 //#endregion Switch
 
 //#region TabView
-interface HTMLTabViewELementAttributes
-  extends HTMLViewElementAttributes<HTMLTabViewELement>,
+interface HTMLTabViewElementAttributes
+  extends HTMLViewElementAttributes<HTMLTabViewElement>,
     OnNativeViewEvents<HTMLTabViewElementEventsMap>,
     HTMLExtendedAttributes<
-      PickAttributes<HTMLTabViewELement, HTMLTabViewElementAttributeKeys>
+      PickAttributes<HTMLTabViewElement, HTMLTabViewElementAttributeKeys>
     > {}
 //#endregion TabView
 
 //#region TabViewItem
-interface HTMLTabViewItemELementAttributes
-  extends HTMLViewElementAttributes<HTMLTabViewItemELement>,
+interface HTMLTabViewItemElementAttributes
+  extends HTMLViewElementAttributes<HTMLTabViewItemElement>,
     OnNativeViewEvents<HTMLTabViewItemElementEventsMap>,
     HTMLExtendedAttributes<
       PickAttributes<
-        HTMLTabViewItemELement,
+        HTMLTabViewItemElement,
         HTMLTabViewItemElementAttributeKeys
       >
     > {}
@@ -573,11 +585,11 @@ declare global {
       /**
        * A UI component that lets users toggle between two states.
        */
-      switch: HTMLSwitchELementAttributes;
+      switch: HTMLSwitchElementAttributes;
       /**
        * A navigation component that shows content grouped into tabs and lets users switch between tabs.
        */
-      tabview: HTMLTabViewELementAttributes;
+      tabview: HTMLTabViewElementAttributes;
       /**
        * A screen inside TabView.
        *

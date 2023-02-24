@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/svelte-types",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for svelte",
   "main": "",
   "types": "index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/react-types",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for react",
   "main": "",
   "types": "index.d.ts",
