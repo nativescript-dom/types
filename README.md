@@ -8,19 +8,38 @@
 Simple, centralized and well maintained TypeScript types for NativeScript web frameworks.
 </h2>
 
+## The problem
+
+NativeScript's core has been first-class typescript since very long but sadly the benefits in terms of better auto-complete/intellisense for developers in code-editors hasn't been properly propgated down to the end-developer especially when you use NativeScript with vue,svelte,react and other web frameworks. The main reason for this is that all these frameworks require all the core views to be DOM like.
+
+Even though every flavor of NativeScript flavors have tried to solve this problem by writing their own set of types, using some sort of type generators etc, they have never been able to reach the quality that the end-developer deserves, i.e 1:1 types compared to core.
+
+If types change in core, a new prop is added, some JSDoc get's updated, it's not transferred down to the end-developer until a new version of the flavor is released.
+
+## A single types system
+
+Finally we have a solution to this. A single & undocked type system that conforms to DOM & core together and bridges them into one interface that can be used across any and all web frameworks. So we update the types in once place, and everyone get's improved and better types automatically without doing any extra work or any flavor updates.
+
+- Types work like a bridge between core, dom & the web renderer
+- JSDoc support, If some prop has JSDoc in core, it shows up in code-editor automatically, better core, better types
+- Fully conforms & extends `libdom.d.ts` to provide complete HTML DOM types
+- Prop filtering, props and attributes are filtered, only types that should be exposed in DOM are there. No pollution from @nativescript/core
+- Easy to maintain, we just need to update types in one place and everyone get's better and updated types automatically.
+- Easy to support new frameworks, takes 10 minutes at most.
+- Work hand-in-hand with existing renderers, just install and get better intellisense
 
 ## Installation
 
 Get the types packages for your project and boost DX of your team with NativeScript to the next level.
 
 **[@nativescript-dom/core-types](/package/@nativescript-dom/core-types)**
-    
+
 Renderer agnostic typeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as HTML DOM elements
-    
+
 **[@nativescript-dom/react-types](/package/@nativescript-dom/react-types)**
-    
+
 TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for react
-    
+
 **[@nativescript-dom/solidjs-types](/package/@nativescript-dom/solidjs-types)**
 
 TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for solidjs
@@ -28,7 +47,7 @@ TypeScript definitions for @nativescript/core views exposed as JSX intrinsic ele
 **[@nativescript-dom/svelte-types](/package/@nativescript-dom/svelte-types)**
 
 TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for svelte
-    
+
 **[@nativescript-dom/vue-types](/package/@nativescript-dom/vue-types)**
 
 TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for vue
