@@ -5,7 +5,7 @@
 </div>
 
 <h2 align="center">
-A single types system for NativeScript web frameworks.
+Single, centralized TypeScript types for NativeScript web frameworks.
 </h2>
 
 NativeScript's core has been first-class Typescript since very long but sadly the benefits in terms of better auto-complete/intellisense for end-developers in code editors hasn't been properly propgated down especially when you use NativeScript with Vue, Svelte, React and other web frameworks. The main reason for this is that all these frameworks require all the core views to be like HTML elements. Hence it requires rewriting the types or generating them from core which are hard to maintain and do not have the best quality as compared to @nativescript/core. If types change in core or a new prop is added or some part of the JSDoc get's updated, it's not transferred down to the end-developer until a new version of the flavor is released.
@@ -29,7 +29,7 @@ Finally we have a solution to this. A single & undocked type system that combine
 
 ## Installation
 
-Get the types packages for your project and boost DX of your team with NativeScript to the next level.
+Get the types packages for your project and boost DX of your team while developing NativeScript apps to the next level.
 
 **[@nativescript-dom/core-types](/package/@nativescript-dom/core-types)**
 
