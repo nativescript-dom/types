@@ -37,19 +37,19 @@ Renderer agnostic typeScript definitions for [@nativescript/core](https://github
 
 **[@nativescript-dom/react-types](/package/@nativescript-dom/react-types)**
 
-TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for react
+TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for react
 
 **[@nativescript-dom/solidjs-types](/package/@nativescript-dom/solidjs-types)**
 
-TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for solidjs
+TypeScript definitions for[@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for solidjs
 
 **[@nativescript-dom/svelte-types](/package/@nativescript-dom/svelte-types)**
 
-TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for svelte
+TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for svelte
 
 **[@nativescript-dom/vue-types](/package/@nativescript-dom/vue-types)**
 
-TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for vue
+TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for vue
 
 #
 
