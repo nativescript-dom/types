@@ -29,7 +29,7 @@ Finally we have a solution to this. A single & undocked type system that combine
 
 ## Installation
 
-Get the types packages for your project and boost DX of your team while developing NativeScript apps to the next level.
+Get the types packages for your project and boost DX of your team with NativeScript to the next level.
 
 **[@nativescript-dom/core-types](/package/@nativescript-dom/core-types)**
 
