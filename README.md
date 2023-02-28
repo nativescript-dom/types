@@ -31,23 +31,23 @@ Finally we have a solution to this. A single & undocked type system that combine
 
 Get the types packages for your project and boost DX of your team while developing NativeScript apps to the next level.
 
-**[@nativescript-dom/core-types](/package/@nativescript-dom/core-types)**
+**[@nativescript-dom/core-types](https://www.npmjs.com/package/@nativescript-dom/core-types)**
 
 Renderer agnostic typeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as HTML DOM elements
 
-**[@nativescript-dom/react-types](/package/@nativescript-dom/react-types)**
+**[@nativescript-dom/react-types](https://www.npmjs.com/package/@nativescript-dom/react-types)**
 
 TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for react
 
-**[@nativescript-dom/solidjs-types](/package/@nativescript-dom/solidjs-types)**
+**[@nativescript-dom/solidjs-types](https://www.npmjs.com/package/@nativescript-dom/solidjs-types)**
 
 TypeScript definitions for[@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for solidjs
 
-**[@nativescript-dom/svelte-types](/package/@nativescript-dom/svelte-types)**
+**[@nativescript-dom/svelte-types](https://www.npmjs.com/package/@nativescript-dom/svelte-types)**
 
 TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for svelte
 
-**[@nativescript-dom/vue-types](/package/@nativescript-dom/vue-types)**
+**[@nativescript-dom/vue-types](https://www.npmjs.com/package/@nativescript-dom/vue-types)**
 
 TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for vue
 
