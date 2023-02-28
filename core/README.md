@@ -20,7 +20,7 @@ Finally we have a solution to this. A single & undocked type system that combine
 - JSDoc support, If some prop has JSDoc in core, it shows up in code-editor automatically, better core, better types
 - Fully conforms & extends `libdom.d.ts` to provide complete HTML DOM types
 - Prop filtering, props and attributes are filtered, only types that should be exposed in DOM are there. No pollution from @nativescript/core
-- Easy to maintain, we just need to update types in one place and everyone get's better and updated types automatically.
+- Easy to maintain, we just need to update types in one place and everyone gets better and updated types automatically.
 - Easy to support new frameworks, takes 10 minutes at most.
 - Work hand-in-hand with existing renderers, just install and get better intellisense
 - Platform prefixed props such as `android:text` or `ios:backgroundColor`
