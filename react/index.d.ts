@@ -41,6 +41,8 @@ import {
   HTMLWebViewElementAttributeKeys,
   HTMLWrapLayoutElementAttributeKeys,
 } from "@nativescript-dom/core-types/attr-literals/index";
+import "@nativescript-dom/core-types/event-maps/plain-event-maps";
+import "@nativescript-dom/core-types/name-maps/camel-cased";
 
 // Converts camelCase to kebab-case
 

@@ -283,7 +283,7 @@ export type HTMLTabViewElementAttributeKeys =
   | "tabBackgroundColor"
   | "tabTextColor"
   | "tabTextFontSize";
-export type HTMLTabViewItemELementAttributeKeys =
+export type HTMLTabViewItemElementAttributeKeys =
   | "canBeLoaded"
   | "textTransform"
   | "iconSource"
@@ -321,6 +321,16 @@ export type HTMLTimePickerElementAttributeKeys =
   | "minute"
   | "minuteInterval"
   | "time";
+
+export type HTMLDatePickerElementAttributeKeys =
+  | "year"
+  | "month"
+  | "day"
+  | "date"
+  | "maxDate"
+  | "minDate"
+  | "iosPreferredDatePickerStyle";
+
 export type HTMLWebViewElementAttributeKeys =
   | "src"
   | "disableZoom"

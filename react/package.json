@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/react-types",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for react",
   "main": "",
   "types": "index.d.ts",
@@ -28,12 +28,12 @@
   },
   "homepage": "https://github.com/nativescript-dom/types/tree/main/react",
   "devDependencies": {
-    "@nativescript-dom/core-types": "^1.0.5",
+    "@nativescript-dom/core-types": "^1.0.18",
     "@nativescript/core": "^8.4.7",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11"
+    "@types/react-dom": "^18.0.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "peerDependencies": {
     "@nativescript-dom/core-types": "*",

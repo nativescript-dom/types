@@ -42,17 +42,43 @@ declare global {
 
   type NativeDOMPropertyChangeEvent<T extends EventTarget = EventTarget> =
     NativeDOMEventWithData<T, NS.PropertyChangeData>;
-
+  /**
+   * @element view-base-events
+   */
   interface HTMLViewBaseElementEventsMap<T extends EventTarget = EventTarget> {
+    /**
+     * An event that fires when the native view is rendered in the
+     * native view hierarchy.
+     */
     loaded: NativeDOMEvent<T>;
+    /**
+     * An event that fires when the native view is removed from the
+     * native view hierarchy.
+     */
     unloaded: NativeDOMEvent<T>;
+    /**
+     * An event that fires as soon as a view is created. At this point, the native view has not been
+     * created yet.
+     */
     created: NativeDOMEvent<T>;
+    /**
+     * An event that fires when the native view is disposed. This gets called after the `unloaded`
+     * event fires.
+     */
     disposeNativeView: NativeDOMEvent<T>;
   }
-
+  /**
+   * @element view-events
+   */
   interface HTMLViewElementEventsMap<T extends EventTarget = EventTarget>
     extends HTMLViewBaseElementEventsMap<T> {
+    /**
+     * An event that fires when the position or size of a rendered native view changes.
+     */
     layoutChanged: NativeDOMEvent<T>;
+    /**
+     * An event that fires when a native view is shown modally.
+     */
     shownModally: NativeDOMEvent<T>;
     showingModally: NativeDOMEvent<T>;
     accessibilityBlur: NativeDOMEvent<T>;
@@ -72,23 +98,31 @@ declare global {
       NS.AndroidActivityBackPressedEventData
     >;
   }
-
+  /**
+   * @element page-events
+   */
   interface HTMLPageElementEventsMap extends HTMLViewElementEventsMap {
     navigatingTo: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
     navigatedTo: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
     navigatingFrom: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
     navigatedFrom: NativeDOMEventWithData<HTMLPageElement, NavigatedData>;
   }
-
+  /**
+   * @element frame-events
+   */
   interface HTMLFrameElementEventsMap extends HTMLViewElementEventsMap {
     navigatingTo: NativeDOMEventWithData<HTMLFrameElement, NavigatedData>;
     navigatedTo: NativeDOMEventWithData<HTMLFrameElement, NavigatedData>;
   }
-
+  /**
+   * @element date-picker-events
+   */
   interface HTMLDatePickerElementEventsMap extends HTMLViewElementEventsMap {
     dateChange: NativeDOMPropertyChangeEvent<HTMLDatePickerElement>;
   }
-
+  /**
+   * @element list-picker-events
+   */
   interface HTMLListPickerElementEventsMap
     extends HTMLViewElementEventsMap<HTMLListPickerElement> {
     selectedIndexChange?: NativeDOMPropertyChangeEvent<HTMLListPickerElement>;
@@ -101,7 +135,9 @@ declare global {
     itemTap: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>;
     loadMoreItems: NativeDOMEvent<HTMLListViewElement>;
   }
-
+  /**
+   * @element placeholder-events
+   */
   interface HTMLPlaceholderElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLPlaceholderElement> {
     creatingView: NativeDOMEventWithData<
@@ -109,12 +145,16 @@ declare global {
       CreateViewEventData
     >;
   }
-
+  /**
+   * @element progress-events
+   */
   interface HTMLProgressElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLProgressElement> {
     valueChange: NativeDOMPropertyChangeEvent<HTMLProgressElement>;
   }
-
+  /**
+   * @element search-bar-events
+   */
   interface HTMLSearchBarElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLSearchBarElement> {
     submit: NativeDOMEvent<HTMLSearchBarElement>;
@@ -122,12 +162,16 @@ declare global {
     close: NativeDOMEvent<HTMLSearchBarElement>;
     textChange: NativeDOMEvent<HTMLSearchBarElement>;
   }
-
+  /**
+   * @element scroll-view-events
+   */
   interface HTMLScrollViewElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLScrollViewElement> {
     scroll: NativeDOMEventWithData<HTMLScrollViewElement, ScrollEventData>;
   }
-
+  /**
+   * @element segmented-bar-events
+   */
   interface HTMLSegmentedBarElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLSegmentedBarElement> {
     selectedIndexChanged: NativeDOMEventWithData<
@@ -135,17 +179,23 @@ declare global {
       SelectedIndexChangedEventData
     >;
   }
-
+  /**
+   * @element span-events
+   */
   interface HTMLNSpanElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLSpanElement> {
     linkTap: NativeDOMEvent<HTMLSpanElement>;
   }
-
+  /**
+   * @element switch-events
+   */
   interface HTMLSwitchELementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLSwitchELement> {
     checkedChange: NativeDOMPropertyChangeEvent<HTMLSwitchELement>;
   }
-
+  /**
+   * @element tab-view-events
+   */
   interface HTMLTabViewElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLTabViewELement> {
     selectedIndexChanged: NativeDOMEventWithData<
@@ -153,7 +203,9 @@ declare global {
       SelectedIndexChangedEventData
     >;
   }
-
+  /**
+   * @element text-field-events
+   */
   interface HTMLTextFieldElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLTextFieldElement> {
     focus: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>;
@@ -161,7 +213,9 @@ declare global {
     blur: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>;
     textChange: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>;
   }
-
+  /**
+   * @element text-view-events
+   */
   interface HTMLTextViewElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLTextViewElement> {
     focus: NativeDOMPropertyChangeEvent<HTMLTextViewElement>;
@@ -169,7 +223,9 @@ declare global {
     blur: NativeDOMPropertyChangeEvent<HTMLTextViewElement>;
     textChange: NativeDOMPropertyChangeEvent<HTMLTextViewElement>;
   }
-
+  /**
+   * @element slider-events
+   */
   interface HTMLSliderElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLSliderElement> {
     accessibilityDecrement: NativeDOMEventWithData<
@@ -181,18 +237,20 @@ declare global {
       AccessibilityDecrementEventData
     >;
   }
-
+  /**
+   * @element web-view-events
+   */
   interface HTMLWebViewElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLWebViewElement> {
     loadStarted: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>;
     loadFinished: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>;
   }
-
+  /**
+   * @element time-picker-events
+   */
   interface HTMLTimePickerElementEventsMap
     extends HTMLViewBaseElementEventsMap<HTMLTimePickerElement> {
-    timeChange?: (
-      event: NativeDOMPropertyChangeEvent<HTMLTimePickerElement>
-    ) => void;
+    timeChange?: NativeDOMPropertyChangeEvent<HTMLTimePickerElement>;
   }
 
   interface HTMLEditableTextBaseElementEventsMap<

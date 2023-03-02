@@ -41,6 +41,7 @@ import {
   HTMLWebViewElementAttributeKeys,
   HTMLWrapLayoutElementAttributeKeys,
 } from "@nativescript-dom/core-types/attr-literals/index";
+import "@nativescript-dom/core-types/event-maps/plain-event-maps";
 
 declare module "solid-js" {
   export namespace JSX {

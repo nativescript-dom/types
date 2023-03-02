@@ -1,1 +1,5 @@
 node_modules
+@nativescript
+metadata
+dist
+metadata.json

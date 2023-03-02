@@ -1,0 +1,3581 @@
+{
+  "version": "1.1",
+  "globalAttributes": [
+    { "name": "left", "type": "LengthType" },
+    { "name": "android:left", "type": "LengthType" },
+    { "name": "ios:left", "type": "LengthType" },
+    { "name": "top", "type": "LengthType" },
+    { "name": "android:top", "type": "LengthType" },
+    { "name": "ios:top", "type": "LengthType" },
+    { "name": "dock", "type": "\"left\" | \"top\" | \"right\" | \"bottom\"" },
+    {
+      "name": "android:dock",
+      "type": "\"left\" | \"top\" | \"right\" | \"bottom\""
+    },
+    {
+      "name": "ios:dock",
+      "type": "\"left\" | \"top\" | \"right\" | \"bottom\""
+    },
+    { "name": "row", "type": "number" },
+    { "name": "android:row", "type": "number" },
+    { "name": "ios:row", "type": "number" },
+    { "name": "col", "type": "number" },
+    { "name": "android:col", "type": "number" },
+    { "name": "ios:col", "type": "number" },
+    {
+      "name": "column",
+      "description": "Setting `column` property is the same as `col`",
+      "type": "number"
+    },
+    {
+      "name": "android:column",
+      "description": "Setting `column` property is the same as `col`",
+      "type": "number"
+    },
+    {
+      "name": "ios:column",
+      "description": "Setting `column` property is the same as `col`",
+      "type": "number"
+    },
+    { "name": "rowSpan", "type": "number" },
+    { "name": "android:rowSpan", "type": "number" },
+    { "name": "ios:rowSpan", "type": "number" },
+    { "name": "colSpan", "type": "number" },
+    { "name": "android:colSpan", "type": "number" },
+    { "name": "ios:colSpan", "type": "number" },
+    {
+      "name": "columnSpan",
+      "description": "Setting `columnSpan` property is the same as `colSpan`",
+      "type": "number"
+    },
+    {
+      "name": "android:columnSpan",
+      "description": "Setting `columnSpan` property is the same as `colSpan`",
+      "type": "number"
+    },
+    {
+      "name": "ios:columnSpan",
+      "description": "Setting `columnSpan` property is the same as `colSpan`",
+      "type": "number"
+    },
+    { "name": "order", "type": "number" },
+    { "name": "android:order", "type": "number" },
+    { "name": "ios:order", "type": "number" },
+    { "name": "flexGrow", "type": "number" },
+    { "name": "android:flexGrow", "type": "number" },
+    { "name": "ios:flexGrow", "type": "number" },
+    { "name": "flexShrink", "type": "number" },
+    { "name": "android:flexShrink", "type": "number" },
+    { "name": "ios:flexShrink", "type": "number" },
+    { "name": "flexWrapBefore", "type": "boolean" },
+    { "name": "android:flexWrapBefore", "type": "boolean" },
+    { "name": "ios:flexWrapBefore", "type": "boolean" },
+    { "name": "alignSelf", "type": "AlignSelf" },
+    { "name": "android:alignSelf", "type": "AlignSelf" },
+    { "name": "ios:alignSelf", "type": "AlignSelf" },
+    {
+      "name": "reusable",
+      "description": "Gets or sets if the view is reusable.\nReusable views are not automatically destroyed when removed from the View tree.",
+      "type": "boolean"
+    },
+    {
+      "name": "android:reusable",
+      "description": "Gets or sets if the view is reusable.\nReusable views are not automatically destroyed when removed from the View tree.",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:reusable",
+      "description": "Gets or sets if the view is reusable.\nReusable views are not automatically destroyed when removed from the View tree.",
+      "type": "boolean"
+    },
+    {
+      "name": "className",
+      "description": "Gets or sets the CSS class name for this view.",
+      "type": "string"
+    },
+    {
+      "name": "android:className",
+      "description": "Gets or sets the CSS class name for this view.",
+      "type": "string"
+    },
+    {
+      "name": "ios:className",
+      "description": "Gets or sets the CSS class name for this view.",
+      "type": "string"
+    },
+    {
+      "name": "style",
+      "description": "Gets the style object associated to this view.",
+      "type": "Style"
+    },
+    {
+      "name": "android:style",
+      "description": "Gets the style object associated to this view.",
+      "type": "Style"
+    },
+    {
+      "name": "ios:style",
+      "description": "Gets the style object associated to this view.",
+      "type": "Style"
+    },
+    {
+      "name": "recycleNativeView",
+      "type": "\"auto\" | \"always\" | \"never\""
+    },
+    {
+      "name": "android:recycleNativeView",
+      "type": "\"auto\" | \"always\" | \"never\""
+    },
+    {
+      "name": "ios:recycleNativeView",
+      "type": "\"auto\" | \"always\" | \"never\""
+    },
+    {
+      "name": "accessibilityIdentifier",
+      "description": "The view's unique accessibilityIdentifier.\n\nThis is used for automated testing.",
+      "type": "string"
+    },
+    {
+      "name": "android:accessibilityIdentifier",
+      "description": "The view's unique accessibilityIdentifier.\n\nThis is used for automated testing.",
+      "type": "string"
+    },
+    {
+      "name": "ios:accessibilityIdentifier",
+      "description": "The view's unique accessibilityIdentifier.\n\nThis is used for automated testing.",
+      "type": "string"
+    },
+    {
+      "name": "accessibilityLabel",
+      "description": "Short description of the element, ideally one word.",
+      "type": "string"
+    },
+    {
+      "name": "android:accessibilityLabel",
+      "description": "Short description of the element, ideally one word.",
+      "type": "string"
+    },
+    {
+      "name": "ios:accessibilityLabel",
+      "description": "Short description of the element, ideally one word.",
+      "type": "string"
+    },
+    {
+      "name": "accessibilityValue",
+      "description": "Current value of the element in a localized string.",
+      "type": "string"
+    },
+    {
+      "name": "android:accessibilityValue",
+      "description": "Current value of the element in a localized string.",
+      "type": "string"
+    },
+    {
+      "name": "ios:accessibilityValue",
+      "description": "Current value of the element in a localized string.",
+      "type": "string"
+    },
+    {
+      "name": "accessibilityHint",
+      "description": "A hint describes the elements behavior. Example: 'Tap change playback speed'",
+      "type": "string"
+    },
+    {
+      "name": "android:accessibilityHint",
+      "description": "A hint describes the elements behavior. Example: 'Tap change playback speed'",
+      "type": "string"
+    },
+    {
+      "name": "ios:accessibilityHint",
+      "description": "A hint describes the elements behavior. Example: 'Tap change playback speed'",
+      "type": "string"
+    },
+    { "name": "testID", "type": "string" },
+    { "name": "android:testID", "type": "string" },
+    { "name": "ios:testID", "type": "string" },
+    {
+      "name": "borderColor",
+      "description": "Gets or sets the border color of the view.",
+      "type": "string | Color"
+    },
+    {
+      "name": "android:borderColor",
+      "description": "Gets or sets the border color of the view.",
+      "type": "string | Color"
+    },
+    {
+      "name": "ios:borderColor",
+      "description": "Gets or sets the border color of the view.",
+      "type": "string | Color"
+    },
+    {
+      "name": "borderTopColor",
+      "description": "Gets or sets the top border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "android:borderTopColor",
+      "description": "Gets or sets the top border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "ios:borderTopColor",
+      "description": "Gets or sets the top border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "borderRightColor",
+      "description": "Gets or sets the right border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "android:borderRightColor",
+      "description": "Gets or sets the right border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "ios:borderRightColor",
+      "description": "Gets or sets the right border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "borderLeftColor",
+      "description": "Gets or sets the left border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "android:borderLeftColor",
+      "description": "Gets or sets the left border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "ios:borderLeftColor",
+      "description": "Gets or sets the left border color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "borderWidth",
+      "description": "Gets or sets the border width of the view.",
+      "type": "string | number | LengthDipUnit | LengthPxUnit"
+    },
+    {
+      "name": "android:borderWidth",
+      "description": "Gets or sets the border width of the view.",
+      "type": "string | number | LengthDipUnit | LengthPxUnit"
+    },
+    {
+      "name": "ios:borderWidth",
+      "description": "Gets or sets the border width of the view.",
+      "type": "string | number | LengthDipUnit | LengthPxUnit"
+    },
+    {
+      "name": "borderTopWidth",
+      "description": "Gets or sets the top border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderTopWidth",
+      "description": "Gets or sets the top border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderTopWidth",
+      "description": "Gets or sets the top border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "borderBottomWidth",
+      "description": "Gets or sets the bottom border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderBottomWidth",
+      "description": "Gets or sets the bottom border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderBottomWidth",
+      "description": "Gets or sets the bottom border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "borderLeftWidth",
+      "description": "Gets or sets the left border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderLeftWidth",
+      "description": "Gets or sets the left border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderLeftWidth",
+      "description": "Gets or sets the left border width of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "borderTopLeftRadius",
+      "description": "Gets or sets the top left border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderTopLeftRadius",
+      "description": "Gets or sets the top left border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderTopLeftRadius",
+      "description": "Gets or sets the top left border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "borderTopRightRadius",
+      "description": "Gets or sets the top right border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderTopRightRadius",
+      "description": "Gets or sets the top right border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderTopRightRadius",
+      "description": "Gets or sets the top right border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "borderBottomRightRadius",
+      "description": "Gets or sets the bottom right border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderBottomRightRadius",
+      "description": "Gets or sets the bottom right border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderBottomRightRadius",
+      "description": "Gets or sets the bottom right border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "borderBottomLeftRadius",
+      "description": "Gets or sets the bottom left border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:borderBottomLeftRadius",
+      "description": "Gets or sets the bottom left border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:borderBottomLeftRadius",
+      "description": "Gets or sets the bottom left border radius of the view.",
+      "type": "LengthType"
+    },
+    {
+      "name": "color",
+      "description": "Gets or sets the color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "android:color",
+      "description": "Gets or sets the color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "ios:color",
+      "description": "Gets or sets the color of the view.",
+      "type": "Color"
+    },
+    {
+      "name": "backgroundColor",
+      "description": "Gets or sets the background color of the view.",
+      "type": "string | Color"
+    },
+    {
+      "name": "android:backgroundColor",
+      "description": "Gets or sets the background color of the view.",
+      "type": "string | Color"
+    },
+    {
+      "name": "ios:backgroundColor",
+      "description": "Gets or sets the background color of the view.",
+      "type": "string | Color"
+    },
+    {
+      "name": "backgroundImage",
+      "description": "Gets or sets the background image of the view.",
+      "type": "string | LinearGradient"
+    },
+    {
+      "name": "android:backgroundImage",
+      "description": "Gets or sets the background image of the view.",
+      "type": "string | LinearGradient"
+    },
+    {
+      "name": "ios:backgroundImage",
+      "description": "Gets or sets the background image of the view.",
+      "type": "string | LinearGradient"
+    },
+    { "name": "backgroundSize", "type": "string" },
+    { "name": "android:backgroundSize", "type": "string" },
+    { "name": "ios:backgroundSize", "type": "string" },
+    { "name": "backgroundPosition", "type": "string" },
+    { "name": "android:backgroundPosition", "type": "string" },
+    { "name": "ios:backgroundPosition", "type": "string" },
+    { "name": "backgroundRepeat", "type": "BackgroundRepeatType" },
+    { "name": "android:backgroundRepeat", "type": "BackgroundRepeatType" },
+    { "name": "ios:backgroundRepeat", "type": "BackgroundRepeatType" },
+    {
+      "name": "boxShadow",
+      "description": "Gets or sets the box shadow of the view.",
+      "type": "string | CSSShadow"
+    },
+    {
+      "name": "android:boxShadow",
+      "description": "Gets or sets the box shadow of the view.",
+      "type": "string | CSSShadow"
+    },
+    {
+      "name": "ios:boxShadow",
+      "description": "Gets or sets the box shadow of the view.",
+      "type": "string | CSSShadow"
+    },
+    {
+      "name": "minWidth",
+      "description": "Gets or sets the minimum width the view may grow to.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:minWidth",
+      "description": "Gets or sets the minimum width the view may grow to.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:minWidth",
+      "description": "Gets or sets the minimum width the view may grow to.",
+      "type": "LengthType"
+    },
+    {
+      "name": "minHeight",
+      "description": "Gets or sets the minimum height the view may grow to.",
+      "type": "LengthType"
+    },
+    {
+      "name": "android:minHeight",
+      "description": "Gets or sets the minimum height the view may grow to.",
+      "type": "LengthType"
+    },
+    {
+      "name": "ios:minHeight",
+      "description": "Gets or sets the minimum height the view may grow to.",
+      "type": "LengthType"
+    },
+    {
+      "name": "width",
+      "description": "Gets or sets the desired width of the view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "android:width",
+      "description": "Gets or sets the desired width of the view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "ios:width",
+      "description": "Gets or sets the desired width of the view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "height",
+      "description": "Gets or sets the desired height of the view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "android:height",
+      "description": "Gets or sets the desired height of the view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "ios:height",
+      "description": "Gets or sets the desired height of the view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "margin",
+      "description": "Gets or sets margin style property.",
+      "type": "string | number | LengthDipUnit | LengthPxUnit | LengthPercentUnit"
+    },
+    {
+      "name": "android:margin",
+      "description": "Gets or sets margin style property.",
+      "type": "string | number | LengthDipUnit | LengthPxUnit | LengthPercentUnit"
+    },
+    {
+      "name": "ios:margin",
+      "description": "Gets or sets margin style property.",
+      "type": "string | number | LengthDipUnit | LengthPxUnit | LengthPercentUnit"
+    },
+    {
+      "name": "marginLeft",
+      "description": "Specifies extra space on the left side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "android:marginLeft",
+      "description": "Specifies extra space on the left side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "ios:marginLeft",
+      "description": "Specifies extra space on the left side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "marginTop",
+      "description": "Specifies extra space on the top side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "android:marginTop",
+      "description": "Specifies extra space on the top side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "ios:marginTop",
+      "description": "Specifies extra space on the top side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "marginRight",
+      "description": "Specifies extra space on the right side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "android:marginRight",
+      "description": "Specifies extra space on the right side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "ios:marginRight",
+      "description": "Specifies extra space on the right side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "marginBottom",
+      "description": "Specifies extra space on the bottom side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "android:marginBottom",
+      "description": "Specifies extra space on the bottom side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "ios:marginBottom",
+      "description": "Specifies extra space on the bottom side of this view.",
+      "type": "PercentLengthType"
+    },
+    {
+      "name": "horizontalAlignment",
+      "description": "Gets or sets the alignment of this view within its parent along the Horizontal axis.",
+      "type": "HorizontalAlignmentType"
+    },
+    {
+      "name": "android:horizontalAlignment",
+      "description": "Gets or sets the alignment of this view within its parent along the Horizontal axis.",
+      "type": "HorizontalAlignmentType"
+    },
+    {
+      "name": "ios:horizontalAlignment",
+      "description": "Gets or sets the alignment of this view within its parent along the Horizontal axis.",
+      "type": "HorizontalAlignmentType"
+    },
+    {
+      "name": "verticalAlignment",
+      "description": "Gets or sets the alignment of this view within its parent along the Vertical axis.",
+      "type": "VerticalAlignmentType"
+    },
+    {
+      "name": "android:verticalAlignment",
+      "description": "Gets or sets the alignment of this view within its parent along the Vertical axis.",
+      "type": "VerticalAlignmentType"
+    },
+    {
+      "name": "ios:verticalAlignment",
+      "description": "Gets or sets the alignment of this view within its parent along the Vertical axis.",
+      "type": "VerticalAlignmentType"
+    },
+    {
+      "name": "visibility",
+      "description": "Gets or sets the visibility of the view.",
+      "type": "VisibilityType"
+    },
+    {
+      "name": "android:visibility",
+      "description": "Gets or sets the visibility of the view.",
+      "type": "VisibilityType"
+    },
+    {
+      "name": "ios:visibility",
+      "description": "Gets or sets the visibility of the view.",
+      "type": "VisibilityType"
+    },
+    {
+      "name": "opacity",
+      "description": "Gets or sets the opacity style property.",
+      "type": "number"
+    },
+    {
+      "name": "android:opacity",
+      "description": "Gets or sets the opacity style property.",
+      "type": "number"
+    },
+    {
+      "name": "ios:opacity",
+      "description": "Gets or sets the opacity style property.",
+      "type": "number"
+    },
+    {
+      "name": "rotate",
+      "description": "Gets or sets the rotate affine transform of the view along the Z axis.",
+      "type": "number"
+    },
+    {
+      "name": "android:rotate",
+      "description": "Gets or sets the rotate affine transform of the view along the Z axis.",
+      "type": "number"
+    },
+    {
+      "name": "ios:rotate",
+      "description": "Gets or sets the rotate affine transform of the view along the Z axis.",
+      "type": "number"
+    },
+    {
+      "name": "rotateX",
+      "description": "Gets or sets the rotate affine transform of the view along the X axis.",
+      "type": "number"
+    },
+    {
+      "name": "android:rotateX",
+      "description": "Gets or sets the rotate affine transform of the view along the X axis.",
+      "type": "number"
+    },
+    {
+      "name": "ios:rotateX",
+      "description": "Gets or sets the rotate affine transform of the view along the X axis.",
+      "type": "number"
+    },
+    {
+      "name": "rotateY",
+      "description": "Gets or sets the rotate affine transform of the view along the Y axis.",
+      "type": "number"
+    },
+    {
+      "name": "android:rotateY",
+      "description": "Gets or sets the rotate affine transform of the view along the Y axis.",
+      "type": "number"
+    },
+    {
+      "name": "ios:rotateY",
+      "description": "Gets or sets the rotate affine transform of the view along the Y axis.",
+      "type": "number"
+    },
+    {
+      "name": "perspective",
+      "description": "Gets or sets the distance of the camera form the view perspective.\nUsually needed when rotating the view over the X or Y axis.",
+      "type": "number"
+    },
+    {
+      "name": "android:perspective",
+      "description": "Gets or sets the distance of the camera form the view perspective.\nUsually needed when rotating the view over the X or Y axis.",
+      "type": "number"
+    },
+    {
+      "name": "ios:perspective",
+      "description": "Gets or sets the distance of the camera form the view perspective.\nUsually needed when rotating the view over the X or Y axis.",
+      "type": "number"
+    },
+    { "name": "textTransform", "type": "TextTransformType" },
+    { "name": "android:textTransform", "type": "TextTransformType" },
+    { "name": "ios:textTransform", "type": "TextTransformType" },
+    {
+      "name": "translateX",
+      "description": "Gets or sets the translateX affine transform of the view in device independent pixels.",
+      "type": "number"
+    },
+    {
+      "name": "android:translateX",
+      "description": "Gets or sets the translateX affine transform of the view in device independent pixels.",
+      "type": "number"
+    },
+    {
+      "name": "ios:translateX",
+      "description": "Gets or sets the translateX affine transform of the view in device independent pixels.",
+      "type": "number"
+    },
+    {
+      "name": "translateY",
+      "description": "Gets or sets the translateY affine transform of the view in device independent pixels.",
+      "type": "number"
+    },
+    {
+      "name": "android:translateY",
+      "description": "Gets or sets the translateY affine transform of the view in device independent pixels.",
+      "type": "number"
+    },
+    {
+      "name": "ios:translateY",
+      "description": "Gets or sets the translateY affine transform of the view in device independent pixels.",
+      "type": "number"
+    },
+    {
+      "name": "scaleX",
+      "description": "Gets or sets the scaleX affine transform of the view.",
+      "type": "number"
+    },
+    {
+      "name": "android:scaleX",
+      "description": "Gets or sets the scaleX affine transform of the view.",
+      "type": "number"
+    },
+    {
+      "name": "ios:scaleX",
+      "description": "Gets or sets the scaleX affine transform of the view.",
+      "type": "number"
+    },
+    {
+      "name": "scaleY",
+      "description": "Gets or sets the scaleY affine transform of the view.",
+      "type": "number"
+    },
+    {
+      "name": "android:scaleY",
+      "description": "Gets or sets the scaleY affine transform of the view.",
+      "type": "number"
+    },
+    {
+      "name": "ios:scaleY",
+      "description": "Gets or sets the scaleY affine transform of the view.",
+      "type": "number"
+    },
+    {
+      "name": "accessible",
+      "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+      "type": "boolean"
+    },
+    {
+      "name": "android:accessible",
+      "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:accessible",
+      "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+      "type": "boolean"
+    },
+    {
+      "name": "accessibilityHidden",
+      "description": "Hide the view and its children from the a11y service",
+      "type": "boolean"
+    },
+    {
+      "name": "android:accessibilityHidden",
+      "description": "Hide the view and its children from the a11y service",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:accessibilityHidden",
+      "description": "Hide the view and its children from the a11y service",
+      "type": "boolean"
+    },
+    {
+      "name": "accessibilityRole",
+      "description": "Which role should this view be treated by the a11y service?",
+      "type": "AccessibilityRole"
+    },
+    {
+      "name": "android:accessibilityRole",
+      "description": "Which role should this view be treated by the a11y service?",
+      "type": "AccessibilityRole"
+    },
+    {
+      "name": "ios:accessibilityRole",
+      "description": "Which role should this view be treated by the a11y service?",
+      "type": "AccessibilityRole"
+    },
+    {
+      "name": "accessibilityState",
+      "description": "Which state should this view be treated as by the a11y service?",
+      "type": "AccessibilityState"
+    },
+    {
+      "name": "android:accessibilityState",
+      "description": "Which state should this view be treated as by the a11y service?",
+      "type": "AccessibilityState"
+    },
+    {
+      "name": "ios:accessibilityState",
+      "description": "Which state should this view be treated as by the a11y service?",
+      "type": "AccessibilityState"
+    },
+    { "name": "accessibilityLiveRegion", "type": "AccessibilityLiveRegion" },
+    {
+      "name": "android:accessibilityLiveRegion",
+      "type": "AccessibilityLiveRegion"
+    },
+    {
+      "name": "ios:accessibilityLiveRegion",
+      "type": "AccessibilityLiveRegion"
+    },
+    {
+      "name": "accessibilityLanguage",
+      "description": "Sets the language in which to speak the element's label and value.\nAccepts language ID tags that follows the \"BCP 47\" specification.",
+      "type": "string"
+    },
+    {
+      "name": "android:accessibilityLanguage",
+      "description": "Sets the language in which to speak the element's label and value.\nAccepts language ID tags that follows the \"BCP 47\" specification.",
+      "type": "string"
+    },
+    {
+      "name": "ios:accessibilityLanguage",
+      "description": "Sets the language in which to speak the element's label and value.\nAccepts language ID tags that follows the \"BCP 47\" specification.",
+      "type": "string"
+    },
+    {
+      "name": "accessibilityMediaSession",
+      "description": "This view starts a media session. Equivalent to trait = startsMedia",
+      "type": "boolean"
+    },
+    {
+      "name": "android:accessibilityMediaSession",
+      "description": "This view starts a media session. Equivalent to trait = startsMedia",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:accessibilityMediaSession",
+      "description": "This view starts a media session. Equivalent to trait = startsMedia",
+      "type": "boolean"
+    },
+    { "name": "automationText", "type": "string" },
+    { "name": "android:automationText", "type": "string" },
+    { "name": "ios:automationText", "type": "string" },
+    {
+      "name": "androidElevation",
+      "description": "Gets or sets the elevation of the android view.",
+      "type": "number"
+    },
+    {
+      "name": "android:androidElevation",
+      "description": "Gets or sets the elevation of the android view.",
+      "type": "number"
+    },
+    {
+      "name": "ios:androidElevation",
+      "description": "Gets or sets the elevation of the android view.",
+      "type": "number"
+    },
+    {
+      "name": "originX",
+      "description": "Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.",
+      "type": "number"
+    },
+    {
+      "name": "android:originX",
+      "description": "Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.",
+      "type": "number"
+    },
+    {
+      "name": "ios:originX",
+      "description": "Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.",
+      "type": "number"
+    },
+    {
+      "name": "originY",
+      "description": "Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.",
+      "type": "number"
+    },
+    {
+      "name": "android:originY",
+      "description": "Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.",
+      "type": "number"
+    },
+    {
+      "name": "ios:originY",
+      "description": "Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.",
+      "type": "number"
+    },
+    {
+      "name": "isUserInteractionEnabled",
+      "description": "Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.",
+      "type": "boolean"
+    },
+    {
+      "name": "android:isUserInteractionEnabled",
+      "description": "Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:isUserInteractionEnabled",
+      "description": "Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.",
+      "type": "boolean"
+    },
+    {
+      "name": "iosOverflowSafeArea",
+      "description": "Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false",
+      "type": "boolean"
+    },
+    {
+      "name": "android:iosOverflowSafeArea",
+      "description": "Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:iosOverflowSafeArea",
+      "description": "Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false",
+      "type": "boolean"
+    },
+    {
+      "name": "iosOverflowSafeAreaEnabled",
+      "description": "Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true",
+      "type": "boolean"
+    },
+    {
+      "name": "android:iosOverflowSafeAreaEnabled",
+      "description": "Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true",
+      "type": "boolean"
+    },
+    {
+      "name": "ios:iosOverflowSafeAreaEnabled",
+      "description": "Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true",
+      "type": "boolean"
+    },
+    {
+      "name": "(loaded)",
+      "description": "An event that fires when the native view is rendered in the\nnative view hierarchy.",
+      "type": "NativeDOMEvent<T>"
+    },
+    {
+      "name": "(unloaded)",
+      "description": "An event that fires when the native view is removed from the\nnative view hierarchy.",
+      "type": "NativeDOMEvent<T>"
+    },
+    {
+      "name": "(created)",
+      "description": "An event that fires as soon as a view is created. At this point, the native view has not been\ncreated yet.",
+      "type": "NativeDOMEvent<T>"
+    },
+    {
+      "name": "(disposeNativeView)",
+      "description": "An event that fires when the native view is disposed. This gets called after the `unloaded`\nevent fires.",
+      "type": "NativeDOMEvent<T>"
+    },
+    {
+      "name": "(layoutChanged)",
+      "description": "An event that fires when the position or size of a rendered native view changes.",
+      "type": "NativeDOMEvent<T>"
+    },
+    {
+      "name": "(shownModally)",
+      "description": "An event that fires when a native view is shown modally.",
+      "type": "NativeDOMEvent<T>"
+    },
+    { "name": "(showingModally)", "type": "NativeDOMEvent<T>" },
+    { "name": "(accessibilityBlur)", "type": "NativeDOMEvent<T>" },
+    { "name": "(accessibilityFocus)", "type": "NativeDOMEvent<T>" },
+    { "name": "(accessibilityPerformEscape)", "type": "NativeDOMEvent<T>" },
+    { "name": "(accessibilityFocusChanged)", "type": "NativeDOMEvent<T>" },
+    {
+      "name": "(tap)",
+      "type": "NativeDOMEventWithData<T, TapGestureEventData>"
+    },
+    {
+      "name": "(doubleTap)",
+      "type": "NativeDOMEventWithData<T, TapGestureEventData>"
+    },
+    {
+      "name": "(pan)",
+      "type": "NativeDOMEventWithData<T, PanGestureEventData>"
+    },
+    {
+      "name": "(swipe)",
+      "type": "NativeDOMEventWithData<T, SwipeGestureEventData>"
+    },
+    {
+      "name": "(rotation)",
+      "type": "NativeDOMEventWithData<T, RotationGestureEventData>"
+    },
+    {
+      "name": "(longPress)",
+      "type": "NativeDOMEventWithData<T, GestureEventData>"
+    },
+    {
+      "name": "(touch)",
+      "type": "NativeDOMEventWithData<T, TouchGestureEventData>"
+    },
+    {
+      "name": "(pinch)",
+      "type": "NativeDOMEventWithData<T, PinchGestureEventData>"
+    },
+    {
+      "name": "(androidBackPressed)",
+      "type": "NativeDOMEventWithData<T, AndroidActivityBackPressedEventData>"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AbsoluteLayout",
+      "path": "./../@nativescript/core/ui/layouts/absolute-layout/index.d.ts",
+      "description": "A layout that lets you specify exact locations (left/top coordinates) of its children.",
+      "attributes": [
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "ActionBar",
+      "path": "./../@nativescript/core/ui/action-bar/index.d.ts",
+      "description": "Provides an abstraction over the ActionBar (android) and NavigationBar (iOS).",
+      "attributes": [
+        {
+          "name": "title",
+          "description": "Gets or sets the action bar title.",
+          "type": "string"
+        },
+        {
+          "name": "android:title",
+          "description": "Gets or sets the action bar title.",
+          "type": "string"
+        },
+        {
+          "name": "ios:title",
+          "description": "Gets or sets the action bar title.",
+          "type": "string"
+        },
+        {
+          "name": "titleView",
+          "description": "Gets or sets the title view. When set - replaces the title with a custom view.",
+          "type": "View"
+        },
+        {
+          "name": "android:titleView",
+          "description": "Gets or sets the title view. When set - replaces the title with a custom view.",
+          "type": "View"
+        },
+        {
+          "name": "ios:titleView",
+          "description": "Gets or sets the title view. When set - replaces the title with a custom view.",
+          "type": "View"
+        },
+        {
+          "name": "navigationButton",
+          "description": "Gets or sets the navigation button (a.k.a. the back button).",
+          "type": "NavigationButton"
+        },
+        {
+          "name": "android:navigationButton",
+          "description": "Gets or sets the navigation button (a.k.a. the back button).",
+          "type": "NavigationButton"
+        },
+        {
+          "name": "ios:navigationButton",
+          "description": "Gets or sets the navigation button (a.k.a. the back button).",
+          "type": "NavigationButton"
+        },
+        {
+          "name": "flat",
+          "description": "Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.\nDefault false.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:flat",
+          "description": "Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.\nDefault false.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:flat",
+          "description": "Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.\nDefault false.",
+          "type": "boolean"
+        },
+        {
+          "name": "actionItems",
+          "description": "Gets the collection of action items.",
+          "type": "ActionItems"
+        },
+        {
+          "name": "android:actionItems",
+          "description": "Gets the collection of action items.",
+          "type": "ActionItems"
+        },
+        {
+          "name": "ios:actionItems",
+          "description": "Gets the collection of action items.",
+          "type": "ActionItems"
+        },
+        {
+          "name": "iosIconRenderingMode",
+          "description": "Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to \"alwaysOriginal\"\nValid values are:\n - automatic\n - alwaysOriginal\n - alwaysTemplate",
+          "type": "\"automatic\" | \"alwaysOriginal\" | \"alwaysTemplate\""
+        },
+        {
+          "name": "android:iosIconRenderingMode",
+          "description": "Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to \"alwaysOriginal\"\nValid values are:\n - automatic\n - alwaysOriginal\n - alwaysTemplate",
+          "type": "\"automatic\" | \"alwaysOriginal\" | \"alwaysTemplate\""
+        },
+        {
+          "name": "ios:iosIconRenderingMode",
+          "description": "Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to \"alwaysOriginal\"\nValid values are:\n - automatic\n - alwaysOriginal\n - alwaysTemplate",
+          "type": "\"automatic\" | \"alwaysOriginal\" | \"alwaysTemplate\""
+        }
+      ]
+    },
+    {
+      "name": "ActivityIndicator",
+      "path": "./../@nativescript/core/ui/activity-indicator/index.d.ts",
+      "description": "Represents a UI widget which displays a progress indicator hinting the user for some background operation running.",
+      "attributes": [
+        {
+          "name": "busy",
+          "description": "Gets or sets a value indicating whether the widget is currently displaying progress.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:busy",
+          "description": "Gets or sets a value indicating whether the widget is currently displaying progress.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:busy",
+          "description": "Gets or sets a value indicating whether the widget is currently displaying progress.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "path": "./../@nativescript/core/ui/button/index.d.ts",
+      "description": "Represents a standard Button widget.",
+      "attributes": [
+        {
+          "name": "textWrap",
+          "description": "Gets or sets whether the Button wraps text or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:textWrap",
+          "description": "Gets or sets whether the Button wraps text or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:textWrap",
+          "description": "Gets or sets whether the Button wraps text or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "accessible",
+          "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:accessible",
+          "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:accessible",
+          "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+          "type": "boolean"
+        },
+        {
+          "name": "accessibilityRole",
+          "description": "Which role should this view be treated by the a11y service?",
+          "type": "AccessibilityRole"
+        },
+        {
+          "name": "android:accessibilityRole",
+          "description": "Which role should this view be treated by the a11y service?",
+          "type": "AccessibilityRole"
+        },
+        {
+          "name": "ios:accessibilityRole",
+          "description": "Which role should this view be treated by the a11y service?",
+          "type": "AccessibilityRole"
+        }
+      ]
+    },
+    {
+      "name": "ContentView",
+      "path": "./../@nativescript/core/ui/content-view/index.d.ts",
+      "attributes": [
+        { "name": "content", "type": "View" },
+        { "name": "android:content", "type": "View" },
+        { "name": "ios:content", "type": "View" }
+      ]
+    },
+    {
+      "name": "DatePicker",
+      "path": "./../@nativescript/core/ui/date-picker/index.d.ts",
+      "description": "Represents an date picker.",
+      "attributes": [
+        {
+          "name": "year",
+          "description": "Gets or sets the year.",
+          "type": "number"
+        },
+        {
+          "name": "android:year",
+          "description": "Gets or sets the year.",
+          "type": "number"
+        },
+        {
+          "name": "ios:year",
+          "description": "Gets or sets the year.",
+          "type": "number"
+        },
+        {
+          "name": "month",
+          "description": "Gets or sets the month. The months start from 1.",
+          "type": "number"
+        },
+        {
+          "name": "android:month",
+          "description": "Gets or sets the month. The months start from 1.",
+          "type": "number"
+        },
+        {
+          "name": "ios:month",
+          "description": "Gets or sets the month. The months start from 1.",
+          "type": "number"
+        },
+        {
+          "name": "day",
+          "description": "Gets or sets the day. The days start from 1.",
+          "type": "number"
+        },
+        {
+          "name": "android:day",
+          "description": "Gets or sets the day. The days start from 1.",
+          "type": "number"
+        },
+        {
+          "name": "ios:day",
+          "description": "Gets or sets the day. The days start from 1.",
+          "type": "number"
+        },
+        {
+          "name": "date",
+          "description": "Gets or sets the entire date.",
+          "type": "Date"
+        },
+        {
+          "name": "android:date",
+          "description": "Gets or sets the entire date.",
+          "type": "Date"
+        },
+        {
+          "name": "ios:date",
+          "description": "Gets or sets the entire date.",
+          "type": "Date"
+        },
+        {
+          "name": "maxDate",
+          "description": "Gets or sets the max date.",
+          "type": "Date"
+        },
+        {
+          "name": "android:maxDate",
+          "description": "Gets or sets the max date.",
+          "type": "Date"
+        },
+        {
+          "name": "ios:maxDate",
+          "description": "Gets or sets the max date.",
+          "type": "Date"
+        },
+        {
+          "name": "minDate",
+          "description": "Gets or sets the min date.",
+          "type": "Date"
+        },
+        {
+          "name": "android:minDate",
+          "description": "Gets or sets the min date.",
+          "type": "Date"
+        },
+        {
+          "name": "ios:minDate",
+          "description": "Gets or sets the min date.",
+          "type": "Date"
+        },
+        {
+          "name": "iosPreferredDatePickerStyle",
+          "description": "Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.\nValid values are numbers:\n - 0: automatic (system picks the concrete style based on the current platform and date picker mode)\n - 1: wheels (the date picker displays as a wheel picker)\n - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)\n - 3: inline  (the date pickers displays as an inline, editable field)",
+          "type": "number"
+        },
+        {
+          "name": "android:iosPreferredDatePickerStyle",
+          "description": "Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.\nValid values are numbers:\n - 0: automatic (system picks the concrete style based on the current platform and date picker mode)\n - 1: wheels (the date picker displays as a wheel picker)\n - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)\n - 3: inline  (the date pickers displays as an inline, editable field)",
+          "type": "number"
+        },
+        {
+          "name": "ios:iosPreferredDatePickerStyle",
+          "description": "Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.\nValid values are numbers:\n - 0: automatic (system picks the concrete style based on the current platform and date picker mode)\n - 1: wheels (the date picker displays as a wheel picker)\n - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)\n - 3: inline  (the date pickers displays as an inline, editable field)",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "DockLayout",
+      "path": "./../@nativescript/core/ui/layouts/dock-layout/index.d.ts",
+      "description": "A Layout that arranges its children at its outer edges, and allows its last child to take up the remaining space.",
+      "attributes": [
+        {
+          "name": "stretchLastChild",
+          "description": "Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.\nThe default value is true.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:stretchLastChild",
+          "description": "Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.\nThe default value is true.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:stretchLastChild",
+          "description": "Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.\nThe default value is true.",
+          "type": "boolean"
+        },
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "FlexboxLayout",
+      "path": "./../@nativescript/core/ui/layouts/flexbox-layout/index.d.ts",
+      "attributes": [
+        { "name": "flexDirection", "type": "FlexDirection" },
+        { "name": "android:flexDirection", "type": "FlexDirection" },
+        { "name": "ios:flexDirection", "type": "FlexDirection" },
+        { "name": "flexWrap", "type": "FlexWrap" },
+        { "name": "android:flexWrap", "type": "FlexWrap" },
+        { "name": "ios:flexWrap", "type": "FlexWrap" },
+        { "name": "justifyContent", "type": "JustifyContent" },
+        { "name": "android:justifyContent", "type": "JustifyContent" },
+        { "name": "ios:justifyContent", "type": "JustifyContent" },
+        { "name": "alignItems", "type": "AlignItems" },
+        { "name": "android:alignItems", "type": "AlignItems" },
+        { "name": "ios:alignItems", "type": "AlignItems" },
+        { "name": "alignContent", "type": "AlignContent" },
+        { "name": "android:alignContent", "type": "AlignContent" },
+        { "name": "ios:alignContent", "type": "AlignContent" },
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "FormattedString",
+      "path": "./../@nativescript/core/ui/text-base/formatted-string.d.ts",
+      "description": "A class used to create a formatted (rich text) string.",
+      "attributes": [
+        {
+          "name": "fontFamily",
+          "description": "Gets or sets the font family which will be used for all spans that doesn't have a specific value.",
+          "type": "string"
+        },
+        {
+          "name": "android:fontFamily",
+          "description": "Gets or sets the font family which will be used for all spans that doesn't have a specific value.",
+          "type": "string"
+        },
+        {
+          "name": "ios:fontFamily",
+          "description": "Gets or sets the font family which will be used for all spans that doesn't have a specific value.",
+          "type": "string"
+        },
+        {
+          "name": "fontSize",
+          "description": "Gets or sets the font size which will be used for all spans that doesn't have a specific value.",
+          "type": "number"
+        },
+        {
+          "name": "android:fontSize",
+          "description": "Gets or sets the font size which will be used for all spans that doesn't have a specific value.",
+          "type": "number"
+        },
+        {
+          "name": "ios:fontSize",
+          "description": "Gets or sets the font size which will be used for all spans that doesn't have a specific value.",
+          "type": "number"
+        },
+        {
+          "name": "fontStyle",
+          "description": "Gets or sets the font style which will be used for all spans that doesn't have a specific value."
+        },
+        {
+          "name": "android:fontStyle",
+          "description": "Gets or sets the font style which will be used for all spans that doesn't have a specific value."
+        },
+        {
+          "name": "ios:fontStyle",
+          "description": "Gets or sets the font style which will be used for all spans that doesn't have a specific value."
+        },
+        {
+          "name": "fontWeight",
+          "description": "Gets or sets the font weight which will be used for all spans that doesn't have a specific value."
+        },
+        {
+          "name": "android:fontWeight",
+          "description": "Gets or sets the font weight which will be used for all spans that doesn't have a specific value."
+        },
+        {
+          "name": "ios:fontWeight",
+          "description": "Gets or sets the font weight which will be used for all spans that doesn't have a specific value."
+        },
+        {
+          "name": "textDecoration",
+          "description": "Gets or sets text decorations which will be used for all spans that doesn't have a specific value.",
+          "type": "TextDecorationType"
+        },
+        {
+          "name": "android:textDecoration",
+          "description": "Gets or sets text decorations which will be used for all spans that doesn't have a specific value.",
+          "type": "TextDecorationType"
+        },
+        {
+          "name": "ios:textDecoration",
+          "description": "Gets or sets text decorations which will be used for all spans that doesn't have a specific value.",
+          "type": "TextDecorationType"
+        },
+        {
+          "name": "color",
+          "description": "Gets or sets the font foreground color which will be used for all spans that doesn't have a specific value.",
+          "type": "Color"
+        },
+        {
+          "name": "android:color",
+          "description": "Gets or sets the font foreground color which will be used for all spans that doesn't have a specific value.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:color",
+          "description": "Gets or sets the font foreground color which will be used for all spans that doesn't have a specific value.",
+          "type": "Color"
+        },
+        {
+          "name": "backgroundColor",
+          "description": "Gets or sets the font background color which will be used for all spans that doesn't have a specific value.",
+          "type": "Color"
+        },
+        {
+          "name": "android:backgroundColor",
+          "description": "Gets or sets the font background color which will be used for all spans that doesn't have a specific value.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:backgroundColor",
+          "description": "Gets or sets the font background color which will be used for all spans that doesn't have a specific value.",
+          "type": "Color"
+        }
+      ]
+    },
+    {
+      "name": "Frame",
+      "path": "./../@nativescript/core/ui/frame/index.d.ts",
+      "description": "Represents the logical View unit that is responsible for navigation within an application.\nNested frames are supported, enabling hierarchical navigation scenarios.",
+      "attributes": [
+        {
+          "name": "actionBarVisibility",
+          "description": "Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.",
+          "type": "\"auto\" | \"never\" | \"always\""
+        },
+        {
+          "name": "android:actionBarVisibility",
+          "description": "Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.",
+          "type": "\"auto\" | \"never\" | \"always\""
+        },
+        {
+          "name": "ios:actionBarVisibility",
+          "description": "Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.",
+          "type": "\"auto\" | \"never\" | \"always\""
+        },
+        {
+          "name": "animated",
+          "description": "Gets or sets if navigation transitions should be animated.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:animated",
+          "description": "Gets or sets if navigation transitions should be animated.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:animated",
+          "description": "Gets or sets if navigation transitions should be animated.",
+          "type": "boolean"
+        },
+        {
+          "name": "transition",
+          "description": "Gets or sets the default navigation transition for this frame.",
+          "type": "NavigationTransition"
+        },
+        {
+          "name": "android:transition",
+          "description": "Gets or sets the default navigation transition for this frame.",
+          "type": "NavigationTransition"
+        },
+        {
+          "name": "ios:transition",
+          "description": "Gets or sets the default navigation transition for this frame.",
+          "type": "NavigationTransition"
+        }
+      ]
+    },
+    {
+      "name": "GridLayout",
+      "path": "./../@nativescript/core/ui/layouts/grid-layout/index.d.ts",
+      "description": "Defines a rectangular layout area that consists of columns and rows.",
+      "attributes": [
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "HtmlView",
+      "path": "./../@nativescript/core/ui/html-view/index.d.ts",
+      "description": "Represents a view with html content. Use this component instead WebView when you want to show just static HTML content.\n[iOS support](https://developer.apple.com/documentation/foundation/nsattributedstring/1524613-initwithdata)\n[android support](http://developer.android.com/reference/android/text/Html.html)",
+      "attributes": [
+        {
+          "name": "html",
+          "description": "Gets or sets html string for the HtmlView.",
+          "type": "string"
+        },
+        {
+          "name": "android:html",
+          "description": "Gets or sets html string for the HtmlView.",
+          "type": "string"
+        },
+        {
+          "name": "ios:html",
+          "description": "Gets or sets html string for the HtmlView.",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Image",
+      "path": "./../@nativescript/core/ui/image/index.d.ts",
+      "description": "Represents a class that provides functionality for loading and streching image(s).",
+      "attributes": [
+        {
+          "name": "imageSource",
+          "description": "Gets or sets the image source of the image.",
+          "type": "ImageSource"
+        },
+        {
+          "name": "android:imageSource",
+          "description": "Gets or sets the image source of the image.",
+          "type": "ImageSource"
+        },
+        {
+          "name": "ios:imageSource",
+          "description": "Gets or sets the image source of the image.",
+          "type": "ImageSource"
+        },
+        {
+          "name": "src",
+          "description": "Gets or sets the source of the Image. This can be either an URL string or a native image instance."
+        },
+        {
+          "name": "android:src",
+          "description": "Gets or sets the source of the Image. This can be either an URL string or a native image instance."
+        },
+        {
+          "name": "ios:src",
+          "description": "Gets or sets the source of the Image. This can be either an URL string or a native image instance."
+        },
+        {
+          "name": "stretch",
+          "description": "Gets or sets the image stretch mode.",
+          "type": "ImageStretchType"
+        },
+        {
+          "name": "android:stretch",
+          "description": "Gets or sets the image stretch mode.",
+          "type": "ImageStretchType"
+        },
+        {
+          "name": "ios:stretch",
+          "description": "Gets or sets the image stretch mode.",
+          "type": "ImageStretchType"
+        },
+        {
+          "name": "loadMode",
+          "description": "Gets or sets the loading strategy for images on the local file system:\n- **sync** - blocks the UI if necessary to display immediately, good for small icons.\n- **async** *(default)* - will load in the background, may appear with short delay, good for large images.\nWhen loading images from web they are always loaded **async** no matter of loadMode value.",
+          "type": "\"sync\" | \"async\""
+        },
+        {
+          "name": "android:loadMode",
+          "description": "Gets or sets the loading strategy for images on the local file system:\n- **sync** - blocks the UI if necessary to display immediately, good for small icons.\n- **async** *(default)* - will load in the background, may appear with short delay, good for large images.\nWhen loading images from web they are always loaded **async** no matter of loadMode value.",
+          "type": "\"sync\" | \"async\""
+        },
+        {
+          "name": "ios:loadMode",
+          "description": "Gets or sets the loading strategy for images on the local file system:\n- **sync** - blocks the UI if necessary to display immediately, good for small icons.\n- **async** *(default)* - will load in the background, may appear with short delay, good for large images.\nWhen loading images from web they are always loaded **async** no matter of loadMode value.",
+          "type": "\"sync\" | \"async\""
+        },
+        {
+          "name": "tintColor",
+          "description": "A color used to tint template images.",
+          "type": "Color"
+        },
+        {
+          "name": "android:tintColor",
+          "description": "A color used to tint template images.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:tintColor",
+          "description": "A color used to tint template images.",
+          "type": "Color"
+        },
+        {
+          "name": "decodeHeight",
+          "description": "Gets or sets the desired decode height of the image.\nThis property is Android specific.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:decodeHeight",
+          "description": "Gets or sets the desired decode height of the image.\nThis property is Android specific.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:decodeHeight",
+          "description": "Gets or sets the desired decode height of the image.\nThis property is Android specific.",
+          "type": "LengthType"
+        },
+        {
+          "name": "decodeWidth",
+          "description": "Gets or sets the desired decode width of the image.\nThis property is Android specific.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:decodeWidth",
+          "description": "Gets or sets the desired decode width of the image.\nThis property is Android specific.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:decodeWidth",
+          "description": "Gets or sets the desired decode width of the image.\nThis property is Android specific.",
+          "type": "LengthType"
+        }
+      ]
+    },
+    {
+      "name": "Label",
+      "path": "./../@nativescript/core/ui/label/index.d.ts",
+      "description": "Represents a text label.",
+      "attributes": [
+        {
+          "name": "textWrap",
+          "description": "Gets or sets whether the Label wraps text or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:textWrap",
+          "description": "Gets or sets whether the Label wraps text or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:textWrap",
+          "description": "Gets or sets whether the Label wraps text or not.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "ListPicker",
+      "path": "./../@nativescript/core/ui/list-picker/index.d.ts",
+      "description": "Represents an list picker.",
+      "attributes": [
+        {
+          "name": "selectedIndex",
+          "description": "Gets or sets the selected index.",
+          "type": "number"
+        },
+        {
+          "name": "android:selectedIndex",
+          "description": "Gets or sets the selected index.",
+          "type": "number"
+        },
+        {
+          "name": "ios:selectedIndex",
+          "description": "Gets or sets the selected index.",
+          "type": "number"
+        },
+        {
+          "name": "items",
+          "description": "Gets or set the items collection of the ListPicker.\nThe items property can be set to an array or an object defining length and getItem(index) method."
+        },
+        {
+          "name": "android:items",
+          "description": "Gets or set the items collection of the ListPicker.\nThe items property can be set to an array or an object defining length and getItem(index) method."
+        },
+        {
+          "name": "ios:items",
+          "description": "Gets or set the items collection of the ListPicker.\nThe items property can be set to an array or an object defining length and getItem(index) method."
+        }
+      ]
+    },
+    {
+      "name": "ListView",
+      "path": "./../@nativescript/core/ui/list-view/index.d.ts",
+      "description": "Represents a view that shows items in a vertically scrolling list.",
+      "attributes": [
+        {
+          "name": "items",
+          "description": "Gets or set the items collection of the ListView.\nThe items property can be set to an array or an object defining length and getItem(index) method.",
+          "type": "any[] | ItemsSource"
+        },
+        {
+          "name": "android:items",
+          "description": "Gets or set the items collection of the ListView.\nThe items property can be set to an array or an object defining length and getItem(index) method.",
+          "type": "any[] | ItemsSource"
+        },
+        {
+          "name": "ios:items",
+          "description": "Gets or set the items collection of the ListView.\nThe items property can be set to an array or an object defining length and getItem(index) method.",
+          "type": "any[] | ItemsSource"
+        },
+        {
+          "name": "itemTemplate",
+          "description": "Gets or set the item template of the ListView.",
+          "type": "string | Template"
+        },
+        {
+          "name": "android:itemTemplate",
+          "description": "Gets or set the item template of the ListView.",
+          "type": "string | Template"
+        },
+        {
+          "name": "ios:itemTemplate",
+          "description": "Gets or set the item template of the ListView.",
+          "type": "string | Template"
+        },
+        {
+          "name": "itemTemplates",
+          "description": "Gets or set the list of item templates for the item template selector",
+          "type": "string | KeyedTemplate[]"
+        },
+        {
+          "name": "android:itemTemplates",
+          "description": "Gets or set the list of item templates for the item template selector",
+          "type": "string | KeyedTemplate[]"
+        },
+        {
+          "name": "ios:itemTemplates",
+          "description": "Gets or set the list of item templates for the item template selector",
+          "type": "string | KeyedTemplate[]"
+        },
+        {
+          "name": "itemTemplateSelector",
+          "description": "A function that returns the appropriate ket template based on the data item.",
+          "type": "string | ((item: any, index: number, items: any) => string)"
+        },
+        {
+          "name": "android:itemTemplateSelector",
+          "description": "A function that returns the appropriate ket template based on the data item.",
+          "type": "string | ((item: any, index: number, items: any) => string)"
+        },
+        {
+          "name": "ios:itemTemplateSelector",
+          "description": "A function that returns the appropriate ket template based on the data item.",
+          "type": "string | ((item: any, index: number, items: any) => string)"
+        },
+        {
+          "name": "rowHeight",
+          "description": "Gets or set row height of the ListView.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:rowHeight",
+          "description": "Gets or set row height of the ListView.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:rowHeight",
+          "description": "Gets or set row height of the ListView.",
+          "type": "LengthType"
+        },
+        {
+          "name": "iosEstimatedRowHeight",
+          "description": "Gets or set the estimated height of rows in the ListView.\nThe default value is 44px.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:iosEstimatedRowHeight",
+          "description": "Gets or set the estimated height of rows in the ListView.\nThe default value is 44px.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:iosEstimatedRowHeight",
+          "description": "Gets or set the estimated height of rows in the ListView.\nThe default value is 44px.",
+          "type": "LengthType"
+        }
+      ]
+    },
+    {
+      "name": "Page",
+      "path": "./../@nativescript/core/ui/page/index.d.ts",
+      "description": "Represents a logical unit for navigation (inside Frame).",
+      "attributes": [
+        {
+          "name": "accessibilityAnnouncePageEnabled",
+          "description": "Should page changed be annnounced to the screen reader.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:accessibilityAnnouncePageEnabled",
+          "description": "Should page changed be annnounced to the screen reader.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:accessibilityAnnouncePageEnabled",
+          "description": "Should page changed be annnounced to the screen reader.",
+          "type": "boolean"
+        },
+        {
+          "name": "actionBarHidden",
+          "description": "Used to hide the Navigation Bar in iOS and the Action Bar in Android.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:actionBarHidden",
+          "description": "Used to hide the Navigation Bar in iOS and the Action Bar in Android.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:actionBarHidden",
+          "description": "Used to hide the Navigation Bar in iOS and the Action Bar in Android.",
+          "type": "boolean"
+        },
+        {
+          "name": "enableSwipeBackNavigation",
+          "description": "Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true",
+          "type": "boolean"
+        },
+        {
+          "name": "android:enableSwipeBackNavigation",
+          "description": "Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:enableSwipeBackNavigation",
+          "description": "Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true",
+          "type": "boolean"
+        },
+        {
+          "name": "navigationContext",
+          "description": "A property that is used to pass a data from another page (while navigate to)."
+        },
+        {
+          "name": "android:navigationContext",
+          "description": "A property that is used to pass a data from another page (while navigate to)."
+        },
+        {
+          "name": "ios:navigationContext",
+          "description": "A property that is used to pass a data from another page (while navigate to)."
+        },
+        {
+          "name": "actionBar",
+          "description": "Gets the ActionBar for this page.",
+          "type": "ActionBar"
+        },
+        {
+          "name": "android:actionBar",
+          "description": "Gets the ActionBar for this page.",
+          "type": "ActionBar"
+        },
+        {
+          "name": "ios:actionBar",
+          "description": "Gets the ActionBar for this page.",
+          "type": "ActionBar"
+        },
+        {
+          "name": "statusBarStyle",
+          "description": "Gets or sets the style of the status bar.",
+          "type": "\"light\" | \"dark\""
+        },
+        {
+          "name": "android:statusBarStyle",
+          "description": "Gets or sets the style of the status bar.",
+          "type": "\"light\" | \"dark\""
+        },
+        {
+          "name": "ios:statusBarStyle",
+          "description": "Gets or sets the style of the status bar.",
+          "type": "\"light\" | \"dark\""
+        },
+        {
+          "name": "androidStatusBarBackground",
+          "description": "Gets or sets the color of the status bar in Android.",
+          "type": "Color"
+        },
+        {
+          "name": "android:androidStatusBarBackground",
+          "description": "Gets or sets the color of the status bar in Android.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:androidStatusBarBackground",
+          "description": "Gets or sets the color of the status bar in Android.",
+          "type": "Color"
+        }
+      ]
+    },
+    {
+      "name": "Placeholder",
+      "path": "./../@nativescript/core/ui/placeholder/index.d.ts",
+      "description": "Represents a Placeholder, which is used to add a native view to the visual tree.",
+      "attributes": []
+    },
+    {
+      "name": "Progress",
+      "path": "./../@nativescript/core/ui/progress/index.d.ts",
+      "description": "Represents a progress component.",
+      "attributes": [
+        {
+          "name": "value",
+          "description": "Gets or sets a progress current value.",
+          "type": "number"
+        },
+        {
+          "name": "android:value",
+          "description": "Gets or sets a progress current value.",
+          "type": "number"
+        },
+        {
+          "name": "ios:value",
+          "description": "Gets or sets a progress current value.",
+          "type": "number"
+        },
+        {
+          "name": "maxValue",
+          "description": "Gets or sets a progress max value.",
+          "type": "number"
+        },
+        {
+          "name": "android:maxValue",
+          "description": "Gets or sets a progress max value.",
+          "type": "number"
+        },
+        {
+          "name": "ios:maxValue",
+          "description": "Gets or sets a progress max value.",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "ProxyViewContainer",
+      "path": "./../@nativescript/core/ui/proxy-view-container/index.d.ts",
+      "description": "Proxy view container that adds all its native children directly to the parent.\nTo be used as a logical grouping container of views.",
+      "attributes": [
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Repeater",
+      "path": "./../@nativescript/core/ui/repeater/index.d.ts",
+      "description": "Represents a UI Repeater component.",
+      "attributes": []
+    },
+    {
+      "name": "RootLayout",
+      "path": "./../@nativescript/core/ui/layouts/root-layout/index.d.ts",
+      "attributes": [
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "ScrollView",
+      "path": "./../@nativescript/core/ui/scroll-view/index.d.ts",
+      "description": "Represents a scrollable area that can have content that is larger than its bounds.",
+      "attributes": [
+        {
+          "name": "isScrollEnabled",
+          "description": "Gets or sets a value indicating whether scroll is enabled.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:isScrollEnabled",
+          "description": "Gets or sets a value indicating whether scroll is enabled.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:isScrollEnabled",
+          "description": "Gets or sets a value indicating whether scroll is enabled.",
+          "type": "boolean"
+        },
+        {
+          "name": "verticalOffset",
+          "description": "Gets a value that contains the vertical offset of the scrolled content.",
+          "type": "number"
+        },
+        {
+          "name": "android:verticalOffset",
+          "description": "Gets a value that contains the vertical offset of the scrolled content.",
+          "type": "number"
+        },
+        {
+          "name": "ios:verticalOffset",
+          "description": "Gets a value that contains the vertical offset of the scrolled content.",
+          "type": "number"
+        },
+        {
+          "name": "horizontalOffset",
+          "description": "Gets a value that contains the horizontal offset of the scrolled content.",
+          "type": "number"
+        },
+        {
+          "name": "android:horizontalOffset",
+          "description": "Gets a value that contains the horizontal offset of the scrolled content.",
+          "type": "number"
+        },
+        {
+          "name": "ios:horizontalOffset",
+          "description": "Gets a value that contains the horizontal offset of the scrolled content.",
+          "type": "number"
+        },
+        {
+          "name": "scrollableHeight",
+          "description": "Gets the maximum value for the verticalOffset.",
+          "type": "number"
+        },
+        {
+          "name": "android:scrollableHeight",
+          "description": "Gets the maximum value for the verticalOffset.",
+          "type": "number"
+        },
+        {
+          "name": "ios:scrollableHeight",
+          "description": "Gets the maximum value for the verticalOffset.",
+          "type": "number"
+        },
+        {
+          "name": "scrollableWidth",
+          "description": "Gets the maximum value for the horizontalOffset.",
+          "type": "number"
+        },
+        {
+          "name": "android:scrollableWidth",
+          "description": "Gets the maximum value for the horizontalOffset.",
+          "type": "number"
+        },
+        {
+          "name": "ios:scrollableWidth",
+          "description": "Gets the maximum value for the horizontalOffset.",
+          "type": "number"
+        },
+        {
+          "name": "scrollBarIndicatorVisible",
+          "description": "Toggles scrollbar indicator visibility",
+          "type": "boolean"
+        },
+        {
+          "name": "android:scrollBarIndicatorVisible",
+          "description": "Toggles scrollbar indicator visibility",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:scrollBarIndicatorVisible",
+          "description": "Toggles scrollbar indicator visibility",
+          "type": "boolean"
+        },
+        {
+          "name": "orientation",
+          "description": "Gets or sets direction in which the content can be scrolled.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "android:orientation",
+          "description": "Gets or sets direction in which the content can be scrolled.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "ios:orientation",
+          "description": "Gets or sets direction in which the content can be scrolled.",
+          "type": "OrientationType"
+        }
+      ]
+    },
+    {
+      "name": "SearchBar",
+      "path": "./../@nativescript/core/ui/search-bar/index.d.ts",
+      "description": "Represents a search bar component.",
+      "attributes": [
+        {
+          "name": "text",
+          "description": "Gets or sets a search bar text.",
+          "type": "string"
+        },
+        {
+          "name": "android:text",
+          "description": "Gets or sets a search bar text.",
+          "type": "string"
+        },
+        {
+          "name": "ios:text",
+          "description": "Gets or sets a search bar text.",
+          "type": "string"
+        },
+        {
+          "name": "hint",
+          "description": "Gets or sets the text of the search bar text field hint/placeholder.",
+          "type": "string"
+        },
+        {
+          "name": "android:hint",
+          "description": "Gets or sets the text of the search bar text field hint/placeholder.",
+          "type": "string"
+        },
+        {
+          "name": "ios:hint",
+          "description": "Gets or sets the text of the search bar text field hint/placeholder.",
+          "type": "string"
+        },
+        {
+          "name": "textFieldBackgroundColor",
+          "description": "Gets or sets the TextField background color of the SearchBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "android:textFieldBackgroundColor",
+          "description": "Gets or sets the TextField background color of the SearchBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:textFieldBackgroundColor",
+          "description": "Gets or sets the TextField background color of the SearchBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "textFieldHintColor",
+          "description": "Gets or sets the TextField Hint color of the SearchBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "android:textFieldHintColor",
+          "description": "Gets or sets the TextField Hint color of the SearchBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:textFieldHintColor",
+          "description": "Gets or sets the TextField Hint color of the SearchBar component.",
+          "type": "Color"
+        }
+      ]
+    },
+    {
+      "name": "SegmentedBar",
+      "path": "./../@nativescript/core/ui/segmented-bar/index.d.ts",
+      "description": "Represents a UI SegmentedBar component.",
+      "attributes": [
+        {
+          "name": "selectedIndex",
+          "description": "Gets or sets the selected index of the SegmentedBar component.",
+          "type": "number"
+        },
+        {
+          "name": "android:selectedIndex",
+          "description": "Gets or sets the selected index of the SegmentedBar component.",
+          "type": "number"
+        },
+        {
+          "name": "ios:selectedIndex",
+          "description": "Gets or sets the selected index of the SegmentedBar component.",
+          "type": "number"
+        },
+        {
+          "name": "selectedBackgroundColor",
+          "description": "Gets or sets the selected background color of the SegmentedBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "android:selectedBackgroundColor",
+          "description": "Gets or sets the selected background color of the SegmentedBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:selectedBackgroundColor",
+          "description": "Gets or sets the selected background color of the SegmentedBar component.",
+          "type": "Color"
+        },
+        {
+          "name": "items",
+          "description": "Gets or sets the items of the SegmentedBar.",
+          "type": "SegmentedBarItem[]"
+        },
+        {
+          "name": "android:items",
+          "description": "Gets or sets the items of the SegmentedBar.",
+          "type": "SegmentedBarItem[]"
+        },
+        {
+          "name": "ios:items",
+          "description": "Gets or sets the items of the SegmentedBar.",
+          "type": "SegmentedBarItem[]"
+        }
+      ]
+    },
+    {
+      "name": "SegmentedBarItem",
+      "path": "./../@nativescript/core/ui/segmented-bar/index.d.ts",
+      "description": "Represents a SegmentedBar item.",
+      "attributes": [
+        {
+          "name": "title",
+          "description": "Gets or sets the title of the SegmentedBarItem.",
+          "type": "string"
+        },
+        {
+          "name": "android:title",
+          "description": "Gets or sets the title of the SegmentedBarItem.",
+          "type": "string"
+        },
+        {
+          "name": "ios:title",
+          "description": "Gets or sets the title of the SegmentedBarItem.",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Slider",
+      "path": "./../@nativescript/core/ui/slider/index.d.ts",
+      "description": "Represents a slider component.",
+      "attributes": [
+        {
+          "name": "value",
+          "description": "Gets or sets a slider current value. The default value is 0.",
+          "type": "number"
+        },
+        {
+          "name": "android:value",
+          "description": "Gets or sets a slider current value. The default value is 0.",
+          "type": "number"
+        },
+        {
+          "name": "ios:value",
+          "description": "Gets or sets a slider current value. The default value is 0.",
+          "type": "number"
+        },
+        {
+          "name": "minValue",
+          "description": "Gets or sets a slider min value. The default value is 0.",
+          "type": "number"
+        },
+        {
+          "name": "android:minValue",
+          "description": "Gets or sets a slider min value. The default value is 0.",
+          "type": "number"
+        },
+        {
+          "name": "ios:minValue",
+          "description": "Gets or sets a slider min value. The default value is 0.",
+          "type": "number"
+        },
+        {
+          "name": "maxValue",
+          "description": "Gets or sets a slider max value. The default value is 100.",
+          "type": "number"
+        },
+        {
+          "name": "android:maxValue",
+          "description": "Gets or sets a slider max value. The default value is 100.",
+          "type": "number"
+        },
+        {
+          "name": "ios:maxValue",
+          "description": "Gets or sets a slider max value. The default value is 100.",
+          "type": "number"
+        },
+        {
+          "name": "accessibilityStep",
+          "description": "Increase/Decrease step size for iOS Increment-/Decrement events",
+          "type": "number"
+        },
+        {
+          "name": "android:accessibilityStep",
+          "description": "Increase/Decrease step size for iOS Increment-/Decrement events",
+          "type": "number"
+        },
+        {
+          "name": "ios:accessibilityStep",
+          "description": "Increase/Decrease step size for iOS Increment-/Decrement events",
+          "type": "number"
+        },
+        {
+          "name": "accessible",
+          "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:accessible",
+          "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:accessible",
+          "description": "If `true` the element is an accessibility element and all the children will be treated as a single selectable component.",
+          "type": "boolean"
+        },
+        {
+          "name": "accessibilityRole",
+          "description": "Which role should this view be treated by the a11y service?",
+          "type": "AccessibilityRole"
+        },
+        {
+          "name": "android:accessibilityRole",
+          "description": "Which role should this view be treated by the a11y service?",
+          "type": "AccessibilityRole"
+        },
+        {
+          "name": "ios:accessibilityRole",
+          "description": "Which role should this view be treated by the a11y service?",
+          "type": "AccessibilityRole"
+        }
+      ]
+    },
+    {
+      "name": "Span",
+      "path": "./../@nativescript/core/ui/text-base/span.d.ts",
+      "description": "A class used to create a single part of formatted string with a common text properties.",
+      "attributes": [
+        {
+          "name": "fontFamily",
+          "description": "Gets or sets the font family of the span.",
+          "type": "string"
+        },
+        {
+          "name": "android:fontFamily",
+          "description": "Gets or sets the font family of the span.",
+          "type": "string"
+        },
+        {
+          "name": "ios:fontFamily",
+          "description": "Gets or sets the font family of the span.",
+          "type": "string"
+        },
+        {
+          "name": "fontSize",
+          "description": "Gets or sets the font size of the span.",
+          "type": "number"
+        },
+        {
+          "name": "android:fontSize",
+          "description": "Gets or sets the font size of the span.",
+          "type": "number"
+        },
+        {
+          "name": "ios:fontSize",
+          "description": "Gets or sets the font size of the span.",
+          "type": "number"
+        },
+        {
+          "name": "fontStyle",
+          "description": "Gets or sets the font style of the span."
+        },
+        {
+          "name": "android:fontStyle",
+          "description": "Gets or sets the font style of the span."
+        },
+        {
+          "name": "ios:fontStyle",
+          "description": "Gets or sets the font style of the span."
+        },
+        {
+          "name": "fontWeight",
+          "description": "Gets or sets the font weight of the span."
+        },
+        {
+          "name": "android:fontWeight",
+          "description": "Gets or sets the font weight of the span."
+        },
+        {
+          "name": "ios:fontWeight",
+          "description": "Gets or sets the font weight of the span."
+        },
+        {
+          "name": "textDecoration",
+          "description": "Gets or sets text decorations for the span.",
+          "type": "TextDecorationType"
+        },
+        {
+          "name": "android:textDecoration",
+          "description": "Gets or sets text decorations for the span.",
+          "type": "TextDecorationType"
+        },
+        {
+          "name": "ios:textDecoration",
+          "description": "Gets or sets text decorations for the span.",
+          "type": "TextDecorationType"
+        },
+        {
+          "name": "color",
+          "description": "Gets or sets the font foreground color of the span.",
+          "type": "Color"
+        },
+        {
+          "name": "android:color",
+          "description": "Gets or sets the font foreground color of the span.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:color",
+          "description": "Gets or sets the font foreground color of the span.",
+          "type": "Color"
+        },
+        {
+          "name": "backgroundColor",
+          "description": "Gets or sets the font background color of the span.",
+          "type": "Color"
+        },
+        {
+          "name": "android:backgroundColor",
+          "description": "Gets or sets the font background color of the span.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:backgroundColor",
+          "description": "Gets or sets the font background color of the span.",
+          "type": "Color"
+        },
+        {
+          "name": "text",
+          "description": "Gets or sets the text for the span.",
+          "type": "string"
+        },
+        {
+          "name": "android:text",
+          "description": "Gets or sets the text for the span.",
+          "type": "string"
+        },
+        {
+          "name": "ios:text",
+          "description": "Gets or sets the text for the span.",
+          "type": "string"
+        },
+        {
+          "name": "tappable",
+          "description": "Gets if the span is tappable or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:tappable",
+          "description": "Gets if the span is tappable or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:tappable",
+          "description": "Gets if the span is tappable or not.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "StackLayout",
+      "path": "./../@nativescript/core/ui/layouts/stack-layout/index.d.ts",
+      "description": "A Layout that arranges its children horizontally or vertically. The direction can be set by orientation property.",
+      "attributes": [
+        {
+          "name": "orientation",
+          "description": "Gets or sets if layout should be horizontal or vertical.\nThe default value is vertical.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "android:orientation",
+          "description": "Gets or sets if layout should be horizontal or vertical.\nThe default value is vertical.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "ios:orientation",
+          "description": "Gets or sets if layout should be horizontal or vertical.\nThe default value is vertical.",
+          "type": "OrientationType"
+        }
+      ]
+    },
+    {
+      "name": "Switch",
+      "path": "./../@nativescript/core/ui/switch/index.d.ts",
+      "description": "Represents a switch component.",
+      "attributes": [
+        {
+          "name": "checked",
+          "description": "Gets or sets if a switch is checked or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:checked",
+          "description": "Gets or sets if a switch is checked or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:checked",
+          "description": "Gets or sets if a switch is checked or not.",
+          "type": "boolean"
+        },
+        {
+          "name": "offBackgroundColor",
+          "description": "Gets or sets the background color of the Switch when it is turned off.",
+          "type": "Color"
+        },
+        {
+          "name": "android:offBackgroundColor",
+          "description": "Gets or sets the background color of the Switch when it is turned off.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:offBackgroundColor",
+          "description": "Gets or sets the background color of the Switch when it is turned off.",
+          "type": "Color"
+        }
+      ]
+    },
+    {
+      "name": "TabView",
+      "path": "./../@nativescript/core/ui/tab-view/index.d.ts",
+      "description": "Represents a tab view.",
+      "attributes": [
+        {
+          "name": "items",
+          "description": "Gets or sets the items of the TabView.",
+          "type": "TabViewItem[]"
+        },
+        {
+          "name": "android:items",
+          "description": "Gets or sets the items of the TabView.",
+          "type": "TabViewItem[]"
+        },
+        {
+          "name": "ios:items",
+          "description": "Gets or sets the items of the TabView.",
+          "type": "TabViewItem[]"
+        },
+        {
+          "name": "selectedIndex",
+          "description": "Gets or sets the selectedIndex of the TabView.",
+          "type": "number"
+        },
+        {
+          "name": "android:selectedIndex",
+          "description": "Gets or sets the selectedIndex of the TabView.",
+          "type": "number"
+        },
+        {
+          "name": "ios:selectedIndex",
+          "description": "Gets or sets the selectedIndex of the TabView.",
+          "type": "number"
+        },
+        {
+          "name": "tabTextFontSize",
+          "description": "Gets or sets the font size of the tabs titles.",
+          "type": "number"
+        },
+        {
+          "name": "android:tabTextFontSize",
+          "description": "Gets or sets the font size of the tabs titles.",
+          "type": "number"
+        },
+        {
+          "name": "ios:tabTextFontSize",
+          "description": "Gets or sets the font size of the tabs titles.",
+          "type": "number"
+        },
+        {
+          "name": "tabTextColor",
+          "description": "Gets or sets the text color of the tabs titles.",
+          "type": "Color"
+        },
+        {
+          "name": "android:tabTextColor",
+          "description": "Gets or sets the text color of the tabs titles.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:tabTextColor",
+          "description": "Gets or sets the text color of the tabs titles.",
+          "type": "Color"
+        },
+        {
+          "name": "tabBackgroundColor",
+          "description": "Gets or sets the background color of the tabs.",
+          "type": "Color"
+        },
+        {
+          "name": "android:tabBackgroundColor",
+          "description": "Gets or sets the background color of the tabs.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:tabBackgroundColor",
+          "description": "Gets or sets the background color of the tabs.",
+          "type": "Color"
+        },
+        {
+          "name": "selectedTabTextColor",
+          "description": "Gets or sets the text color of the selected tab title.",
+          "type": "Color"
+        },
+        {
+          "name": "android:selectedTabTextColor",
+          "description": "Gets or sets the text color of the selected tab title.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:selectedTabTextColor",
+          "description": "Gets or sets the text color of the selected tab title.",
+          "type": "Color"
+        },
+        {
+          "name": "androidSelectedTabHighlightColor",
+          "description": "Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.",
+          "type": "Color"
+        },
+        {
+          "name": "android:androidSelectedTabHighlightColor",
+          "description": "Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.",
+          "type": "Color"
+        },
+        {
+          "name": "ios:androidSelectedTabHighlightColor",
+          "description": "Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.",
+          "type": "Color"
+        },
+        {
+          "name": "iosIconRenderingMode",
+          "description": "Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to \"automatic\"\nValid values are:\n - automatic\n - alwaysOriginal\n - alwaysTemplate",
+          "type": "\"automatic\" | \"alwaysOriginal\" | \"alwaysTemplate\""
+        },
+        {
+          "name": "android:iosIconRenderingMode",
+          "description": "Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to \"automatic\"\nValid values are:\n - automatic\n - alwaysOriginal\n - alwaysTemplate",
+          "type": "\"automatic\" | \"alwaysOriginal\" | \"alwaysTemplate\""
+        },
+        {
+          "name": "ios:iosIconRenderingMode",
+          "description": "Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to \"automatic\"\nValid values are:\n - automatic\n - alwaysOriginal\n - alwaysTemplate",
+          "type": "\"automatic\" | \"alwaysOriginal\" | \"alwaysTemplate\""
+        },
+        {
+          "name": "androidOffscreenTabLimit",
+          "description": "Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.\nTabs beyond this limit will be recreated from the TabView when needed.",
+          "type": "number"
+        },
+        {
+          "name": "android:androidOffscreenTabLimit",
+          "description": "Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.\nTabs beyond this limit will be recreated from the TabView when needed.",
+          "type": "number"
+        },
+        {
+          "name": "ios:androidOffscreenTabLimit",
+          "description": "Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.\nTabs beyond this limit will be recreated from the TabView when needed.",
+          "type": "number"
+        },
+        {
+          "name": "androidTabsPosition",
+          "description": "Gets or set the tabs vertical position.\nValid values are:\n - top\n - bottom",
+          "type": "\"top\" | \"bottom\""
+        },
+        {
+          "name": "android:androidTabsPosition",
+          "description": "Gets or set the tabs vertical position.\nValid values are:\n - top\n - bottom",
+          "type": "\"top\" | \"bottom\""
+        },
+        {
+          "name": "ios:androidTabsPosition",
+          "description": "Gets or set the tabs vertical position.\nValid values are:\n - top\n - bottom",
+          "type": "\"top\" | \"bottom\""
+        },
+        {
+          "name": "androidSwipeEnabled",
+          "description": "Gets or sets a value indicating whether swipe gesture is enabled for Android.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:androidSwipeEnabled",
+          "description": "Gets or sets a value indicating whether swipe gesture is enabled for Android.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:androidSwipeEnabled",
+          "description": "Gets or sets a value indicating whether swipe gesture is enabled for Android.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "TabViewItem",
+      "path": "./../@nativescript/core/ui/tab-view/index.d.ts",
+      "description": "Represents a tab view entry.",
+      "attributes": [
+        {
+          "name": "title",
+          "description": "Gets or sets the title of the TabViewItem.",
+          "type": "string"
+        },
+        {
+          "name": "android:title",
+          "description": "Gets or sets the title of the TabViewItem.",
+          "type": "string"
+        },
+        {
+          "name": "ios:title",
+          "description": "Gets or sets the title of the TabViewItem.",
+          "type": "string"
+        },
+        {
+          "name": "iconSource",
+          "description": "Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.",
+          "type": "string"
+        },
+        {
+          "name": "android:iconSource",
+          "description": "Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.",
+          "type": "string"
+        },
+        {
+          "name": "ios:iconSource",
+          "description": "Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.",
+          "type": "string"
+        },
+        {
+          "name": "textTransform",
+          "description": "Gets or sets the text transform of the tab titles.",
+          "type": "TextTransformType"
+        },
+        {
+          "name": "android:textTransform",
+          "description": "Gets or sets the text transform of the tab titles.",
+          "type": "TextTransformType"
+        },
+        {
+          "name": "ios:textTransform",
+          "description": "Gets or sets the text transform of the tab titles.",
+          "type": "TextTransformType"
+        }
+      ]
+    },
+    {
+      "name": "TextField",
+      "path": "./../@nativescript/core/ui/text-field/index.d.ts",
+      "description": "Represents an editable text field.",
+      "attributes": [
+        {
+          "name": "secure",
+          "description": "Gets or sets if a text field is for password entry.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:secure",
+          "description": "Gets or sets if a text field is for password entry.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:secure",
+          "description": "Gets or sets if a text field is for password entry.",
+          "type": "boolean"
+        },
+        {
+          "name": "closeOnReturn",
+          "description": "Gets or sets if a text field should dismiss on return.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:closeOnReturn",
+          "description": "Gets or sets if a text field should dismiss on return.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:closeOnReturn",
+          "description": "Gets or sets if a text field should dismiss on return.",
+          "type": "boolean"
+        },
+        {
+          "name": "secureWithoutAutofill",
+          "description": "iOS only (to avoid 12+ auto suggested strong password handling)",
+          "type": "boolean"
+        },
+        {
+          "name": "android:secureWithoutAutofill",
+          "description": "iOS only (to avoid 12+ auto suggested strong password handling)",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:secureWithoutAutofill",
+          "description": "iOS only (to avoid 12+ auto suggested strong password handling)",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "TextView",
+      "path": "./../@nativescript/core/ui/text-view/index.d.ts",
+      "description": "Represents an editable multiline text view.",
+      "attributes": [
+        {
+          "name": "maxLines",
+          "description": "Limits input to a certain number of lines.",
+          "type": "number"
+        },
+        {
+          "name": "android:maxLines",
+          "description": "Limits input to a certain number of lines.",
+          "type": "number"
+        },
+        {
+          "name": "ios:maxLines",
+          "description": "Limits input to a certain number of lines.",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "TimePicker",
+      "path": "./../@nativescript/core/ui/time-picker/index.d.ts",
+      "description": "Represents an time picker.",
+      "attributes": [
+        {
+          "name": "hour",
+          "description": "Gets or sets the time hour.",
+          "type": "number"
+        },
+        {
+          "name": "android:hour",
+          "description": "Gets or sets the time hour.",
+          "type": "number"
+        },
+        {
+          "name": "ios:hour",
+          "description": "Gets or sets the time hour.",
+          "type": "number"
+        },
+        {
+          "name": "minute",
+          "description": "Gets or sets the time minute.",
+          "type": "number"
+        },
+        {
+          "name": "android:minute",
+          "description": "Gets or sets the time minute.",
+          "type": "number"
+        },
+        {
+          "name": "ios:minute",
+          "description": "Gets or sets the time minute.",
+          "type": "number"
+        },
+        {
+          "name": "time",
+          "description": "Gets or sets the time.",
+          "type": "Date"
+        },
+        {
+          "name": "android:time",
+          "description": "Gets or sets the time.",
+          "type": "Date"
+        },
+        {
+          "name": "ios:time",
+          "description": "Gets or sets the time.",
+          "type": "Date"
+        },
+        {
+          "name": "maxHour",
+          "description": "Gets or sets the max time hour.",
+          "type": "number"
+        },
+        {
+          "name": "android:maxHour",
+          "description": "Gets or sets the max time hour.",
+          "type": "number"
+        },
+        {
+          "name": "ios:maxHour",
+          "description": "Gets or sets the max time hour.",
+          "type": "number"
+        },
+        {
+          "name": "maxMinute",
+          "description": "Gets or sets the max time minute.",
+          "type": "number"
+        },
+        {
+          "name": "android:maxMinute",
+          "description": "Gets or sets the max time minute.",
+          "type": "number"
+        },
+        {
+          "name": "ios:maxMinute",
+          "description": "Gets or sets the max time minute.",
+          "type": "number"
+        },
+        {
+          "name": "minuteInterval",
+          "description": "Gets or sets the minute interval.",
+          "type": "number"
+        },
+        {
+          "name": "android:minuteInterval",
+          "description": "Gets or sets the minute interval.",
+          "type": "number"
+        },
+        {
+          "name": "ios:minuteInterval",
+          "description": "Gets or sets the minute interval.",
+          "type": "number"
+        },
+        {
+          "name": "iosPreferredDatePickerStyle",
+          "description": "Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.\nValid values are numbers:\n - 0: automatic (system picks the concrete style based on the current platform and date picker mode)\n - 1: wheels (the date picker displays as a wheel picker)\n - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)\n - 3: inline  (the date pickers displays as an inline, editable field)",
+          "type": "number"
+        },
+        {
+          "name": "android:iosPreferredDatePickerStyle",
+          "description": "Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.\nValid values are numbers:\n - 0: automatic (system picks the concrete style based on the current platform and date picker mode)\n - 1: wheels (the date picker displays as a wheel picker)\n - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)\n - 3: inline  (the date pickers displays as an inline, editable field)",
+          "type": "number"
+        },
+        {
+          "name": "ios:iosPreferredDatePickerStyle",
+          "description": "Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.\nValid values are numbers:\n - 0: automatic (system picks the concrete style based on the current platform and date picker mode)\n - 1: wheels (the date picker displays as a wheel picker)\n - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)\n - 3: inline  (the date pickers displays as an inline, editable field)",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "CustomLayoutView",
+      "path": "./../@nativescript/core/ui/core/view/index.d.ts",
+      "description": "Base class for all UI components that implement custom layouts.",
+      "attributes": []
+    },
+    {
+      "name": "WebView",
+      "path": "./../@nativescript/core/ui/web-view/index.d.ts",
+      "description": "Represents a standard WebView widget.",
+      "attributes": [
+        {
+          "name": "src",
+          "description": "Gets or sets the url, local file path or HTML string.",
+          "type": "string"
+        },
+        {
+          "name": "android:src",
+          "description": "Gets or sets the url, local file path or HTML string.",
+          "type": "string"
+        },
+        {
+          "name": "ios:src",
+          "description": "Gets or sets the url, local file path or HTML string.",
+          "type": "string"
+        },
+        {
+          "name": "canGoForward",
+          "description": "Gets a value indicating whether the WebView can navigate forward.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:canGoForward",
+          "description": "Gets a value indicating whether the WebView can navigate forward.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:canGoForward",
+          "description": "Gets a value indicating whether the WebView can navigate forward.",
+          "type": "boolean"
+        },
+        {
+          "name": "disableZoom",
+          "description": "Disable scrolling in the WebView",
+          "type": "boolean"
+        },
+        {
+          "name": "android:disableZoom",
+          "description": "Disable scrolling in the WebView",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:disableZoom",
+          "description": "Disable scrolling in the WebView",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "WrapLayout",
+      "path": "./../@nativescript/core/ui/layouts/wrap-layout/index.d.ts",
+      "description": "WrapLayout position children in rows or columns depending on orientation property\nuntil space is filled and then wraps them on new row or column.",
+      "attributes": [
+        {
+          "name": "orientation",
+          "description": "Gets or sets the flow direction. Default value is horizontal.\nIf orientation is horizontal items are arranged in rows, else items are arranged in columns.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "android:orientation",
+          "description": "Gets or sets the flow direction. Default value is horizontal.\nIf orientation is horizontal items are arranged in rows, else items are arranged in columns.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "ios:orientation",
+          "description": "Gets or sets the flow direction. Default value is horizontal.\nIf orientation is horizontal items are arranged in rows, else items are arranged in columns.",
+          "type": "OrientationType"
+        },
+        {
+          "name": "itemWidth",
+          "description": "Gets or sets the width used to measure and layout each child.\nDefault value is Number.NaN which does not restrict children.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:itemWidth",
+          "description": "Gets or sets the width used to measure and layout each child.\nDefault value is Number.NaN which does not restrict children.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:itemWidth",
+          "description": "Gets or sets the width used to measure and layout each child.\nDefault value is Number.NaN which does not restrict children.",
+          "type": "LengthType"
+        },
+        {
+          "name": "itemHeight",
+          "description": "Gets or sets the height used to measure and layout each child.\nDefault value is Number.NaN which does not restrict children.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:itemHeight",
+          "description": "Gets or sets the height used to measure and layout each child.\nDefault value is Number.NaN which does not restrict children.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:itemHeight",
+          "description": "Gets or sets the height used to measure and layout each child.\nDefault value is Number.NaN which does not restrict children.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingBottom",
+          "description": "Specify the bottom padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingLeft",
+          "description": "Specify the left padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingRight",
+          "description": "Specify the right padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "android:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "ios:paddingTop",
+          "description": "Specify the top padding of this layout.",
+          "type": "LengthType"
+        },
+        {
+          "name": "clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "android:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        },
+        {
+          "name": "ios:clipToBounds",
+          "description": "Gets or sets a value indicating whether to clip the content of this layout.",
+          "type": "boolean"
+        }
+      ]
+    }
+  ]
+}
