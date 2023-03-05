@@ -3,3 +3,4 @@ node_modules
 metadata
 dist
 metadata.json
+web-types.json

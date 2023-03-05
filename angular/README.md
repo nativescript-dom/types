@@ -25,7 +25,9 @@ npm install @nativescript-dom/core-types @nativescript-dom/angular-types --save-
   }
 ```
 
-3. Configure `.vscode/settings.json`
+### Configure vscode
+
+If you use vscode, configure `.vscode/settings.json`.
 
 Create a `.vscode` folder inside the root of your project and add a `settings.json` file with the following contents:
 
@@ -36,6 +38,8 @@ Create a `.vscode` folder inside the root of your project and add a `settings.js
   ]
 }
 ```
+
+No extra steps are required for webstorm.
 
 That's it, enjoy a fully typed @nativescript/angular experience.
 

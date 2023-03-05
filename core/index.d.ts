@@ -180,11 +180,13 @@ declare global {
 
   // Layouts
 
-  interface HTMLLayoutBaseElement
+  interface HTMLLayoutBaseElement<T = HTMLViewElement>
     extends Omit<NS.LayoutBase, NativeScriptViewOmittedProps>,
+      HTMLViewElementEventsMap<T>,
       HTMLElement {}
+
   interface HTMLAbsoluteLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLAbsoluteLayoutElement>,
       Omit<NS.AbsoluteLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -199,7 +201,7 @@ declare global {
   };
 
   interface HTMLFlexboxLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLFlexboxLayoutElement>,
       Omit<NS.FlexboxLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -213,7 +215,7 @@ declare global {
   };
 
   interface HTMLGridLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLGridLayoutElement>,
       Omit<NS.GridLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -228,7 +230,7 @@ declare global {
   };
 
   interface HTMLDockLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLDockLayoutElement>,
       Omit<NS.DockLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -242,7 +244,7 @@ declare global {
   };
 
   interface HTMLRootLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLRootLayoutElement>,
       Omit<NS.RootLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -256,7 +258,7 @@ declare global {
   };
 
   interface HTMLWrapLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLWrapLayoutElement>,
       Omit<NS.WrapLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -270,7 +272,7 @@ declare global {
   };
 
   interface HTMLStackLayoutElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLStackLayoutElement>,
       Omit<NS.StackLayout, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -284,7 +286,7 @@ declare global {
   };
 
   interface HTMLCustomLayoutViewElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLCustomLayoutViewElement>,
       Omit<NS.CustomLayoutView, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -298,7 +300,7 @@ declare global {
   };
 
   interface HTMLContentViewElement
-    extends HTMLLayoutBaseElement,
+    extends HTMLLayoutBaseElement<HTMLContentViewElement>,
       Omit<NS.ContentView, NativeScriptViewOmittedProps> {
     animate(
       keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
@@ -562,14 +564,14 @@ declare global {
     new (): HTMLFormattedStringElement;
   };
 
-  interface HTMLHTMLViewElement
+  interface HTMLHtmlViewElement
     extends HTMLViewElement,
       Omit<NS.HtmlView, NativeScriptViewOmittedProps> {
     addEventListener<K extends keyof HTMLHTMLViewElementEventsMap>(
       type: K,
       listener: (
-        this: HTMLHTMLViewElement,
-        ev: HTMLHTMLViewElementEventsMap[K]
+        this: HTMLHtmlViewElement,
+        ev: HTMLHtmlViewElementEventsMap[K]
       ) => any,
       options?: boolean | AddEventListenerOptions
     ): void;
@@ -578,11 +580,11 @@ declare global {
       listener: EventListenerOrEventListenerObject,
       options?: boolean | AddEventListenerOptions
     ): void;
-    removeEventListener<K extends keyof HTMLHTMLViewElementEventsMap>(
+    removeEventListener<K extends keyof HTMLHtmlViewElementEventsMap>(
       type: K,
       listener: (
-        this: HTMLHTMLViewElement,
-        ev: HTMLHTMLViewElementEventsMap[K]
+        this: HTMLHtmlViewElement,
+        ev: HTMLHtmlViewElementEventsMap[K]
       ) => any,
       options?: boolean | EventListenerOptions
     ): void;
@@ -598,9 +600,9 @@ declare global {
     animate(options: AnimationDefinition): AnimationPromise;
   }
 
-  var HTMLHTMLViewElement: {
-    prototype: HTMLHTMLViewElement;
-    new (): HTMLHTMLViewElement;
+  var HTMLHtmlViewElement: {
+    prototype: HTMLHtmlViewElement;
+    new (): HTMLHtmlViewElement;
   };
 
   interface HTMLImageElement
@@ -1390,7 +1392,7 @@ declare global {
 
   interface HTMLTimePickerElement
     extends HTMLElement,
-      Omit<NS.Slider, NativeScriptViewOmittedProps | "on"> {
+      Omit<NS.TimePicker, NativeScriptViewOmittedProps | "on"> {
     addEventListener<K extends keyof HTMLTimePickerElementEventsMap>(
       type: K,
       listener: (
@@ -1431,7 +1433,7 @@ declare global {
 
   interface HTMLWebViewElement
     extends HTMLElement,
-      Omit<NS.Slider, NativeScriptViewOmittedProps | "on"> {
+      Omit<NS.WebView, NativeScriptViewOmittedProps | "on"> {
     addEventListener<K extends keyof HTMLWebViewElementEventsMap>(
       type: K,
       listener: (
@@ -1468,5 +1470,87 @@ declare global {
   var HTMLWebViewElement: {
     prototype: HTMLWebViewElement;
     new (): HTMLWebViewElement;
+  };
+
+  interface HTMLRepeaterElement
+    extends HTMLElement,
+      Omit<NS.Repeater, NativeScriptViewOmittedProps | "on"> {
+    addEventListener<K extends keyof HTMLViewElementEventsMap>(
+      type: K,
+      listener: (
+        this: HTMLRepeaterElement,
+        ev: HTMLViewElementEventsMap[K]
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLViewElementEventsMap>(
+      type: K,
+      listener: (
+        this: HTMLRepeaterElement,
+        ev: HTMLViewElementEventsMap[K]
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options
+    ): void;
+    animate(
+      keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
+      options?: number | KeyframeAnimationOptions
+    ): Animation;
+    animate(options: AnimationDefinition): AnimationPromise;
+  }
+
+  var HTMLRepeaterElement: {
+    prototype: HTMLRepeaterElement;
+    new (): HTMLRepeaterElement;
+  };
+
+  interface HTMLContainerViewElement
+    extends HTMLElement,
+      Omit<NS.ContainerView, NativeScriptViewOmittedProps | "on"> {
+    addEventListener<K extends keyof HTMLViewElementEventsMap>(
+      type: K,
+      listener: (
+        this: HTMLContainerViewElement,
+        ev: HTMLViewElementEventsMap[K]
+      ) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof HTMLViewElementEventsMap>(
+      type: K,
+      listener: (
+        this: HTMLContainerViewElement,
+        ev: HTMLViewElementEventsMap[K]
+      ) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options
+    ): void;
+    animate(
+      keyframes: Keyframe[] | PropertyIndexedKeyframes | null,
+      options?: number | KeyframeAnimationOptions
+    ): Animation;
+    animate(options: AnimationDefinition): AnimationPromise;
+  }
+
+  var HTMLContainerViewElement: {
+    prototype: HTMLContainerViewElement;
+    new (): HTMLContainerViewElement;
   };
 }

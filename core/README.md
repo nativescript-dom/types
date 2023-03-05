@@ -51,6 +51,10 @@ TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/
 
 TypeScript definitions for [@nativescript/core](https://github.com/NativeScript/NativeScript) views exposed as JSX intrinsic elements for vue
 
+**[@nativescript-dom/angular-types](https://www.npmjs.com/package/@nativescript-dom/angular-types)**
+
+Typescript definitions for @nativescript/angular that expose [@nativescript/core](https://github.com/NativeScript/NativeScript)e views as DOM elements in HTML templates and provide 100% complete intellisense in code editors
+
 #
 
 MIT Licensed
