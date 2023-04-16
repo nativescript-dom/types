@@ -445,19 +445,19 @@ Reusable views are not automatically destroyed when removed from the View tree.
   /**
    * Gets the style object associated to this view.
    */
-  style: string | Style;
+  style: string | Style | Record<string, string | number>;
 
   /**
        * Gets the style object associated to this view.
 @platform android
        */
-  "android:style": string | Style;
+  "android:style": string | Style | Record<string, string | number>;
 
   /**
        * Gets the style object associated to this view.
 @platform ios
        */
-  "ios:style": string | Style;
+  "ios:style": string | Style | Record<string, string | number>;
 
   /**
    *
@@ -1680,6 +1680,40 @@ Accepts language ID tags that follows the "BCP 47" specification.
 @platform ios
        */
   "ios:iosOverflowSafeAreaEnabled": string | boolean;
+
+   /**
+   * Sets ID for Shared Element Transition
+   */
+    sharedTransitionTag: string;
+
+    /**
+         * Sets ID for Shared Element Transition
+  @platform android
+         */
+    "android:sharedTransitionTag": string;
+  
+    /**
+         * Sets ID for Shared Element Transition
+  @platform ios
+         */
+    "ios:sharedTransitionTag": string;
+
+   /**
+   * Sets ID for ignore Shared Element Transition
+   */
+   sharedTransitionIgnore: string;
+
+   /**
+        * Sets ID for ignore Shared Element Transition
+ @platform android
+        */
+   "android:sharedTransitionIgnore": string;
+ 
+   /**
+        * Sets ID for ignore Shared Element Transition
+ @platform ios
+        */
+   "ios:sharedTransitionIgnore": string;
 }
 
 interface HTMLWebViewElementAttributes<
