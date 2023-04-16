@@ -56,6 +56,8 @@ export const HTMLViewElementAttributeKeys = [
   "isUserInteractionEnabled",
   "iosOverflowSafeAreaEnabled",
   "iosOverflowSafeArea",
+  "sharedTransitionTag",
+  "sharedTransitionIgnore",
   // Style props
   "css",
   "color",
