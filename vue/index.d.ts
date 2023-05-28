@@ -120,52 +120,86 @@ interface HTMLViewBaseElementAttributes<
 > extends ElementAttrs<T>,
     HTMLAttributes<T> {
   /**
-       * An event that fires when the native view is rendered in the
+         * An event that fires when the native view is rendered in the
 native view hierarchy.
-       */
+         */
   onLoaded: (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires when the native view is rendered in the
+         * An event that fires when the native view is rendered in the
 native view hierarchy.
-       */
+         */
   "@loaded": (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires when the native view is removed from the
+         * An event that fires when the native view is removed from the
 native view hierarchy.
-       */
+         */
   onUnloaded: (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires when the native view is removed from the
+         * An event that fires when the native view is removed from the
 native view hierarchy.
-       */
+         */
   "@unloaded": (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires as soon as a view is created. At this point, the native view has not been
+         * An event that fires as soon as a view is created. At this point, the native view has not been
 created yet.
-       */
+         */
   onCreated: (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires as soon as a view is created. At this point, the native view has not been
+         * An event that fires as soon as a view is created. At this point, the native view has not been
 created yet.
-       */
+         */
   "@created": (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires when the native view is disposed. This gets called after the `unloaded`
+         * An event that fires when the native view is disposed. This gets called after the `unloaded`
 event fires.
-       */
+         */
   onDisposeNativeView: (payload: NativeDOMEvent<T>) => void;
 
   /**
-       * An event that fires when the native view is disposed. This gets called after the `unloaded`
+         * An event that fires when the native view is disposed. This gets called after the `unloaded`
 event fires.
-       */
+         */
   "@disposeNativeView": (payload: NativeDOMEvent<T>) => void;
+
+  /**
+   *
+   */
+  recycleNativeView: string | "always" | "never" | "auto";
+
+  /**
+         * undefined
+@platform android
+         */
+  "android:recycleNativeView": string | "always" | "never" | "auto";
+
+  /**
+         * undefined
+@platform ios
+         */
+  "ios:recycleNativeView": string | "always" | "never" | "auto";
+
+  /**
+   * Gets or sets the CSS class name for this view.
+   */
+  className: string;
+
+  /**
+         * Gets or sets the CSS class name for this view.
+@platform android
+         */
+  "android:className": string;
+
+  /**
+         * Gets or sets the CSS class name for this view.
+@platform ios
+         */
+  "ios:className": string;
 
   /**
    *
@@ -173,15 +207,15 @@ event fires.
   left: string | number | LengthType;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:left": string | number | LengthType;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:left": string | number | LengthType;
 
   /**
@@ -190,15 +224,15 @@ event fires.
   top: string | number | LengthType;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:top": string | number | LengthType;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:top": string | number | LengthType;
 
   /**
@@ -207,15 +241,15 @@ event fires.
   dock: string | "left" | "top" | "right" | "bottom";
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:dock": string | "left" | "top" | "right" | "bottom";
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:dock": string | "left" | "top" | "right" | "bottom";
 
   /**
@@ -224,15 +258,15 @@ event fires.
   row: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:row": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:row": number | string;
 
   /**
@@ -241,32 +275,32 @@ event fires.
   col: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:col": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:col": number | string;
 
   /**
-   * Setting `column` property is the same as `col`
+   *
    */
   column: number | string;
 
   /**
-       * Setting `column` property is the same as `col`
+         * undefined
 @platform android
-       */
+         */
   "android:column": number | string;
 
   /**
-       * Setting `column` property is the same as `col`
+         * undefined
 @platform ios
-       */
+         */
   "ios:column": number | string;
 
   /**
@@ -275,15 +309,15 @@ event fires.
   rowSpan: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:rowSpan": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:rowSpan": number | string;
 
   /**
@@ -292,32 +326,32 @@ event fires.
   colSpan: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:colSpan": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:colSpan": number | string;
 
   /**
-   * Setting `columnSpan` property is the same as `colSpan`
+   *
    */
   columnSpan: number | string;
 
   /**
-       * Setting `columnSpan` property is the same as `colSpan`
+         * undefined
 @platform android
-       */
+         */
   "android:columnSpan": number | string;
 
   /**
-       * Setting `columnSpan` property is the same as `colSpan`
+         * undefined
 @platform ios
-       */
+         */
   "ios:columnSpan": number | string;
 
   /**
@@ -326,15 +360,15 @@ event fires.
   order: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:order": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:order": number | string;
 
   /**
@@ -343,15 +377,15 @@ event fires.
   flexGrow: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:flexGrow": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:flexGrow": number | string;
 
   /**
@@ -360,15 +394,15 @@ event fires.
   flexShrink: number | string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:flexShrink": number | string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:flexShrink": number | string;
 
   /**
@@ -377,15 +411,15 @@ event fires.
   flexWrapBefore: string | boolean;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:flexWrapBefore": string | boolean;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:flexWrapBefore": string | boolean;
 
   /**
@@ -394,87 +428,53 @@ event fires.
   alignSelf: string | AlignSelf;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:alignSelf": string | AlignSelf;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:alignSelf": string | AlignSelf;
 
   /**
-       * Gets or sets if the view is reusable.
+         * Gets or sets if the view is reusable.
 Reusable views are not automatically destroyed when removed from the View tree.
-       */
+         */
   reusable: string | boolean;
 
   /**
-       * Gets or sets if the view is reusable.
+         * Gets or sets if the view is reusable.
 Reusable views are not automatically destroyed when removed from the View tree.
 @platform android
-       */
+         */
   "android:reusable": string | boolean;
 
   /**
-       * Gets or sets if the view is reusable.
+         * Gets or sets if the view is reusable.
 Reusable views are not automatically destroyed when removed from the View tree.
 @platform ios
-       */
+         */
   "ios:reusable": string | boolean;
-
-  /**
-   * Gets or sets the CSS class name for this view.
-   */
-  className: string;
-
-  /**
-       * Gets or sets the CSS class name for this view.
-@platform android
-       */
-  "android:className": string;
-
-  /**
-       * Gets or sets the CSS class name for this view.
-@platform ios
-       */
-  "ios:className": string;
 
   /**
    * Gets the style object associated to this view.
    */
-  style: string | Style | Record<string, string | number>;
+  style: string | Style;
 
   /**
-       * Gets the style object associated to this view.
+         * Gets the style object associated to this view.
 @platform android
-       */
-  "android:style": string | Style | Record<string, string | number>;
+         */
+  "android:style": string | Style;
 
   /**
-       * Gets the style object associated to this view.
+         * Gets the style object associated to this view.
 @platform ios
-       */
-  "ios:style": string | Style | Record<string, string | number>;
-
-  /**
-   *
-   */
-  recycleNativeView: string | "auto" | "always" | "never";
-
-  /**
-       * undefined
-@platform android
-       */
-  "android:recycleNativeView": string | "auto" | "always" | "never";
-
-  /**
-       * undefined
-@platform ios
-       */
-  "ios:recycleNativeView": string | "auto" | "always" | "never";
+         */
+  "ios:style": string | Style;
 }
 
 interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement>
@@ -640,26 +640,26 @@ interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement>
   "@androidBackPressed": (payload: NativeAndroidBackPressedEvent<T>) => void;
 
   /**
-       * The view's unique accessibilityIdentifier.
+         * The view's unique accessibilityIdentifier.
 
 This is used for automated testing.
-       */
+         */
   accessibilityIdentifier: string;
 
   /**
-       * The view's unique accessibilityIdentifier.
+         * The view's unique accessibilityIdentifier.
 
 This is used for automated testing.
 @platform android
-       */
+         */
   "android:accessibilityIdentifier": string;
 
   /**
-       * The view's unique accessibilityIdentifier.
+         * The view's unique accessibilityIdentifier.
 
 This is used for automated testing.
 @platform ios
-       */
+         */
   "ios:accessibilityIdentifier": string;
 
   /**
@@ -668,15 +668,15 @@ This is used for automated testing.
   accessibilityLabel: string;
 
   /**
-       * Short description of the element, ideally one word.
+         * Short description of the element, ideally one word.
 @platform android
-       */
+         */
   "android:accessibilityLabel": string;
 
   /**
-       * Short description of the element, ideally one word.
+         * Short description of the element, ideally one word.
 @platform ios
-       */
+         */
   "ios:accessibilityLabel": string;
 
   /**
@@ -685,15 +685,15 @@ This is used for automated testing.
   accessibilityValue: string;
 
   /**
-       * Current value of the element in a localized string.
+         * Current value of the element in a localized string.
 @platform android
-       */
+         */
   "android:accessibilityValue": string;
 
   /**
-       * Current value of the element in a localized string.
+         * Current value of the element in a localized string.
 @platform ios
-       */
+         */
   "ios:accessibilityValue": string;
 
   /**
@@ -702,15 +702,15 @@ This is used for automated testing.
   accessibilityHint: string;
 
   /**
-       * A hint describes the elements behavior. Example: 'Tap change playback speed'
+         * A hint describes the elements behavior. Example: 'Tap change playback speed'
 @platform android
-       */
+         */
   "android:accessibilityHint": string;
 
   /**
-       * A hint describes the elements behavior. Example: 'Tap change playback speed'
+         * A hint describes the elements behavior. Example: 'Tap change playback speed'
 @platform ios
-       */
+         */
   "ios:accessibilityHint": string;
 
   /**
@@ -719,15 +719,15 @@ This is used for automated testing.
   testID: string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:testID": string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:testID": string;
 
   /**
@@ -736,15 +736,15 @@ This is used for automated testing.
   borderColor: string | string | Color;
 
   /**
-       * Gets or sets the border color of the view.
+         * Gets or sets the border color of the view.
 @platform android
-       */
+         */
   "android:borderColor": string | string | Color;
 
   /**
-       * Gets or sets the border color of the view.
+         * Gets or sets the border color of the view.
 @platform ios
-       */
+         */
   "ios:borderColor": string | string | Color;
 
   /**
@@ -753,15 +753,15 @@ This is used for automated testing.
   borderTopColor: string | Color;
 
   /**
-       * Gets or sets the top border color of the view.
+         * Gets or sets the top border color of the view.
 @platform android
-       */
+         */
   "android:borderTopColor": string | Color;
 
   /**
-       * Gets or sets the top border color of the view.
+         * Gets or sets the top border color of the view.
 @platform ios
-       */
+         */
   "ios:borderTopColor": string | Color;
 
   /**
@@ -770,15 +770,15 @@ This is used for automated testing.
   borderRightColor: string | Color;
 
   /**
-       * Gets or sets the right border color of the view.
+         * Gets or sets the right border color of the view.
 @platform android
-       */
+         */
   "android:borderRightColor": string | Color;
 
   /**
-       * Gets or sets the right border color of the view.
+         * Gets or sets the right border color of the view.
 @platform ios
-       */
+         */
   "ios:borderRightColor": string | Color;
 
   /**
@@ -787,15 +787,15 @@ This is used for automated testing.
   borderLeftColor: string | Color;
 
   /**
-       * Gets or sets the left border color of the view.
+         * Gets or sets the left border color of the view.
 @platform android
-       */
+         */
   "android:borderLeftColor": string | Color;
 
   /**
-       * Gets or sets the left border color of the view.
+         * Gets or sets the left border color of the view.
 @platform ios
-       */
+         */
   "ios:borderLeftColor": string | Color;
 
   /**
@@ -804,15 +804,15 @@ This is used for automated testing.
   borderWidth: string | number | LengthDipUnit | LengthPxUnit;
 
   /**
-       * Gets or sets the border width of the view.
+         * Gets or sets the border width of the view.
 @platform android
-       */
+         */
   "android:borderWidth": string | number | LengthDipUnit | LengthPxUnit;
 
   /**
-       * Gets or sets the border width of the view.
+         * Gets or sets the border width of the view.
 @platform ios
-       */
+         */
   "ios:borderWidth": string | number | LengthDipUnit | LengthPxUnit;
 
   /**
@@ -821,15 +821,15 @@ This is used for automated testing.
   borderTopWidth: string | number | LengthType;
 
   /**
-       * Gets or sets the top border width of the view.
+         * Gets or sets the top border width of the view.
 @platform android
-       */
+         */
   "android:borderTopWidth": string | number | LengthType;
 
   /**
-       * Gets or sets the top border width of the view.
+         * Gets or sets the top border width of the view.
 @platform ios
-       */
+         */
   "ios:borderTopWidth": string | number | LengthType;
 
   /**
@@ -838,15 +838,15 @@ This is used for automated testing.
   borderBottomWidth: string | number | LengthType;
 
   /**
-       * Gets or sets the bottom border width of the view.
+         * Gets or sets the bottom border width of the view.
 @platform android
-       */
+         */
   "android:borderBottomWidth": string | number | LengthType;
 
   /**
-       * Gets or sets the bottom border width of the view.
+         * Gets or sets the bottom border width of the view.
 @platform ios
-       */
+         */
   "ios:borderBottomWidth": string | number | LengthType;
 
   /**
@@ -855,15 +855,15 @@ This is used for automated testing.
   borderLeftWidth: string | number | LengthType;
 
   /**
-       * Gets or sets the left border width of the view.
+         * Gets or sets the left border width of the view.
 @platform android
-       */
+         */
   "android:borderLeftWidth": string | number | LengthType;
 
   /**
-       * Gets or sets the left border width of the view.
+         * Gets or sets the left border width of the view.
 @platform ios
-       */
+         */
   "ios:borderLeftWidth": string | number | LengthType;
 
   /**
@@ -872,15 +872,15 @@ This is used for automated testing.
   borderTopLeftRadius: string | number | LengthType;
 
   /**
-       * Gets or sets the top left border radius of the view.
+         * Gets or sets the top left border radius of the view.
 @platform android
-       */
+         */
   "android:borderTopLeftRadius": string | number | LengthType;
 
   /**
-       * Gets or sets the top left border radius of the view.
+         * Gets or sets the top left border radius of the view.
 @platform ios
-       */
+         */
   "ios:borderTopLeftRadius": string | number | LengthType;
 
   /**
@@ -889,15 +889,15 @@ This is used for automated testing.
   borderTopRightRadius: string | number | LengthType;
 
   /**
-       * Gets or sets the top right border radius of the view.
+         * Gets or sets the top right border radius of the view.
 @platform android
-       */
+         */
   "android:borderTopRightRadius": string | number | LengthType;
 
   /**
-       * Gets or sets the top right border radius of the view.
+         * Gets or sets the top right border radius of the view.
 @platform ios
-       */
+         */
   "ios:borderTopRightRadius": string | number | LengthType;
 
   /**
@@ -906,15 +906,15 @@ This is used for automated testing.
   borderBottomRightRadius: string | number | LengthType;
 
   /**
-       * Gets or sets the bottom right border radius of the view.
+         * Gets or sets the bottom right border radius of the view.
 @platform android
-       */
+         */
   "android:borderBottomRightRadius": string | number | LengthType;
 
   /**
-       * Gets or sets the bottom right border radius of the view.
+         * Gets or sets the bottom right border radius of the view.
 @platform ios
-       */
+         */
   "ios:borderBottomRightRadius": string | number | LengthType;
 
   /**
@@ -923,15 +923,15 @@ This is used for automated testing.
   borderBottomLeftRadius: string | number | LengthType;
 
   /**
-       * Gets or sets the bottom left border radius of the view.
+         * Gets or sets the bottom left border radius of the view.
 @platform android
-       */
+         */
   "android:borderBottomLeftRadius": string | number | LengthType;
 
   /**
-       * Gets or sets the bottom left border radius of the view.
+         * Gets or sets the bottom left border radius of the view.
 @platform ios
-       */
+         */
   "ios:borderBottomLeftRadius": string | number | LengthType;
 
   /**
@@ -940,15 +940,15 @@ This is used for automated testing.
   color: string | Color;
 
   /**
-       * Gets or sets the color of the view.
+         * Gets or sets the color of the view.
 @platform android
-       */
+         */
   "android:color": string | Color;
 
   /**
-       * Gets or sets the color of the view.
+         * Gets or sets the color of the view.
 @platform ios
-       */
+         */
   "ios:color": string | Color;
 
   /**
@@ -957,15 +957,15 @@ This is used for automated testing.
   backgroundColor: string | string | Color;
 
   /**
-       * Gets or sets the background color of the view.
+         * Gets or sets the background color of the view.
 @platform android
-       */
+         */
   "android:backgroundColor": string | string | Color;
 
   /**
-       * Gets or sets the background color of the view.
+         * Gets or sets the background color of the view.
 @platform ios
-       */
+         */
   "ios:backgroundColor": string | string | Color;
 
   /**
@@ -974,15 +974,15 @@ This is used for automated testing.
   backgroundImage: string | string | LinearGradient;
 
   /**
-       * Gets or sets the background image of the view.
+         * Gets or sets the background image of the view.
 @platform android
-       */
+         */
   "android:backgroundImage": string | string | LinearGradient;
 
   /**
-       * Gets or sets the background image of the view.
+         * Gets or sets the background image of the view.
 @platform ios
-       */
+         */
   "ios:backgroundImage": string | string | LinearGradient;
 
   /**
@@ -991,15 +991,15 @@ This is used for automated testing.
   backgroundSize: string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:backgroundSize": string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:backgroundSize": string;
 
   /**
@@ -1008,15 +1008,15 @@ This is used for automated testing.
   backgroundPosition: string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:backgroundPosition": string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:backgroundPosition": string;
 
   /**
@@ -1025,15 +1025,15 @@ This is used for automated testing.
   backgroundRepeat: string | BackgroundRepeatType;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:backgroundRepeat": string | BackgroundRepeatType;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:backgroundRepeat": string | BackgroundRepeatType;
 
   /**
@@ -1042,15 +1042,15 @@ This is used for automated testing.
   boxShadow: string | string | CSSShadow;
 
   /**
-       * Gets or sets the box shadow of the view.
+         * Gets or sets the box shadow of the view.
 @platform android
-       */
+         */
   "android:boxShadow": string | string | CSSShadow;
 
   /**
-       * Gets or sets the box shadow of the view.
+         * Gets or sets the box shadow of the view.
 @platform ios
-       */
+         */
   "ios:boxShadow": string | string | CSSShadow;
 
   /**
@@ -1059,15 +1059,15 @@ This is used for automated testing.
   minWidth: string | number | LengthType;
 
   /**
-       * Gets or sets the minimum width the view may grow to.
+         * Gets or sets the minimum width the view may grow to.
 @platform android
-       */
+         */
   "android:minWidth": string | number | LengthType;
 
   /**
-       * Gets or sets the minimum width the view may grow to.
+         * Gets or sets the minimum width the view may grow to.
 @platform ios
-       */
+         */
   "ios:minWidth": string | number | LengthType;
 
   /**
@@ -1076,15 +1076,15 @@ This is used for automated testing.
   minHeight: string | number | LengthType;
 
   /**
-       * Gets or sets the minimum height the view may grow to.
+         * Gets or sets the minimum height the view may grow to.
 @platform android
-       */
+         */
   "android:minHeight": string | number | LengthType;
 
   /**
-       * Gets or sets the minimum height the view may grow to.
+         * Gets or sets the minimum height the view may grow to.
 @platform ios
-       */
+         */
   "ios:minHeight": string | number | LengthType;
 
   /**
@@ -1093,15 +1093,15 @@ This is used for automated testing.
   width: string | number | PercentLengthType;
 
   /**
-       * Gets or sets the desired width of the view.
+         * Gets or sets the desired width of the view.
 @platform android
-       */
+         */
   "android:width": string | number | PercentLengthType;
 
   /**
-       * Gets or sets the desired width of the view.
+         * Gets or sets the desired width of the view.
 @platform ios
-       */
+         */
   "ios:width": string | number | PercentLengthType;
 
   /**
@@ -1110,15 +1110,15 @@ This is used for automated testing.
   height: string | number | PercentLengthType;
 
   /**
-       * Gets or sets the desired height of the view.
+         * Gets or sets the desired height of the view.
 @platform android
-       */
+         */
   "android:height": string | number | PercentLengthType;
 
   /**
-       * Gets or sets the desired height of the view.
+         * Gets or sets the desired height of the view.
 @platform ios
-       */
+         */
   "ios:height": string | number | PercentLengthType;
 
   /**
@@ -1127,9 +1127,9 @@ This is used for automated testing.
   margin: string | number | LengthDipUnit | LengthPxUnit | LengthPercentUnit;
 
   /**
-       * Gets or sets margin style property.
+         * Gets or sets margin style property.
 @platform android
-       */
+         */
   "android:margin":
     | string
     | number
@@ -1138,9 +1138,9 @@ This is used for automated testing.
     | LengthPercentUnit;
 
   /**
-       * Gets or sets margin style property.
+         * Gets or sets margin style property.
 @platform ios
-       */
+         */
   "ios:margin":
     | string
     | number
@@ -1154,15 +1154,15 @@ This is used for automated testing.
   marginLeft: string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the left side of this view.
+         * Specifies extra space on the left side of this view.
 @platform android
-       */
+         */
   "android:marginLeft": string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the left side of this view.
+         * Specifies extra space on the left side of this view.
 @platform ios
-       */
+         */
   "ios:marginLeft": string | number | PercentLengthType;
 
   /**
@@ -1171,15 +1171,15 @@ This is used for automated testing.
   marginTop: string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the top side of this view.
+         * Specifies extra space on the top side of this view.
 @platform android
-       */
+         */
   "android:marginTop": string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the top side of this view.
+         * Specifies extra space on the top side of this view.
 @platform ios
-       */
+         */
   "ios:marginTop": string | number | PercentLengthType;
 
   /**
@@ -1188,15 +1188,15 @@ This is used for automated testing.
   marginRight: string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the right side of this view.
+         * Specifies extra space on the right side of this view.
 @platform android
-       */
+         */
   "android:marginRight": string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the right side of this view.
+         * Specifies extra space on the right side of this view.
 @platform ios
-       */
+         */
   "ios:marginRight": string | number | PercentLengthType;
 
   /**
@@ -1205,15 +1205,15 @@ This is used for automated testing.
   marginBottom: string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the bottom side of this view.
+         * Specifies extra space on the bottom side of this view.
 @platform android
-       */
+         */
   "android:marginBottom": string | number | PercentLengthType;
 
   /**
-       * Specifies extra space on the bottom side of this view.
+         * Specifies extra space on the bottom side of this view.
 @platform ios
-       */
+         */
   "ios:marginBottom": string | number | PercentLengthType;
 
   /**
@@ -1222,15 +1222,15 @@ This is used for automated testing.
   horizontalAlignment: string | HorizontalAlignmentType;
 
   /**
-       * Gets or sets the alignment of this view within its parent along the Horizontal axis.
+         * Gets or sets the alignment of this view within its parent along the Horizontal axis.
 @platform android
-       */
+         */
   "android:horizontalAlignment": string | HorizontalAlignmentType;
 
   /**
-       * Gets or sets the alignment of this view within its parent along the Horizontal axis.
+         * Gets or sets the alignment of this view within its parent along the Horizontal axis.
 @platform ios
-       */
+         */
   "ios:horizontalAlignment": string | HorizontalAlignmentType;
 
   /**
@@ -1239,15 +1239,15 @@ This is used for automated testing.
   verticalAlignment: string | VerticalAlignmentType;
 
   /**
-       * Gets or sets the alignment of this view within its parent along the Vertical axis.
+         * Gets or sets the alignment of this view within its parent along the Vertical axis.
 @platform android
-       */
+         */
   "android:verticalAlignment": string | VerticalAlignmentType;
 
   /**
-       * Gets or sets the alignment of this view within its parent along the Vertical axis.
+         * Gets or sets the alignment of this view within its parent along the Vertical axis.
 @platform ios
-       */
+         */
   "ios:verticalAlignment": string | VerticalAlignmentType;
 
   /**
@@ -1256,15 +1256,15 @@ This is used for automated testing.
   visibility: string | VisibilityType;
 
   /**
-       * Gets or sets the visibility of the view.
+         * Gets or sets the visibility of the view.
 @platform android
-       */
+         */
   "android:visibility": string | VisibilityType;
 
   /**
-       * Gets or sets the visibility of the view.
+         * Gets or sets the visibility of the view.
 @platform ios
-       */
+         */
   "ios:visibility": string | VisibilityType;
 
   /**
@@ -1273,15 +1273,15 @@ This is used for automated testing.
   opacity: number | string;
 
   /**
-       * Gets or sets the opacity style property.
+         * Gets or sets the opacity style property.
 @platform android
-       */
+         */
   "android:opacity": number | string;
 
   /**
-       * Gets or sets the opacity style property.
+         * Gets or sets the opacity style property.
 @platform ios
-       */
+         */
   "ios:opacity": number | string;
 
   /**
@@ -1290,15 +1290,15 @@ This is used for automated testing.
   rotate: number | string;
 
   /**
-       * Gets or sets the rotate affine transform of the view along the Z axis.
+         * Gets or sets the rotate affine transform of the view along the Z axis.
 @platform android
-       */
+         */
   "android:rotate": number | string;
 
   /**
-       * Gets or sets the rotate affine transform of the view along the Z axis.
+         * Gets or sets the rotate affine transform of the view along the Z axis.
 @platform ios
-       */
+         */
   "ios:rotate": number | string;
 
   /**
@@ -1307,15 +1307,15 @@ This is used for automated testing.
   rotateX: number | string;
 
   /**
-       * Gets or sets the rotate affine transform of the view along the X axis.
+         * Gets or sets the rotate affine transform of the view along the X axis.
 @platform android
-       */
+         */
   "android:rotateX": number | string;
 
   /**
-       * Gets or sets the rotate affine transform of the view along the X axis.
+         * Gets or sets the rotate affine transform of the view along the X axis.
 @platform ios
-       */
+         */
   "ios:rotateX": number | string;
 
   /**
@@ -1324,35 +1324,35 @@ This is used for automated testing.
   rotateY: number | string;
 
   /**
-       * Gets or sets the rotate affine transform of the view along the Y axis.
+         * Gets or sets the rotate affine transform of the view along the Y axis.
 @platform android
-       */
+         */
   "android:rotateY": number | string;
 
   /**
-       * Gets or sets the rotate affine transform of the view along the Y axis.
+         * Gets or sets the rotate affine transform of the view along the Y axis.
 @platform ios
-       */
+         */
   "ios:rotateY": number | string;
 
   /**
-       * Gets or sets the distance of the camera form the view perspective.
+         * Gets or sets the distance of the camera form the view perspective.
 Usually needed when rotating the view over the X or Y axis.
-       */
+         */
   perspective: number | string;
 
   /**
-       * Gets or sets the distance of the camera form the view perspective.
+         * Gets or sets the distance of the camera form the view perspective.
 Usually needed when rotating the view over the X or Y axis.
 @platform android
-       */
+         */
   "android:perspective": number | string;
 
   /**
-       * Gets or sets the distance of the camera form the view perspective.
+         * Gets or sets the distance of the camera form the view perspective.
 Usually needed when rotating the view over the X or Y axis.
 @platform ios
-       */
+         */
   "ios:perspective": number | string;
 
   /**
@@ -1361,15 +1361,15 @@ Usually needed when rotating the view over the X or Y axis.
   textTransform: string | TextTransformType;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:textTransform": string | TextTransformType;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:textTransform": string | TextTransformType;
 
   /**
@@ -1378,15 +1378,15 @@ Usually needed when rotating the view over the X or Y axis.
   translateX: number | string;
 
   /**
-       * Gets or sets the translateX affine transform of the view in device independent pixels.
+         * Gets or sets the translateX affine transform of the view in device independent pixels.
 @platform android
-       */
+         */
   "android:translateX": number | string;
 
   /**
-       * Gets or sets the translateX affine transform of the view in device independent pixels.
+         * Gets or sets the translateX affine transform of the view in device independent pixels.
 @platform ios
-       */
+         */
   "ios:translateX": number | string;
 
   /**
@@ -1395,15 +1395,15 @@ Usually needed when rotating the view over the X or Y axis.
   translateY: number | string;
 
   /**
-       * Gets or sets the translateY affine transform of the view in device independent pixels.
+         * Gets or sets the translateY affine transform of the view in device independent pixels.
 @platform android
-       */
+         */
   "android:translateY": number | string;
 
   /**
-       * Gets or sets the translateY affine transform of the view in device independent pixels.
+         * Gets or sets the translateY affine transform of the view in device independent pixels.
 @platform ios
-       */
+         */
   "ios:translateY": number | string;
 
   /**
@@ -1412,15 +1412,15 @@ Usually needed when rotating the view over the X or Y axis.
   scaleX: number | string;
 
   /**
-       * Gets or sets the scaleX affine transform of the view.
+         * Gets or sets the scaleX affine transform of the view.
 @platform android
-       */
+         */
   "android:scaleX": number | string;
 
   /**
-       * Gets or sets the scaleX affine transform of the view.
+         * Gets or sets the scaleX affine transform of the view.
 @platform ios
-       */
+         */
   "ios:scaleX": number | string;
 
   /**
@@ -1429,15 +1429,15 @@ Usually needed when rotating the view over the X or Y axis.
   scaleY: number | string;
 
   /**
-       * Gets or sets the scaleY affine transform of the view.
+         * Gets or sets the scaleY affine transform of the view.
 @platform android
-       */
+         */
   "android:scaleY": number | string;
 
   /**
-       * Gets or sets the scaleY affine transform of the view.
+         * Gets or sets the scaleY affine transform of the view.
 @platform ios
-       */
+         */
   "ios:scaleY": number | string;
 
   /**
@@ -1446,15 +1446,15 @@ Usually needed when rotating the view over the X or Y axis.
   accessible: string | boolean;
 
   /**
-       * If `true` the element is an accessibility element and all the children will be treated as a single selectable component.
+         * If `true` the element is an accessibility element and all the children will be treated as a single selectable component.
 @platform android
-       */
+         */
   "android:accessible": string | boolean;
 
   /**
-       * If `true` the element is an accessibility element and all the children will be treated as a single selectable component.
+         * If `true` the element is an accessibility element and all the children will be treated as a single selectable component.
 @platform ios
-       */
+         */
   "ios:accessible": string | boolean;
 
   /**
@@ -1463,15 +1463,15 @@ Usually needed when rotating the view over the X or Y axis.
   accessibilityHidden: string | boolean;
 
   /**
-       * Hide the view and its children from the a11y service
+         * Hide the view and its children from the a11y service
 @platform android
-       */
+         */
   "android:accessibilityHidden": string | boolean;
 
   /**
-       * Hide the view and its children from the a11y service
+         * Hide the view and its children from the a11y service
 @platform ios
-       */
+         */
   "ios:accessibilityHidden": string | boolean;
 
   /**
@@ -1480,15 +1480,15 @@ Usually needed when rotating the view over the X or Y axis.
   accessibilityRole: string | AccessibilityRole;
 
   /**
-       * Which role should this view be treated by the a11y service?
+         * Which role should this view be treated by the a11y service?
 @platform android
-       */
+         */
   "android:accessibilityRole": string | AccessibilityRole;
 
   /**
-       * Which role should this view be treated by the a11y service?
+         * Which role should this view be treated by the a11y service?
 @platform ios
-       */
+         */
   "ios:accessibilityRole": string | AccessibilityRole;
 
   /**
@@ -1497,15 +1497,15 @@ Usually needed when rotating the view over the X or Y axis.
   accessibilityState: string | AccessibilityState;
 
   /**
-       * Which state should this view be treated as by the a11y service?
+         * Which state should this view be treated as by the a11y service?
 @platform android
-       */
+         */
   "android:accessibilityState": string | AccessibilityState;
 
   /**
-       * Which state should this view be treated as by the a11y service?
+         * Which state should this view be treated as by the a11y service?
 @platform ios
-       */
+         */
   "ios:accessibilityState": string | AccessibilityState;
 
   /**
@@ -1514,35 +1514,35 @@ Usually needed when rotating the view over the X or Y axis.
   accessibilityLiveRegion: string | AccessibilityLiveRegion;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:accessibilityLiveRegion": string | AccessibilityLiveRegion;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:accessibilityLiveRegion": string | AccessibilityLiveRegion;
 
   /**
-       * Sets the language in which to speak the element's label and value.
+         * Sets the language in which to speak the element's label and value.
 Accepts language ID tags that follows the "BCP 47" specification.
-       */
+         */
   accessibilityLanguage: string;
 
   /**
-       * Sets the language in which to speak the element's label and value.
+         * Sets the language in which to speak the element's label and value.
 Accepts language ID tags that follows the "BCP 47" specification.
 @platform android
-       */
+         */
   "android:accessibilityLanguage": string;
 
   /**
-       * Sets the language in which to speak the element's label and value.
+         * Sets the language in which to speak the element's label and value.
 Accepts language ID tags that follows the "BCP 47" specification.
 @platform ios
-       */
+         */
   "ios:accessibilityLanguage": string;
 
   /**
@@ -1551,15 +1551,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   accessibilityMediaSession: string | boolean;
 
   /**
-       * This view starts a media session. Equivalent to trait = startsMedia
+         * This view starts a media session. Equivalent to trait = startsMedia
 @platform android
-       */
+         */
   "android:accessibilityMediaSession": string | boolean;
 
   /**
-       * This view starts a media session. Equivalent to trait = startsMedia
+         * This view starts a media session. Equivalent to trait = startsMedia
 @platform ios
-       */
+         */
   "ios:accessibilityMediaSession": string | boolean;
 
   /**
@@ -1568,15 +1568,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   automationText: string;
 
   /**
-       * undefined
+         * undefined
 @platform android
-       */
+         */
   "android:automationText": string;
 
   /**
-       * undefined
+         * undefined
 @platform ios
-       */
+         */
   "ios:automationText": string;
 
   /**
@@ -1585,15 +1585,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   androidElevation: number | string;
 
   /**
-       * Gets or sets the elevation of the android view.
+         * Gets or sets the elevation of the android view.
 @platform android
-       */
+         */
   "android:androidElevation": number | string;
 
   /**
-       * Gets or sets the elevation of the android view.
+         * Gets or sets the elevation of the android view.
 @platform ios
-       */
+         */
   "ios:androidElevation": number | string;
 
   /**
@@ -1602,15 +1602,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   originX: number | string;
 
   /**
-       * Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
+         * Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
 @platform android
-       */
+         */
   "android:originX": number | string;
 
   /**
-       * Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
+         * Gets or sets the X component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
 @platform ios
-       */
+         */
   "ios:originX": number | string;
 
   /**
@@ -1619,15 +1619,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   originY: number | string;
 
   /**
-       * Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
+         * Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
 @platform android
-       */
+         */
   "android:originY": number | string;
 
   /**
-       * Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
+         * Gets or sets the Y component of the origin point around which the view will be transformed. The default value is 0.5 representing the center of the view.
 @platform ios
-       */
+         */
   "ios:originY": number | string;
 
   /**
@@ -1636,15 +1636,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   isUserInteractionEnabled: string | boolean;
 
   /**
-       * Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.
+         * Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.
 @platform android
-       */
+         */
   "android:isUserInteractionEnabled": string | boolean;
 
   /**
-       * Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.
+         * Gets or sets a value indicating whether the user can interact with the view. This does not affect the appearance of the view.
 @platform ios
-       */
+         */
   "ios:isUserInteractionEnabled": string | boolean;
 
   /**
@@ -1653,15 +1653,15 @@ Accepts language ID tags that follows the "BCP 47" specification.
   iosOverflowSafeArea: string | boolean;
 
   /**
-       * Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false
+         * Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false
 @platform android
-       */
+         */
   "android:iosOverflowSafeArea": string | boolean;
 
   /**
-       * Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false
+         * Instruct container view to expand beyond the safe area. This property is iOS specific. Default value: false
 @platform ios
-       */
+         */
   "ios:iosOverflowSafeArea": string | boolean;
 
   /**
@@ -1670,50 +1670,50 @@ Accepts language ID tags that follows the "BCP 47" specification.
   iosOverflowSafeAreaEnabled: string | boolean;
 
   /**
-       * Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true
+         * Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true
 @platform android
-       */
+         */
   "android:iosOverflowSafeAreaEnabled": string | boolean;
 
   /**
-       * Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true
+         * Enables or disables the iosOverflowSafeArea property for all children. This property is iOS specific. Default value: true
 @platform ios
-       */
+         */
   "ios:iosOverflowSafeAreaEnabled": string | boolean;
 
-   /**
-   * Sets ID for Shared Element Transition
+  /**
+   * Gets or sets the shared transition tag for animated view transitions
    */
-    sharedTransitionTag: string;
+  sharedTransitionTag: string;
 
-    /**
-         * Sets ID for Shared Element Transition
-  @platform android
+  /**
+         * Gets or sets the shared transition tag for animated view transitions
+@platform android
          */
-    "android:sharedTransitionTag": string;
-  
-    /**
-         * Sets ID for Shared Element Transition
-  @platform ios
-         */
-    "ios:sharedTransitionTag": string;
+  "android:sharedTransitionTag": string;
 
-   /**
-   * Sets ID for ignore Shared Element Transition
+  /**
+         * Gets or sets the shared transition tag for animated view transitions
+@platform ios
+         */
+  "ios:sharedTransitionTag": string;
+
+  /**
+   * Opt out of shared transition under different binding conditions
    */
-   sharedTransitionIgnore: string;
+  sharedTransitionIgnore: string | boolean;
 
-   /**
-        * Sets ID for ignore Shared Element Transition
- @platform android
-        */
-   "android:sharedTransitionIgnore": string;
- 
-   /**
-        * Sets ID for ignore Shared Element Transition
- @platform ios
-        */
-   "ios:sharedTransitionIgnore": string;
+  /**
+         * Opt out of shared transition under different binding conditions
+@platform android
+         */
+  "android:sharedTransitionIgnore": string | boolean;
+
+  /**
+         * Opt out of shared transition under different binding conditions
+@platform ios
+         */
+  "ios:sharedTransitionIgnore": string | boolean;
 }
 
 interface HTMLWebViewElementAttributes<
@@ -1753,15 +1753,15 @@ interface HTMLWebViewElementAttributes<
   src: string;
 
   /**
-         * Gets or sets the url, local file path or HTML string.
+           * Gets or sets the url, local file path or HTML string.
 @platform android
-         */
+           */
   "android:src": string;
 
   /**
-         * Gets or sets the url, local file path or HTML string.
+           * Gets or sets the url, local file path or HTML string.
 @platform ios
-         */
+           */
   "ios:src": string;
 
   /**
@@ -1770,15 +1770,15 @@ interface HTMLWebViewElementAttributes<
   canGoForward: string | boolean;
 
   /**
-         * Gets a value indicating whether the WebView can navigate forward.
+           * Gets a value indicating whether the WebView can navigate forward.
 @platform android
-         */
+           */
   "android:canGoForward": string | boolean;
 
   /**
-         * Gets a value indicating whether the WebView can navigate forward.
+           * Gets a value indicating whether the WebView can navigate forward.
 @platform ios
-         */
+           */
   "ios:canGoForward": string | boolean;
 
   /**
@@ -1787,15 +1787,15 @@ interface HTMLWebViewElementAttributes<
   disableZoom: string | boolean;
 
   /**
-         * Disable scrolling in the WebView
+           * Disable scrolling in the WebView
 @platform android
-         */
+           */
   "android:disableZoom": string | boolean;
 
   /**
-         * Disable scrolling in the WebView
+           * Disable scrolling in the WebView
 @platform ios
-         */
+           */
   "ios:disableZoom": string | boolean;
 }
 
@@ -1822,15 +1822,15 @@ interface HTMLTimePickerElementAttributes<
   hour: number | string;
 
   /**
-         * Gets or sets the time hour.
+           * Gets or sets the time hour.
 @platform android
-         */
+           */
   "android:hour": number | string;
 
   /**
-         * Gets or sets the time hour.
+           * Gets or sets the time hour.
 @platform ios
-         */
+           */
   "ios:hour": number | string;
 
   /**
@@ -1839,15 +1839,15 @@ interface HTMLTimePickerElementAttributes<
   minute: number | string;
 
   /**
-         * Gets or sets the time minute.
+           * Gets or sets the time minute.
 @platform android
-         */
+           */
   "android:minute": number | string;
 
   /**
-         * Gets or sets the time minute.
+           * Gets or sets the time minute.
 @platform ios
-         */
+           */
   "ios:minute": number | string;
 
   /**
@@ -1856,15 +1856,15 @@ interface HTMLTimePickerElementAttributes<
   time: string | Date;
 
   /**
-         * Gets or sets the time.
+           * Gets or sets the time.
 @platform android
-         */
+           */
   "android:time": string | Date;
 
   /**
-         * Gets or sets the time.
+           * Gets or sets the time.
 @platform ios
-         */
+           */
   "ios:time": string | Date;
 
   /**
@@ -1873,15 +1873,15 @@ interface HTMLTimePickerElementAttributes<
   maxHour: number | string;
 
   /**
-         * Gets or sets the max time hour.
+           * Gets or sets the max time hour.
 @platform android
-         */
+           */
   "android:maxHour": number | string;
 
   /**
-         * Gets or sets the max time hour.
+           * Gets or sets the max time hour.
 @platform ios
-         */
+           */
   "ios:maxHour": number | string;
 
   /**
@@ -1890,15 +1890,15 @@ interface HTMLTimePickerElementAttributes<
   maxMinute: number | string;
 
   /**
-         * Gets or sets the max time minute.
+           * Gets or sets the max time minute.
 @platform android
-         */
+           */
   "android:maxMinute": number | string;
 
   /**
-         * Gets or sets the max time minute.
+           * Gets or sets the max time minute.
 @platform ios
-         */
+           */
   "ios:maxMinute": number | string;
 
   /**
@@ -1907,47 +1907,47 @@ interface HTMLTimePickerElementAttributes<
   minuteInterval: number | string;
 
   /**
-         * Gets or sets the minute interval.
+           * Gets or sets the minute interval.
 @platform android
-         */
+           */
   "android:minuteInterval": number | string;
 
   /**
-         * Gets or sets the minute interval.
+           * Gets or sets the minute interval.
 @platform ios
-         */
+           */
   "ios:minuteInterval": number | string;
 
   /**
-         * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
+           * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
 Valid values are numbers:
  - 0: automatic (system picks the concrete style based on the current platform and date picker mode)
  - 1: wheels (the date picker displays as a wheel picker)
  - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)
  - 3: inline  (the date pickers displays as an inline, editable field)
-         */
+           */
   iosPreferredDatePickerStyle: number | string;
 
   /**
-         * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
+           * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
 Valid values are numbers:
  - 0: automatic (system picks the concrete style based on the current platform and date picker mode)
  - 1: wheels (the date picker displays as a wheel picker)
  - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)
  - 3: inline  (the date pickers displays as an inline, editable field)
 @platform android
-         */
+           */
   "android:iosPreferredDatePickerStyle": number | string;
 
   /**
-         * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
+           * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
 Valid values are numbers:
  - 0: automatic (system picks the concrete style based on the current platform and date picker mode)
  - 1: wheels (the date picker displays as a wheel picker)
  - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)
  - 3: inline  (the date pickers displays as an inline, editable field)
 @platform ios
-         */
+           */
   "ios:iosPreferredDatePickerStyle": number | string;
 }
 
@@ -2010,15 +2010,15 @@ interface HTMLTextViewElementAttributes<
   maxLines: number | string;
 
   /**
-         * Limits input to a certain number of lines.
+           * Limits input to a certain number of lines.
 @platform android
-         */
+           */
   "android:maxLines": number | string;
 
   /**
-         * Limits input to a certain number of lines.
+           * Limits input to a certain number of lines.
 @platform ios
-         */
+           */
   "ios:maxLines": number | string;
 }
 
@@ -2085,15 +2085,15 @@ interface HTMLTextFieldElementAttributes<
   secure: string | boolean;
 
   /**
-         * Gets or sets if a text field is for password entry.
+           * Gets or sets if a text field is for password entry.
 @platform android
-         */
+           */
   "android:secure": string | boolean;
 
   /**
-         * Gets or sets if a text field is for password entry.
+           * Gets or sets if a text field is for password entry.
 @platform ios
-         */
+           */
   "ios:secure": string | boolean;
 
   /**
@@ -2102,15 +2102,15 @@ interface HTMLTextFieldElementAttributes<
   closeOnReturn: string | boolean;
 
   /**
-         * Gets or sets if a text field should dismiss on return.
+           * Gets or sets if a text field should dismiss on return.
 @platform android
-         */
+           */
   "android:closeOnReturn": string | boolean;
 
   /**
-         * Gets or sets if a text field should dismiss on return.
+           * Gets or sets if a text field should dismiss on return.
 @platform ios
-         */
+           */
   "ios:closeOnReturn": string | boolean;
 
   /**
@@ -2119,15 +2119,15 @@ interface HTMLTextFieldElementAttributes<
   secureWithoutAutofill: string | boolean;
 
   /**
-         * iOS only (to avoid 12+ auto suggested strong password handling)
+           * iOS only (to avoid 12+ auto suggested strong password handling)
 @platform android
-         */
+           */
   "android:secureWithoutAutofill": string | boolean;
 
   /**
-         * iOS only (to avoid 12+ auto suggested strong password handling)
+           * iOS only (to avoid 12+ auto suggested strong password handling)
 @platform ios
-         */
+           */
   "ios:secureWithoutAutofill": string | boolean;
 }
 
@@ -2149,15 +2149,15 @@ interface HTMLSpanElementAttributes<T extends HTMLSpanElement = HTMLSpanElement>
   fontFamily: string;
 
   /**
-         * Gets or sets the font family of the span.
+           * Gets or sets the font family of the span.
 @platform android
-         */
+           */
   "android:fontFamily": string;
 
   /**
-         * Gets or sets the font family of the span.
+           * Gets or sets the font family of the span.
 @platform ios
-         */
+           */
   "ios:fontFamily": string;
 
   /**
@@ -2166,50 +2166,50 @@ interface HTMLSpanElementAttributes<T extends HTMLSpanElement = HTMLSpanElement>
   fontSize: number | string;
 
   /**
-         * Gets or sets the font size of the span.
+           * Gets or sets the font size of the span.
 @platform android
-         */
+           */
   "android:fontSize": number | string;
 
   /**
-         * Gets or sets the font size of the span.
+           * Gets or sets the font size of the span.
 @platform ios
-         */
+           */
   "ios:fontSize": number | string;
 
   /**
    * Gets or sets the font style of the span.
    */
-  fontStyle: string | FontStyle;
+  fontStyle: string | FontStyleType;
 
   /**
-         * Gets or sets the font style of the span.
+           * Gets or sets the font style of the span.
 @platform android
-         */
-  "android:fontStyle": string | FontStyle;
+           */
+  "android:fontStyle": string | FontStyleType;
 
   /**
-         * Gets or sets the font style of the span.
+           * Gets or sets the font style of the span.
 @platform ios
-         */
-  "ios:fontStyle": string | FontStyle;
+           */
+  "ios:fontStyle": string | FontStyleType;
 
   /**
    * Gets or sets the font weight of the span.
    */
-  fontWeight: string | FontWeight;
+  fontWeight: string | FontWeightType;
 
   /**
-         * Gets or sets the font weight of the span.
+           * Gets or sets the font weight of the span.
 @platform android
-         */
-  "android:fontWeight": string | FontWeight;
+           */
+  "android:fontWeight": string | FontWeightType;
 
   /**
-         * Gets or sets the font weight of the span.
+           * Gets or sets the font weight of the span.
 @platform ios
-         */
-  "ios:fontWeight": string | FontWeight;
+           */
+  "ios:fontWeight": string | FontWeightType;
 
   /**
    * Gets or sets text decorations for the span.
@@ -2217,15 +2217,15 @@ interface HTMLSpanElementAttributes<T extends HTMLSpanElement = HTMLSpanElement>
   textDecoration: string | TextDecorationType;
 
   /**
-         * Gets or sets text decorations for the span.
+           * Gets or sets text decorations for the span.
 @platform android
-         */
+           */
   "android:textDecoration": string | TextDecorationType;
 
   /**
-         * Gets or sets text decorations for the span.
+           * Gets or sets text decorations for the span.
 @platform ios
-         */
+           */
   "ios:textDecoration": string | TextDecorationType;
 
   /**
@@ -2234,15 +2234,15 @@ interface HTMLSpanElementAttributes<T extends HTMLSpanElement = HTMLSpanElement>
   text: string;
 
   /**
-         * Gets or sets the text for the span.
+           * Gets or sets the text for the span.
 @platform android
-         */
+           */
   "android:text": string;
 
   /**
-         * Gets or sets the text for the span.
+           * Gets or sets the text for the span.
 @platform ios
-         */
+           */
   "ios:text": string;
 
   /**
@@ -2251,15 +2251,15 @@ interface HTMLSpanElementAttributes<T extends HTMLSpanElement = HTMLSpanElement>
   tappable: string | boolean;
 
   /**
-         * Gets if the span is tappable or not.
+           * Gets if the span is tappable or not.
 @platform android
-         */
+           */
   "android:tappable": string | boolean;
 
   /**
-         * Gets if the span is tappable or not.
+           * Gets if the span is tappable or not.
 @platform ios
-         */
+           */
   "ios:tappable": string | boolean;
 }
 
@@ -2272,15 +2272,15 @@ interface HTMLFormattedStringElementAttributes<
   fontFamily: string;
 
   /**
-         * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
 @platform android
-         */
+           */
   "android:fontFamily": string;
 
   /**
-         * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
 @platform ios
-         */
+           */
   "ios:fontFamily": string;
 
   /**
@@ -2289,50 +2289,50 @@ interface HTMLFormattedStringElementAttributes<
   fontSize: number | string;
 
   /**
-         * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
 @platform android
-         */
+           */
   "android:fontSize": number | string;
 
   /**
-         * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
 @platform ios
-         */
+           */
   "ios:fontSize": number | string;
 
   /**
    * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
    */
-  fontStyle: string | FontStyle;
+  fontStyle: string | FontStyleType;
 
   /**
-         * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
 @platform android
-         */
-  "android:fontStyle": string | FontStyle;
+           */
+  "android:fontStyle": string | FontStyleType;
 
   /**
-         * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
 @platform ios
-         */
-  "ios:fontStyle": string | FontStyle;
+           */
+  "ios:fontStyle": string | FontStyleType;
 
   /**
    * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
    */
-  fontWeight: string | FontWeight;
+  fontWeight: string | FontWeightType;
 
   /**
-         * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
 @platform android
-         */
-  "android:fontWeight": string | FontWeight;
+           */
+  "android:fontWeight": string | FontWeightType;
 
   /**
-         * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+           * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
 @platform ios
-         */
-  "ios:fontWeight": string | FontWeight;
+           */
+  "ios:fontWeight": string | FontWeightType;
 
   /**
    * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
@@ -2340,15 +2340,15 @@ interface HTMLFormattedStringElementAttributes<
   textDecoration: string | TextDecorationType;
 
   /**
-         * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+           * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
 @platform android
-         */
+           */
   "android:textDecoration": string | TextDecorationType;
 
   /**
-         * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+           * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
 @platform ios
-         */
+           */
   "ios:textDecoration": string | TextDecorationType;
 }
 
@@ -2361,15 +2361,15 @@ interface HTMLTabViewItemElementAttributes<
   title: string;
 
   /**
-         * Gets or sets the title of the TabViewItem.
+           * Gets or sets the title of the TabViewItem.
 @platform android
-         */
+           */
   "android:title": string;
 
   /**
-         * Gets or sets the title of the TabViewItem.
+           * Gets or sets the title of the TabViewItem.
 @platform ios
-         */
+           */
   "ios:title": string;
 
   /**
@@ -2378,15 +2378,15 @@ interface HTMLTabViewItemElementAttributes<
   iconSource: string;
 
   /**
-         * Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.
+           * Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.
 @platform android
-         */
+           */
   "android:iconSource": string;
 
   /**
-         * Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.
+           * Gets or sets the icon source of the TabViewItem. This could either be a a file name or resource id.
 @platform ios
-         */
+           */
   "ios:iconSource": string;
 }
 
@@ -2419,15 +2419,15 @@ interface HTMLTabViewElementAttributes<
   items: TabViewItem[];
 
   /**
-         * Gets or sets the items of the TabView.
+           * Gets or sets the items of the TabView.
 @platform android
-         */
+           */
   "android:items": TabViewItem[];
 
   /**
-         * Gets or sets the items of the TabView.
+           * Gets or sets the items of the TabView.
 @platform ios
-         */
+           */
   "ios:items": TabViewItem[];
 
   /**
@@ -2436,15 +2436,15 @@ interface HTMLTabViewElementAttributes<
   selectedIndex: number | string;
 
   /**
-         * Gets or sets the selectedIndex of the TabView.
+           * Gets or sets the selectedIndex of the TabView.
 @platform android
-         */
+           */
   "android:selectedIndex": number | string;
 
   /**
-         * Gets or sets the selectedIndex of the TabView.
+           * Gets or sets the selectedIndex of the TabView.
 @platform ios
-         */
+           */
   "ios:selectedIndex": number | string;
 
   /**
@@ -2453,15 +2453,15 @@ interface HTMLTabViewElementAttributes<
   tabTextFontSize: number | string;
 
   /**
-         * Gets or sets the font size of the tabs titles.
+           * Gets or sets the font size of the tabs titles.
 @platform android
-         */
+           */
   "android:tabTextFontSize": number | string;
 
   /**
-         * Gets or sets the font size of the tabs titles.
+           * Gets or sets the font size of the tabs titles.
 @platform ios
-         */
+           */
   "ios:tabTextFontSize": number | string;
 
   /**
@@ -2470,15 +2470,15 @@ interface HTMLTabViewElementAttributes<
   tabTextColor: string | Color;
 
   /**
-         * Gets or sets the text color of the tabs titles.
+           * Gets or sets the text color of the tabs titles.
 @platform android
-         */
+           */
   "android:tabTextColor": string | Color;
 
   /**
-         * Gets or sets the text color of the tabs titles.
+           * Gets or sets the text color of the tabs titles.
 @platform ios
-         */
+           */
   "ios:tabTextColor": string | Color;
 
   /**
@@ -2487,15 +2487,15 @@ interface HTMLTabViewElementAttributes<
   tabBackgroundColor: string | Color;
 
   /**
-         * Gets or sets the background color of the tabs.
+           * Gets or sets the background color of the tabs.
 @platform android
-         */
+           */
   "android:tabBackgroundColor": string | Color;
 
   /**
-         * Gets or sets the background color of the tabs.
+           * Gets or sets the background color of the tabs.
 @platform ios
-         */
+           */
   "ios:tabBackgroundColor": string | Color;
 
   /**
@@ -2504,15 +2504,15 @@ interface HTMLTabViewElementAttributes<
   selectedTabTextColor: string | Color;
 
   /**
-         * Gets or sets the text color of the selected tab title.
+           * Gets or sets the text color of the selected tab title.
 @platform android
-         */
+           */
   "android:selectedTabTextColor": string | Color;
 
   /**
-         * Gets or sets the text color of the selected tab title.
+           * Gets or sets the text color of the selected tab title.
 @platform ios
-         */
+           */
   "ios:selectedTabTextColor": string | Color;
 
   /**
@@ -2521,24 +2521,24 @@ interface HTMLTabViewElementAttributes<
   androidSelectedTabHighlightColor: string | Color;
 
   /**
-         * Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.
+           * Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.
 @platform android
-         */
+           */
   "android:androidSelectedTabHighlightColor": string | Color;
 
   /**
-         * Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.
+           * Gets or sets the color of the horizontal line drawn below the currently selected tab on Android.
 @platform ios
-         */
+           */
   "ios:androidSelectedTabHighlightColor": string | Color;
 
   /**
-         * Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to "automatic"
+           * Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to "automatic"
 Valid values are:
  - automatic
  - alwaysOriginal
  - alwaysTemplate
-         */
+           */
   iosIconRenderingMode:
     | string
     | "automatic"
@@ -2546,13 +2546,13 @@ Valid values are:
     | "alwaysTemplate";
 
   /**
-         * Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to "automatic"
+           * Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to "automatic"
 Valid values are:
  - automatic
  - alwaysOriginal
  - alwaysTemplate
 @platform android
-         */
+           */
   "android:iosIconRenderingMode":
     | string
     | "automatic"
@@ -2560,13 +2560,13 @@ Valid values are:
     | "alwaysTemplate";
 
   /**
-         * Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to "automatic"
+           * Gets or set the UIImageRenderingMode of the tab icons in iOS.  Defaults to "automatic"
 Valid values are:
  - automatic
  - alwaysOriginal
  - alwaysTemplate
 @platform ios
-         */
+           */
   "ios:iosIconRenderingMode":
     | string
     | "automatic"
@@ -2574,49 +2574,49 @@ Valid values are:
     | "alwaysTemplate";
 
   /**
-         * Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.
+           * Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.
 Tabs beyond this limit will be recreated from the TabView when needed.
-         */
+           */
   androidOffscreenTabLimit: number | string;
 
   /**
-         * Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.
+           * Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.
 Tabs beyond this limit will be recreated from the TabView when needed.
 @platform android
-         */
+           */
   "android:androidOffscreenTabLimit": number | string;
 
   /**
-         * Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.
+           * Gets or sets the number of tabs that should be retained to either side of the current tab in the view hierarchy in an idle state.
 Tabs beyond this limit will be recreated from the TabView when needed.
 @platform ios
-         */
+           */
   "ios:androidOffscreenTabLimit": number | string;
 
   /**
-         * Gets or set the tabs vertical position.
+           * Gets or set the tabs vertical position.
 Valid values are:
  - top
  - bottom
-         */
+           */
   androidTabsPosition: string | "top" | "bottom";
 
   /**
-         * Gets or set the tabs vertical position.
+           * Gets or set the tabs vertical position.
 Valid values are:
  - top
  - bottom
 @platform android
-         */
+           */
   "android:androidTabsPosition": string | "top" | "bottom";
 
   /**
-         * Gets or set the tabs vertical position.
+           * Gets or set the tabs vertical position.
 Valid values are:
  - top
  - bottom
 @platform ios
-         */
+           */
   "ios:androidTabsPosition": string | "top" | "bottom";
 
   /**
@@ -2625,15 +2625,15 @@ Valid values are:
   androidSwipeEnabled: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether swipe gesture is enabled for Android.
+           * Gets or sets a value indicating whether swipe gesture is enabled for Android.
 @platform android
-         */
+           */
   "android:androidSwipeEnabled": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether swipe gesture is enabled for Android.
+           * Gets or sets a value indicating whether swipe gesture is enabled for Android.
 @platform ios
-         */
+           */
   "ios:androidSwipeEnabled": string | boolean;
 }
 
@@ -2660,15 +2660,15 @@ interface HTMLSwitchElementAttributes<
   checked: string | boolean;
 
   /**
-         * Gets or sets if a switch is checked or not.
+           * Gets or sets if a switch is checked or not.
 @platform android
-         */
+           */
   "android:checked": string | boolean;
 
   /**
-         * Gets or sets if a switch is checked or not.
+           * Gets or sets if a switch is checked or not.
 @platform ios
-         */
+           */
   "ios:checked": string | boolean;
 
   /**
@@ -2677,15 +2677,15 @@ interface HTMLSwitchElementAttributes<
   offBackgroundColor: string | Color;
 
   /**
-         * Gets or sets the background color of the Switch when it is turned off.
+           * Gets or sets the background color of the Switch when it is turned off.
 @platform android
-         */
+           */
   "android:offBackgroundColor": string | Color;
 
   /**
-         * Gets or sets the background color of the Switch when it is turned off.
+           * Gets or sets the background color of the Switch when it is turned off.
 @platform ios
-         */
+           */
   "ios:offBackgroundColor": string | Color;
 }
 
@@ -2738,15 +2738,15 @@ interface HTMLSliderElementAttributes<
   value: number | string;
 
   /**
-         * Gets or sets a slider current value. The default value is 0.
+           * Gets or sets a slider current value. The default value is 0.
 @platform android
-         */
+           */
   "android:value": number | string;
 
   /**
-         * Gets or sets a slider current value. The default value is 0.
+           * Gets or sets a slider current value. The default value is 0.
 @platform ios
-         */
+           */
   "ios:value": number | string;
 
   /**
@@ -2755,15 +2755,15 @@ interface HTMLSliderElementAttributes<
   minValue: number | string;
 
   /**
-         * Gets or sets a slider min value. The default value is 0.
+           * Gets or sets a slider min value. The default value is 0.
 @platform android
-         */
+           */
   "android:minValue": number | string;
 
   /**
-         * Gets or sets a slider min value. The default value is 0.
+           * Gets or sets a slider min value. The default value is 0.
 @platform ios
-         */
+           */
   "ios:minValue": number | string;
 
   /**
@@ -2772,15 +2772,15 @@ interface HTMLSliderElementAttributes<
   maxValue: number | string;
 
   /**
-         * Gets or sets a slider max value. The default value is 100.
+           * Gets or sets a slider max value. The default value is 100.
 @platform android
-         */
+           */
   "android:maxValue": number | string;
 
   /**
-         * Gets or sets a slider max value. The default value is 100.
+           * Gets or sets a slider max value. The default value is 100.
 @platform ios
-         */
+           */
   "ios:maxValue": number | string;
 
   /**
@@ -2789,15 +2789,15 @@ interface HTMLSliderElementAttributes<
   accessibilityStep: number | string;
 
   /**
-         * Increase/Decrease step size for iOS Increment-/Decrement events
+           * Increase/Decrease step size for iOS Increment-/Decrement events
 @platform android
-         */
+           */
   "android:accessibilityStep": number | string;
 
   /**
-         * Increase/Decrease step size for iOS Increment-/Decrement events
+           * Increase/Decrease step size for iOS Increment-/Decrement events
 @platform ios
-         */
+           */
   "ios:accessibilityStep": number | string;
 }
 
@@ -2810,15 +2810,15 @@ interface HTMLSegmentedBarItemElementAttributes<
   title: string;
 
   /**
-         * Gets or sets the title of the SegmentedBarItem.
+           * Gets or sets the title of the SegmentedBarItem.
 @platform android
-         */
+           */
   "android:title": string;
 
   /**
-         * Gets or sets the title of the SegmentedBarItem.
+           * Gets or sets the title of the SegmentedBarItem.
 @platform ios
-         */
+           */
   "ios:title": string;
 }
 
@@ -2851,15 +2851,15 @@ interface HTMLSegmentedBarElementAttributes<
   selectedIndex: number | string;
 
   /**
-         * Gets or sets the selected index of the SegmentedBar component.
+           * Gets or sets the selected index of the SegmentedBar component.
 @platform android
-         */
+           */
   "android:selectedIndex": number | string;
 
   /**
-         * Gets or sets the selected index of the SegmentedBar component.
+           * Gets or sets the selected index of the SegmentedBar component.
 @platform ios
-         */
+           */
   "ios:selectedIndex": number | string;
 
   /**
@@ -2868,15 +2868,15 @@ interface HTMLSegmentedBarElementAttributes<
   selectedBackgroundColor: string | Color;
 
   /**
-         * Gets or sets the selected background color of the SegmentedBar component.
+           * Gets or sets the selected background color of the SegmentedBar component.
 @platform android
-         */
+           */
   "android:selectedBackgroundColor": string | Color;
 
   /**
-         * Gets or sets the selected background color of the SegmentedBar component.
+           * Gets or sets the selected background color of the SegmentedBar component.
 @platform ios
-         */
+           */
   "ios:selectedBackgroundColor": string | Color;
 
   /**
@@ -2885,15 +2885,15 @@ interface HTMLSegmentedBarElementAttributes<
   items: SegmentedBarItem[];
 
   /**
-         * Gets or sets the items of the SegmentedBar.
+           * Gets or sets the items of the SegmentedBar.
 @platform android
-         */
+           */
   "android:items": SegmentedBarItem[];
 
   /**
-         * Gets or sets the items of the SegmentedBar.
+           * Gets or sets the items of the SegmentedBar.
 @platform ios
-         */
+           */
   "ios:items": SegmentedBarItem[];
 }
 
@@ -2946,15 +2946,15 @@ interface HTMLSearchBarElementAttributes<
   text: string;
 
   /**
-         * Gets or sets a search bar text.
+           * Gets or sets a search bar text.
 @platform android
-         */
+           */
   "android:text": string;
 
   /**
-         * Gets or sets a search bar text.
+           * Gets or sets a search bar text.
 @platform ios
-         */
+           */
   "ios:text": string;
 
   /**
@@ -2963,15 +2963,15 @@ interface HTMLSearchBarElementAttributes<
   hint: string;
 
   /**
-         * Gets or sets the text of the search bar text field hint/placeholder.
+           * Gets or sets the text of the search bar text field hint/placeholder.
 @platform android
-         */
+           */
   "android:hint": string;
 
   /**
-         * Gets or sets the text of the search bar text field hint/placeholder.
+           * Gets or sets the text of the search bar text field hint/placeholder.
 @platform ios
-         */
+           */
   "ios:hint": string;
 
   /**
@@ -2980,15 +2980,15 @@ interface HTMLSearchBarElementAttributes<
   textFieldBackgroundColor: string | Color;
 
   /**
-         * Gets or sets the TextField background color of the SearchBar component.
+           * Gets or sets the TextField background color of the SearchBar component.
 @platform android
-         */
+           */
   "android:textFieldBackgroundColor": string | Color;
 
   /**
-         * Gets or sets the TextField background color of the SearchBar component.
+           * Gets or sets the TextField background color of the SearchBar component.
 @platform ios
-         */
+           */
   "ios:textFieldBackgroundColor": string | Color;
 
   /**
@@ -2997,17 +2997,21 @@ interface HTMLSearchBarElementAttributes<
   textFieldHintColor: string | Color;
 
   /**
-         * Gets or sets the TextField Hint color of the SearchBar component.
+           * Gets or sets the TextField Hint color of the SearchBar component.
 @platform android
-         */
+           */
   "android:textFieldHintColor": string | Color;
 
   /**
-         * Gets or sets the TextField Hint color of the SearchBar component.
+           * Gets or sets the TextField Hint color of the SearchBar component.
 @platform ios
-         */
+           */
   "ios:textFieldHintColor": string | Color;
 }
+
+interface HTMLRepeaterElementAttributes<
+  T extends HTMLRepeaterElement = HTMLRepeaterElement
+> extends HTMLViewElementAttributes<T> {}
 
 interface HTMLScrollViewElementAttributes<
   T extends HTMLScrollViewElement = HTMLScrollViewElement
@@ -3028,15 +3032,15 @@ interface HTMLScrollViewElementAttributes<
   isScrollEnabled: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether scroll is enabled.
+           * Gets or sets a value indicating whether scroll is enabled.
 @platform android
-         */
+           */
   "android:isScrollEnabled": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether scroll is enabled.
+           * Gets or sets a value indicating whether scroll is enabled.
 @platform ios
-         */
+           */
   "ios:isScrollEnabled": string | boolean;
 
   /**
@@ -3045,15 +3049,15 @@ interface HTMLScrollViewElementAttributes<
   verticalOffset: number | string;
 
   /**
-         * Gets a value that contains the vertical offset of the scrolled content.
+           * Gets a value that contains the vertical offset of the scrolled content.
 @platform android
-         */
+           */
   "android:verticalOffset": number | string;
 
   /**
-         * Gets a value that contains the vertical offset of the scrolled content.
+           * Gets a value that contains the vertical offset of the scrolled content.
 @platform ios
-         */
+           */
   "ios:verticalOffset": number | string;
 
   /**
@@ -3062,15 +3066,15 @@ interface HTMLScrollViewElementAttributes<
   horizontalOffset: number | string;
 
   /**
-         * Gets a value that contains the horizontal offset of the scrolled content.
+           * Gets a value that contains the horizontal offset of the scrolled content.
 @platform android
-         */
+           */
   "android:horizontalOffset": number | string;
 
   /**
-         * Gets a value that contains the horizontal offset of the scrolled content.
+           * Gets a value that contains the horizontal offset of the scrolled content.
 @platform ios
-         */
+           */
   "ios:horizontalOffset": number | string;
 
   /**
@@ -3079,15 +3083,15 @@ interface HTMLScrollViewElementAttributes<
   scrollableHeight: number | string;
 
   /**
-         * Gets the maximum value for the verticalOffset.
+           * Gets the maximum value for the verticalOffset.
 @platform android
-         */
+           */
   "android:scrollableHeight": number | string;
 
   /**
-         * Gets the maximum value for the verticalOffset.
+           * Gets the maximum value for the verticalOffset.
 @platform ios
-         */
+           */
   "ios:scrollableHeight": number | string;
 
   /**
@@ -3096,15 +3100,15 @@ interface HTMLScrollViewElementAttributes<
   scrollableWidth: number | string;
 
   /**
-         * Gets the maximum value for the horizontalOffset.
+           * Gets the maximum value for the horizontalOffset.
 @platform android
-         */
+           */
   "android:scrollableWidth": number | string;
 
   /**
-         * Gets the maximum value for the horizontalOffset.
+           * Gets the maximum value for the horizontalOffset.
 @platform ios
-         */
+           */
   "ios:scrollableWidth": number | string;
 
   /**
@@ -3113,15 +3117,15 @@ interface HTMLScrollViewElementAttributes<
   scrollBarIndicatorVisible: string | boolean;
 
   /**
-         * Toggles scrollbar indicator visibility
+           * Toggles scrollbar indicator visibility
 @platform android
-         */
+           */
   "android:scrollBarIndicatorVisible": string | boolean;
 
   /**
-         * Toggles scrollbar indicator visibility
+           * Toggles scrollbar indicator visibility
 @platform ios
-         */
+           */
   "ios:scrollBarIndicatorVisible": string | boolean;
 
   /**
@@ -3130,21 +3134,17 @@ interface HTMLScrollViewElementAttributes<
   orientation: string | OrientationType;
 
   /**
-         * Gets or sets direction in which the content can be scrolled.
+           * Gets or sets direction in which the content can be scrolled.
 @platform android
-         */
+           */
   "android:orientation": string | OrientationType;
 
   /**
-         * Gets or sets direction in which the content can be scrolled.
+           * Gets or sets direction in which the content can be scrolled.
 @platform ios
-         */
+           */
   "ios:orientation": string | OrientationType;
 }
-
-interface HTMLRepeaterElementAttributes<
-  T extends HTMLRepeaterElement = HTMLRepeaterElement
-> extends HTMLViewElementAttributes<T> {}
 
 interface HTMLProxyViewContainerElementAttributes<
   T extends HTMLProxyViewContainerElement = HTMLProxyViewContainerElement
@@ -3155,15 +3155,15 @@ interface HTMLProxyViewContainerElementAttributes<
   paddingBottom: string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform android
-         */
+           */
   "android:paddingBottom": string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingBottom": string | number | LengthType;
 
   /**
@@ -3172,15 +3172,15 @@ interface HTMLProxyViewContainerElementAttributes<
   paddingLeft: string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform android
-         */
+           */
   "android:paddingLeft": string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingLeft": string | number | LengthType;
 
   /**
@@ -3189,15 +3189,15 @@ interface HTMLProxyViewContainerElementAttributes<
   paddingRight: string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform android
-         */
+           */
   "android:paddingRight": string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingRight": string | number | LengthType;
 
   /**
@@ -3206,15 +3206,15 @@ interface HTMLProxyViewContainerElementAttributes<
   paddingTop: string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform android
-         */
+           */
   "android:paddingTop": string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingTop": string | number | LengthType;
 
   /**
@@ -3223,15 +3223,15 @@ interface HTMLProxyViewContainerElementAttributes<
   clipToBounds: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform android
-         */
+           */
   "android:clipToBounds": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform ios
-         */
+           */
   "ios:clipToBounds": string | boolean;
 }
 
@@ -3258,15 +3258,15 @@ interface HTMLProgressElementAttributes<
   value: number | string;
 
   /**
-         * Gets or sets a progress current value.
+           * Gets or sets a progress current value.
 @platform android
-         */
+           */
   "android:value": number | string;
 
   /**
-         * Gets or sets a progress current value.
+           * Gets or sets a progress current value.
 @platform ios
-         */
+           */
   "ios:value": number | string;
 
   /**
@@ -3275,15 +3275,15 @@ interface HTMLProgressElementAttributes<
   maxValue: number | string;
 
   /**
-         * Gets or sets a progress max value.
+           * Gets or sets a progress max value.
 @platform android
-         */
+           */
   "android:maxValue": number | string;
 
   /**
-         * Gets or sets a progress max value.
+           * Gets or sets a progress max value.
 @platform ios
-         */
+           */
   "ios:maxValue": number | string;
 }
 
@@ -3348,37 +3348,20 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   "@navigatedFrom": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
 
   /**
-   * Should page changed be annnounced to the screen reader.
-   */
-  accessibilityAnnouncePageEnabled: string | boolean;
-
-  /**
-         * Should page changed be annnounced to the screen reader.
-@platform android
-         */
-  "android:accessibilityAnnouncePageEnabled": string | boolean;
-
-  /**
-         * Should page changed be annnounced to the screen reader.
-@platform ios
-         */
-  "ios:accessibilityAnnouncePageEnabled": string | boolean;
-
-  /**
    * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
    */
   actionBarHidden: string | boolean;
 
   /**
-         * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
+           * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
 @platform android
-         */
+           */
   "android:actionBarHidden": string | boolean;
 
   /**
-         * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
+           * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
 @platform ios
-         */
+           */
   "ios:actionBarHidden": string | boolean;
 
   /**
@@ -3387,16 +3370,33 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   enableSwipeBackNavigation: string | boolean;
 
   /**
-         * Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
+           * Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
 @platform android
-         */
+           */
   "android:enableSwipeBackNavigation": string | boolean;
 
   /**
-         * Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
+           * Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
 @platform ios
-         */
+           */
   "ios:enableSwipeBackNavigation": string | boolean;
+
+  /**
+   * Should page changed be annnounced to the screen reader.
+   */
+  accessibilityAnnouncePageEnabled: string | boolean;
+
+  /**
+           * Should page changed be annnounced to the screen reader.
+@platform android
+           */
+  "android:accessibilityAnnouncePageEnabled": string | boolean;
+
+  /**
+           * Should page changed be annnounced to the screen reader.
+@platform ios
+           */
+  "ios:accessibilityAnnouncePageEnabled": string | boolean;
 
   /**
    * A property that is used to pass a data from another page (while navigate to).
@@ -3404,15 +3404,15 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   navigationContext: any;
 
   /**
-         * A property that is used to pass a data from another page (while navigate to).
+           * A property that is used to pass a data from another page (while navigate to).
 @platform android
-         */
+           */
   "android:navigationContext": any;
 
   /**
-         * A property that is used to pass a data from another page (while navigate to).
+           * A property that is used to pass a data from another page (while navigate to).
 @platform ios
-         */
+           */
   "ios:navigationContext": any;
 
   /**
@@ -3421,15 +3421,15 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   actionBar: string | ActionBar;
 
   /**
-         * Gets the ActionBar for this page.
+           * Gets the ActionBar for this page.
 @platform android
-         */
+           */
   "android:actionBar": string | ActionBar;
 
   /**
-         * Gets the ActionBar for this page.
+           * Gets the ActionBar for this page.
 @platform ios
-         */
+           */
   "ios:actionBar": string | ActionBar;
 
   /**
@@ -3438,15 +3438,15 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   statusBarStyle: string | "light" | "dark";
 
   /**
-         * Gets or sets the style of the status bar.
+           * Gets or sets the style of the status bar.
 @platform android
-         */
+           */
   "android:statusBarStyle": string | "light" | "dark";
 
   /**
-         * Gets or sets the style of the status bar.
+           * Gets or sets the style of the status bar.
 @platform ios
-         */
+           */
   "ios:statusBarStyle": string | "light" | "dark";
 
   /**
@@ -3455,15 +3455,15 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   androidStatusBarBackground: string | Color;
 
   /**
-         * Gets or sets the color of the status bar in Android.
+           * Gets or sets the color of the status bar in Android.
 @platform android
-         */
+           */
   "android:androidStatusBarBackground": string | Color;
 
   /**
-         * Gets or sets the color of the status bar in Android.
+           * Gets or sets the color of the status bar in Android.
 @platform ios
-         */
+           */
   "ios:androidStatusBarBackground": string | Color;
 }
 
@@ -3511,31 +3511,31 @@ interface HTMLListViewElementAttributes<
   /**
    *
    */
-  onScroll: (payload: undefined) => void;
+  onScroll: (payload: NativeDOMEvent) => void;
 
   /**
    *
    */
-  "@scroll": (payload: undefined) => void;
+  "@scroll": (payload: NativeDOMEvent) => void;
 
   /**
-         * Gets or set the items collection of the ListView.
+           * Gets or set the items collection of the ListView.
 The items property can be set to an array or an object defining length and getItem(index) method.
-         */
+           */
   items: any[] | ItemsSource;
 
   /**
-         * Gets or set the items collection of the ListView.
+           * Gets or set the items collection of the ListView.
 The items property can be set to an array or an object defining length and getItem(index) method.
 @platform android
-         */
+           */
   "android:items": any[] | ItemsSource;
 
   /**
-         * Gets or set the items collection of the ListView.
+           * Gets or set the items collection of the ListView.
 The items property can be set to an array or an object defining length and getItem(index) method.
 @platform ios
-         */
+           */
   "ios:items": any[] | ItemsSource;
 
   /**
@@ -3544,15 +3544,15 @@ The items property can be set to an array or an object defining length and getIt
   itemTemplate: string | string | Template;
 
   /**
-         * Gets or set the item template of the ListView.
+           * Gets or set the item template of the ListView.
 @platform android
-         */
+           */
   "android:itemTemplate": string | string | Template;
 
   /**
-         * Gets or set the item template of the ListView.
+           * Gets or set the item template of the ListView.
 @platform ios
-         */
+           */
   "ios:itemTemplate": string | string | Template;
 
   /**
@@ -3561,15 +3561,15 @@ The items property can be set to an array or an object defining length and getIt
   itemTemplates: string | KeyedTemplate[];
 
   /**
-         * Gets or set the list of item templates for the item template selector
+           * Gets or set the list of item templates for the item template selector
 @platform android
-         */
+           */
   "android:itemTemplates": string | KeyedTemplate[];
 
   /**
-         * Gets or set the list of item templates for the item template selector
+           * Gets or set the list of item templates for the item template selector
 @platform ios
-         */
+           */
   "ios:itemTemplates": string | KeyedTemplate[];
 
   /**
@@ -3581,18 +3581,18 @@ The items property can be set to an array or an object defining length and getIt
     | ((item: any, index: number, items: any) => string);
 
   /**
-         * A function that returns the appropriate ket template based on the data item.
+           * A function that returns the appropriate ket template based on the data item.
 @platform android
-         */
+           */
   "android:itemTemplateSelector":
     | string
     | string
     | ((item: any, index: number, items: any) => string);
 
   /**
-         * A function that returns the appropriate ket template based on the data item.
+           * A function that returns the appropriate ket template based on the data item.
 @platform ios
-         */
+           */
   "ios:itemTemplateSelector":
     | string
     | string
@@ -3604,35 +3604,35 @@ The items property can be set to an array or an object defining length and getIt
   rowHeight: string | number | LengthType;
 
   /**
-         * Gets or set row height of the ListView.
+           * Gets or set row height of the ListView.
 @platform android
-         */
+           */
   "android:rowHeight": string | number | LengthType;
 
   /**
-         * Gets or set row height of the ListView.
+           * Gets or set row height of the ListView.
 @platform ios
-         */
+           */
   "ios:rowHeight": string | number | LengthType;
 
   /**
-         * Gets or set the estimated height of rows in the ListView.
+           * Gets or set the estimated height of rows in the ListView.
 The default value is 44px.
-         */
+           */
   iosEstimatedRowHeight: string | number | LengthType;
 
   /**
-         * Gets or set the estimated height of rows in the ListView.
+           * Gets or set the estimated height of rows in the ListView.
 The default value is 44px.
 @platform android
-         */
+           */
   "android:iosEstimatedRowHeight": string | number | LengthType;
 
   /**
-         * Gets or set the estimated height of rows in the ListView.
+           * Gets or set the estimated height of rows in the ListView.
 The default value is 44px.
 @platform ios
-         */
+           */
   "ios:iosEstimatedRowHeight": string | number | LengthType;
 }
 
@@ -3673,35 +3673,35 @@ interface HTMLListPickerElementAttributes<
   selectedIndex: number | string;
 
   /**
-         * Gets or sets the selected index.
+           * Gets or sets the selected index.
 @platform android
-         */
+           */
   "android:selectedIndex": number | string;
 
   /**
-         * Gets or sets the selected index.
+           * Gets or sets the selected index.
 @platform ios
-         */
+           */
   "ios:selectedIndex": number | string;
 
   /**
-         * Gets or set the items collection of the ListPicker.
+           * Gets or set the items collection of the ListPicker.
 The items property can be set to an array or an object defining length and getItem(index) method.
-         */
+           */
   items: any;
 
   /**
-         * Gets or set the items collection of the ListPicker.
+           * Gets or set the items collection of the ListPicker.
 The items property can be set to an array or an object defining length and getItem(index) method.
 @platform android
-         */
+           */
   "android:items": any;
 
   /**
-         * Gets or set the items collection of the ListPicker.
+           * Gets or set the items collection of the ListPicker.
 The items property can be set to an array or an object defining length and getItem(index) method.
 @platform ios
-         */
+           */
   "ios:items": any;
 }
 
@@ -3714,15 +3714,15 @@ interface HTMLLabelElementAttributes<
   textWrap: string | boolean;
 
   /**
-         * Gets or sets whether the Label wraps text or not.
+           * Gets or sets whether the Label wraps text or not.
 @platform android
-         */
+           */
   "android:textWrap": string | boolean;
 
   /**
-         * Gets or sets whether the Label wraps text or not.
+           * Gets or sets whether the Label wraps text or not.
 @platform ios
-         */
+           */
   "ios:textWrap": string | boolean;
 }
 
@@ -3735,33 +3735,33 @@ interface HTMLImageElementAttributes<
   imageSource: string | ImageSource;
 
   /**
-         * Gets or sets the image source of the image.
+           * Gets or sets the image source of the image.
 @platform android
-         */
+           */
   "android:imageSource": string | ImageSource;
 
   /**
-         * Gets or sets the image source of the image.
+           * Gets or sets the image source of the image.
 @platform ios
-         */
+           */
   "ios:imageSource": string | ImageSource;
 
   /**
    * Gets or sets the source of the Image. This can be either an URL string or a native image instance.
    */
-  src: any;
+  src: string | string | ImageSource | ImageAsset;
 
   /**
-         * Gets or sets the source of the Image. This can be either an URL string or a native image instance.
+           * Gets or sets the source of the Image. This can be either an URL string or a native image instance.
 @platform android
-         */
-  "android:src": any;
+           */
+  "android:src": string | string | ImageSource | ImageAsset;
 
   /**
-         * Gets or sets the source of the Image. This can be either an URL string or a native image instance.
+           * Gets or sets the source of the Image. This can be either an URL string or a native image instance.
 @platform ios
-         */
-  "ios:src": any;
+           */
+  "ios:src": string | string | ImageSource | ImageAsset;
 
   /**
    * Gets or sets the image stretch mode.
@@ -3769,41 +3769,41 @@ interface HTMLImageElementAttributes<
   stretch: string | ImageStretchType;
 
   /**
-         * Gets or sets the image stretch mode.
+           * Gets or sets the image stretch mode.
 @platform android
-         */
+           */
   "android:stretch": string | ImageStretchType;
 
   /**
-         * Gets or sets the image stretch mode.
+           * Gets or sets the image stretch mode.
 @platform ios
-         */
+           */
   "ios:stretch": string | ImageStretchType;
 
   /**
-         * Gets or sets the loading strategy for images on the local file system:
+           * Gets or sets the loading strategy for images on the local file system:
 - **sync** - blocks the UI if necessary to display immediately, good for small icons.
 - **async** *(default)* - will load in the background, may appear with short delay, good for large images.
 When loading images from web they are always loaded **async** no matter of loadMode value.
-         */
+           */
   loadMode: string | "sync" | "async";
 
   /**
-         * Gets or sets the loading strategy for images on the local file system:
+           * Gets or sets the loading strategy for images on the local file system:
 - **sync** - blocks the UI if necessary to display immediately, good for small icons.
 - **async** *(default)* - will load in the background, may appear with short delay, good for large images.
 When loading images from web they are always loaded **async** no matter of loadMode value.
 @platform android
-         */
+           */
   "android:loadMode": string | "sync" | "async";
 
   /**
-         * Gets or sets the loading strategy for images on the local file system:
+           * Gets or sets the loading strategy for images on the local file system:
 - **sync** - blocks the UI if necessary to display immediately, good for small icons.
 - **async** *(default)* - will load in the background, may appear with short delay, good for large images.
 When loading images from web they are always loaded **async** no matter of loadMode value.
 @platform ios
-         */
+           */
   "ios:loadMode": string | "sync" | "async";
 
   /**
@@ -3812,55 +3812,55 @@ When loading images from web they are always loaded **async** no matter of loadM
   tintColor: string | Color;
 
   /**
-         * A color used to tint template images.
+           * A color used to tint template images.
 @platform android
-         */
+           */
   "android:tintColor": string | Color;
 
   /**
-         * A color used to tint template images.
+           * A color used to tint template images.
 @platform ios
-         */
+           */
   "ios:tintColor": string | Color;
 
   /**
-         * Gets or sets the desired decode height of the image.
+           * Gets or sets the desired decode height of the image.
 This property is Android specific.
-         */
+           */
   decodeHeight: string | number | LengthType;
 
   /**
-         * Gets or sets the desired decode height of the image.
+           * Gets or sets the desired decode height of the image.
 This property is Android specific.
 @platform android
-         */
+           */
   "android:decodeHeight": string | number | LengthType;
 
   /**
-         * Gets or sets the desired decode height of the image.
+           * Gets or sets the desired decode height of the image.
 This property is Android specific.
 @platform ios
-         */
+           */
   "ios:decodeHeight": string | number | LengthType;
 
   /**
-         * Gets or sets the desired decode width of the image.
+           * Gets or sets the desired decode width of the image.
 This property is Android specific.
-         */
+           */
   decodeWidth: string | number | LengthType;
 
   /**
-         * Gets or sets the desired decode width of the image.
+           * Gets or sets the desired decode width of the image.
 This property is Android specific.
 @platform android
-         */
+           */
   "android:decodeWidth": string | number | LengthType;
 
   /**
-         * Gets or sets the desired decode width of the image.
+           * Gets or sets the desired decode width of the image.
 This property is Android specific.
 @platform ios
-         */
+           */
   "ios:decodeWidth": string | number | LengthType;
 }
 
@@ -3873,15 +3873,15 @@ interface HTMLHtmlViewElementAttributes<
   html: string;
 
   /**
-         * Gets or sets html string for the HtmlView.
+           * Gets or sets html string for the HtmlView.
 @platform android
-         */
+           */
   "android:html": string;
 
   /**
-         * Gets or sets html string for the HtmlView.
+           * Gets or sets html string for the HtmlView.
 @platform ios
-         */
+           */
   "ios:html": string;
 }
 
@@ -3914,15 +3914,15 @@ interface HTMLFrameElementAttributes<
   actionBarVisibility: string | "auto" | "never" | "always";
 
   /**
-         * Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.
+           * Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.
 @platform android
-         */
+           */
   "android:actionBarVisibility": string | "auto" | "never" | "always";
 
   /**
-         * Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.
+           * Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.
 @platform ios
-         */
+           */
   "ios:actionBarVisibility": string | "auto" | "never" | "always";
 
   /**
@@ -3931,15 +3931,15 @@ interface HTMLFrameElementAttributes<
   animated: string | boolean;
 
   /**
-         * Gets or sets if navigation transitions should be animated.
+           * Gets or sets if navigation transitions should be animated.
 @platform android
-         */
+           */
   "android:animated": string | boolean;
 
   /**
-         * Gets or sets if navigation transitions should be animated.
+           * Gets or sets if navigation transitions should be animated.
 @platform ios
-         */
+           */
   "ios:animated": string | boolean;
 
   /**
@@ -3948,15 +3948,15 @@ interface HTMLFrameElementAttributes<
   transition: string | NavigationTransition;
 
   /**
-         * Gets or sets the default navigation transition for this frame.
+           * Gets or sets the default navigation transition for this frame.
 @platform android
-         */
+           */
   "android:transition": string | NavigationTransition;
 
   /**
-         * Gets or sets the default navigation transition for this frame.
+           * Gets or sets the default navigation transition for this frame.
 @platform ios
-         */
+           */
   "ios:transition": string | NavigationTransition;
 }
 
@@ -3983,15 +3983,15 @@ interface HTMLDatePickerElementAttributes<
   year: number | string;
 
   /**
-         * Gets or sets the year.
+           * Gets or sets the year.
 @platform android
-         */
+           */
   "android:year": number | string;
 
   /**
-         * Gets or sets the year.
+           * Gets or sets the year.
 @platform ios
-         */
+           */
   "ios:year": number | string;
 
   /**
@@ -4000,15 +4000,15 @@ interface HTMLDatePickerElementAttributes<
   month: number | string;
 
   /**
-         * Gets or sets the month. The months start from 1.
+           * Gets or sets the month. The months start from 1.
 @platform android
-         */
+           */
   "android:month": number | string;
 
   /**
-         * Gets or sets the month. The months start from 1.
+           * Gets or sets the month. The months start from 1.
 @platform ios
-         */
+           */
   "ios:month": number | string;
 
   /**
@@ -4017,15 +4017,15 @@ interface HTMLDatePickerElementAttributes<
   day: number | string;
 
   /**
-         * Gets or sets the day. The days start from 1.
+           * Gets or sets the day. The days start from 1.
 @platform android
-         */
+           */
   "android:day": number | string;
 
   /**
-         * Gets or sets the day. The days start from 1.
+           * Gets or sets the day. The days start from 1.
 @platform ios
-         */
+           */
   "ios:day": number | string;
 
   /**
@@ -4034,15 +4034,15 @@ interface HTMLDatePickerElementAttributes<
   date: string | Date;
 
   /**
-         * Gets or sets the entire date.
+           * Gets or sets the entire date.
 @platform android
-         */
+           */
   "android:date": string | Date;
 
   /**
-         * Gets or sets the entire date.
+           * Gets or sets the entire date.
 @platform ios
-         */
+           */
   "ios:date": string | Date;
 
   /**
@@ -4051,15 +4051,15 @@ interface HTMLDatePickerElementAttributes<
   maxDate: string | Date;
 
   /**
-         * Gets or sets the max date.
+           * Gets or sets the max date.
 @platform android
-         */
+           */
   "android:maxDate": string | Date;
 
   /**
-         * Gets or sets the max date.
+           * Gets or sets the max date.
 @platform ios
-         */
+           */
   "ios:maxDate": string | Date;
 
   /**
@@ -4068,47 +4068,47 @@ interface HTMLDatePickerElementAttributes<
   minDate: string | Date;
 
   /**
-         * Gets or sets the min date.
+           * Gets or sets the min date.
 @platform android
-         */
+           */
   "android:minDate": string | Date;
 
   /**
-         * Gets or sets the min date.
+           * Gets or sets the min date.
 @platform ios
-         */
+           */
   "ios:minDate": string | Date;
 
   /**
-         * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
+           * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
 Valid values are numbers:
  - 0: automatic (system picks the concrete style based on the current platform and date picker mode)
  - 1: wheels (the date picker displays as a wheel picker)
  - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)
  - 3: inline  (the date pickers displays as an inline, editable field)
-         */
+           */
   iosPreferredDatePickerStyle: number | string;
 
   /**
-         * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
+           * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
 Valid values are numbers:
  - 0: automatic (system picks the concrete style based on the current platform and date picker mode)
  - 1: wheels (the date picker displays as a wheel picker)
  - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)
  - 3: inline  (the date pickers displays as an inline, editable field)
 @platform android
-         */
+           */
   "android:iosPreferredDatePickerStyle": number | string;
 
   /**
-         * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
+           * Gets or set the UIDatePickerStyle of the date picker in iOS 13.4+. Defaults to 0.
 Valid values are numbers:
  - 0: automatic (system picks the concrete style based on the current platform and date picker mode)
  - 1: wheels (the date picker displays as a wheel picker)
  - 2: compact (the date picker displays as a label that when tapped displays a calendar-style editor)
  - 3: inline  (the date pickers displays as an inline, editable field)
 @platform ios
-         */
+           */
   "ios:iosPreferredDatePickerStyle": number | string;
 }
 
@@ -4121,15 +4121,15 @@ interface HTMLContentViewElementAttributes<
   content: string | View;
 
   /**
-         * undefined
+           * undefined
 @platform android
-         */
+           */
   "android:content": string | View;
 
   /**
-         * undefined
+           * undefined
 @platform ios
-         */
+           */
   "ios:content": string | View;
 }
 
@@ -4142,15 +4142,15 @@ interface HTMLButtonElementAttributes<
   textWrap: string | boolean;
 
   /**
-         * Gets or sets whether the Button wraps text or not.
+           * Gets or sets whether the Button wraps text or not.
 @platform android
-         */
+           */
   "android:textWrap": string | boolean;
 
   /**
-         * Gets or sets whether the Button wraps text or not.
+           * Gets or sets whether the Button wraps text or not.
 @platform ios
-         */
+           */
   "ios:textWrap": string | boolean;
 }
 
@@ -4163,15 +4163,15 @@ interface HTMLActivityIndicatorElementAttributes<
   busy: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether the widget is currently displaying progress.
+           * Gets or sets a value indicating whether the widget is currently displaying progress.
 @platform android
-         */
+           */
   "android:busy": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether the widget is currently displaying progress.
+           * Gets or sets a value indicating whether the widget is currently displaying progress.
 @platform ios
-         */
+           */
   "ios:busy": string | boolean;
 }
 
@@ -4184,15 +4184,15 @@ interface HTMLActionBarElementAttributes<
   title: string;
 
   /**
-         * Gets or sets the action bar title.
+           * Gets or sets the action bar title.
 @platform android
-         */
+           */
   "android:title": string;
 
   /**
-         * Gets or sets the action bar title.
+           * Gets or sets the action bar title.
 @platform ios
-         */
+           */
   "ios:title": string;
 
   /**
@@ -4201,15 +4201,15 @@ interface HTMLActionBarElementAttributes<
   titleView: string | View;
 
   /**
-         * Gets or sets the title view. When set - replaces the title with a custom view.
+           * Gets or sets the title view. When set - replaces the title with a custom view.
 @platform android
-         */
+           */
   "android:titleView": string | View;
 
   /**
-         * Gets or sets the title view. When set - replaces the title with a custom view.
+           * Gets or sets the title view. When set - replaces the title with a custom view.
 @platform ios
-         */
+           */
   "ios:titleView": string | View;
 
   /**
@@ -4218,35 +4218,35 @@ interface HTMLActionBarElementAttributes<
   navigationButton: string | NavigationButton;
 
   /**
-         * Gets or sets the navigation button (a.k.a. the back button).
+           * Gets or sets the navigation button (a.k.a. the back button).
 @platform android
-         */
+           */
   "android:navigationButton": string | NavigationButton;
 
   /**
-         * Gets or sets the navigation button (a.k.a. the back button).
+           * Gets or sets the navigation button (a.k.a. the back button).
 @platform ios
-         */
+           */
   "ios:navigationButton": string | NavigationButton;
 
   /**
-         * Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.
+           * Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.
 Default false.
-         */
+           */
   flat: string | boolean;
 
   /**
-         * Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.
+           * Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.
 Default false.
 @platform android
-         */
+           */
   "android:flat": string | boolean;
 
   /**
-         * Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.
+           * Removes the shadow/border at the bottom of the ActionBar and removes translucency on iOS.
 Default false.
 @platform ios
-         */
+           */
   "ios:flat": string | boolean;
 
   /**
@@ -4255,24 +4255,24 @@ Default false.
   actionItems: string | ActionItems;
 
   /**
-         * Gets the collection of action items.
+           * Gets the collection of action items.
 @platform android
-         */
+           */
   "android:actionItems": string | ActionItems;
 
   /**
-         * Gets the collection of action items.
+           * Gets the collection of action items.
 @platform ios
-         */
+           */
   "ios:actionItems": string | ActionItems;
 
   /**
-         * Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to "alwaysOriginal"
+           * Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to "alwaysOriginal"
 Valid values are:
  - automatic
  - alwaysOriginal
  - alwaysTemplate
-         */
+           */
   iosIconRenderingMode:
     | string
     | "automatic"
@@ -4280,13 +4280,13 @@ Valid values are:
     | "alwaysTemplate";
 
   /**
-         * Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to "alwaysOriginal"
+           * Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to "alwaysOriginal"
 Valid values are:
  - automatic
  - alwaysOriginal
  - alwaysTemplate
 @platform android
-         */
+           */
   "android:iosIconRenderingMode":
     | string
     | "automatic"
@@ -4294,13 +4294,13 @@ Valid values are:
     | "alwaysTemplate";
 
   /**
-         * Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to "alwaysOriginal"
+           * Gets or set the UIImageRenderingMode of the action bar icons in iOS. Defaults to "alwaysOriginal"
 Valid values are:
  - automatic
  - alwaysOriginal
  - alwaysTemplate
 @platform ios
-         */
+           */
   "ios:iosIconRenderingMode":
     | string
     | "automatic"
@@ -4317,15 +4317,15 @@ interface HTMLActionItemElementAttributes<
   text: string;
 
   /**
-         * Gets or sets the text of the action item.
+           * Gets or sets the text of the action item.
 @platform android
-         */
+           */
   "android:text": string;
 
   /**
-         * Gets or sets the text of the action item.
+           * Gets or sets the text of the action item.
 @platform ios
-         */
+           */
   "ios:text": string;
 
   /**
@@ -4334,15 +4334,15 @@ interface HTMLActionItemElementAttributes<
   icon: string;
 
   /**
-         * Gets or sets the icon of the action item.
+           * Gets or sets the icon of the action item.
 @platform android
-         */
+           */
   "android:icon": string;
 
   /**
-         * Gets or sets the icon of the action item.
+           * Gets or sets the icon of the action item.
 @platform ios
-         */
+           */
   "ios:icon": string;
 }
 
@@ -4355,15 +4355,15 @@ interface HTMLNavigationButtonElementAttributes<
   text: string;
 
   /**
-         * Gets or sets the text of the action item.
+           * Gets or sets the text of the action item.
 @platform android
-         */
+           */
   "android:text": string;
 
   /**
-         * Gets or sets the text of the action item.
+           * Gets or sets the text of the action item.
 @platform ios
-         */
+           */
   "ios:text": string;
 
   /**
@@ -4372,79 +4372,103 @@ interface HTMLNavigationButtonElementAttributes<
   icon: string;
 
   /**
-         * Gets or sets the icon of the action item.
+           * Gets or sets the icon of the action item.
 @platform android
-         */
+           */
   "android:icon": string;
 
   /**
-         * Gets or sets the icon of the action item.
+           * Gets or sets the icon of the action item.
 @platform ios
-         */
+           */
   "ios:icon": string;
+}
+
+interface HTMLStackLayoutElementAttributes<
+  T extends HTMLStackLayoutElement = HTMLStackLayoutElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+           * Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+           */
+  orientation: string | OrientationType;
+
+  /**
+           * Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+@platform android
+           */
+  "android:orientation": string | OrientationType;
+
+  /**
+           * Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+@platform ios
+           */
+  "ios:orientation": string | OrientationType;
 }
 
 interface HTMLWrapLayoutElementAttributes<
   T extends HTMLWrapLayoutElement = HTMLWrapLayoutElement
 > extends HTMLViewElementAttributes<T> {
   /**
-         * Gets or sets the flow direction. Default value is horizontal.
+           * Gets or sets the flow direction. Default value is horizontal.
 If orientation is horizontal items are arranged in rows, else items are arranged in columns.
-         */
+           */
   orientation: string | OrientationType;
 
   /**
-         * Gets or sets the flow direction. Default value is horizontal.
+           * Gets or sets the flow direction. Default value is horizontal.
 If orientation is horizontal items are arranged in rows, else items are arranged in columns.
 @platform android
-         */
+           */
   "android:orientation": string | OrientationType;
 
   /**
-         * Gets or sets the flow direction. Default value is horizontal.
+           * Gets or sets the flow direction. Default value is horizontal.
 If orientation is horizontal items are arranged in rows, else items are arranged in columns.
 @platform ios
-         */
+           */
   "ios:orientation": string | OrientationType;
 
   /**
-         * Gets or sets the width used to measure and layout each child.
+           * Gets or sets the width used to measure and layout each child.
 Default value is Number.NaN which does not restrict children.
-         */
+           */
   itemWidth: string | number | LengthType;
 
   /**
-         * Gets or sets the width used to measure and layout each child.
+           * Gets or sets the width used to measure and layout each child.
 Default value is Number.NaN which does not restrict children.
 @platform android
-         */
+           */
   "android:itemWidth": string | number | LengthType;
 
   /**
-         * Gets or sets the width used to measure and layout each child.
+           * Gets or sets the width used to measure and layout each child.
 Default value is Number.NaN which does not restrict children.
 @platform ios
-         */
+           */
   "ios:itemWidth": string | number | LengthType;
 
   /**
-         * Gets or sets the height used to measure and layout each child.
+           * Gets or sets the height used to measure and layout each child.
 Default value is Number.NaN which does not restrict children.
-         */
+           */
   itemHeight: string | number | LengthType;
 
   /**
-         * Gets or sets the height used to measure and layout each child.
+           * Gets or sets the height used to measure and layout each child.
 Default value is Number.NaN which does not restrict children.
 @platform android
-         */
+           */
   "android:itemHeight": string | number | LengthType;
 
   /**
-         * Gets or sets the height used to measure and layout each child.
+           * Gets or sets the height used to measure and layout each child.
 Default value is Number.NaN which does not restrict children.
 @platform ios
-         */
+           */
   "ios:itemHeight": string | number | LengthType;
 
   /**
@@ -4453,15 +4477,15 @@ Default value is Number.NaN which does not restrict children.
   paddingBottom: string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform android
-         */
+           */
   "android:paddingBottom": string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingBottom": string | number | LengthType;
 
   /**
@@ -4470,15 +4494,15 @@ Default value is Number.NaN which does not restrict children.
   paddingLeft: string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform android
-         */
+           */
   "android:paddingLeft": string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingLeft": string | number | LengthType;
 
   /**
@@ -4487,15 +4511,15 @@ Default value is Number.NaN which does not restrict children.
   paddingRight: string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform android
-         */
+           */
   "android:paddingRight": string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingRight": string | number | LengthType;
 
   /**
@@ -4504,15 +4528,15 @@ Default value is Number.NaN which does not restrict children.
   paddingTop: string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform android
-         */
+           */
   "android:paddingTop": string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingTop": string | number | LengthType;
 
   /**
@@ -4521,40 +4545,16 @@ Default value is Number.NaN which does not restrict children.
   clipToBounds: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform android
-         */
+           */
   "android:clipToBounds": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform ios
-         */
+           */
   "ios:clipToBounds": string | boolean;
-}
-
-interface HTMLStackLayoutElementAttributes<
-  T extends HTMLStackLayoutElement = HTMLStackLayoutElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-         * Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-         */
-  orientation: string | OrientationType;
-
-  /**
-         * Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-@platform android
-         */
-  "android:orientation": string | OrientationType;
-
-  /**
-         * Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-@platform ios
-         */
-  "ios:orientation": string | OrientationType;
 }
 
 interface HTMLRootLayoutElementAttributes<
@@ -4566,15 +4566,15 @@ interface HTMLRootLayoutElementAttributes<
   paddingBottom: string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform android
-         */
+           */
   "android:paddingBottom": string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingBottom": string | number | LengthType;
 
   /**
@@ -4583,15 +4583,15 @@ interface HTMLRootLayoutElementAttributes<
   paddingLeft: string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform android
-         */
+           */
   "android:paddingLeft": string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingLeft": string | number | LengthType;
 
   /**
@@ -4600,15 +4600,15 @@ interface HTMLRootLayoutElementAttributes<
   paddingRight: string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform android
-         */
+           */
   "android:paddingRight": string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingRight": string | number | LengthType;
 
   /**
@@ -4617,15 +4617,15 @@ interface HTMLRootLayoutElementAttributes<
   paddingTop: string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform android
-         */
+           */
   "android:paddingTop": string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingTop": string | number | LengthType;
 
   /**
@@ -4634,15 +4634,15 @@ interface HTMLRootLayoutElementAttributes<
   clipToBounds: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform android
-         */
+           */
   "android:clipToBounds": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform ios
-         */
+           */
   "ios:clipToBounds": string | boolean;
 }
 
@@ -4655,15 +4655,15 @@ interface HTMLGridLayoutElementAttributes<
   paddingBottom: string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform android
-         */
+           */
   "android:paddingBottom": string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingBottom": string | number | LengthType;
 
   /**
@@ -4672,15 +4672,15 @@ interface HTMLGridLayoutElementAttributes<
   paddingLeft: string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform android
-         */
+           */
   "android:paddingLeft": string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingLeft": string | number | LengthType;
 
   /**
@@ -4689,15 +4689,15 @@ interface HTMLGridLayoutElementAttributes<
   paddingRight: string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform android
-         */
+           */
   "android:paddingRight": string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingRight": string | number | LengthType;
 
   /**
@@ -4706,15 +4706,15 @@ interface HTMLGridLayoutElementAttributes<
   paddingTop: string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform android
-         */
+           */
   "android:paddingTop": string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingTop": string | number | LengthType;
 
   /**
@@ -4723,15 +4723,124 @@ interface HTMLGridLayoutElementAttributes<
   clipToBounds: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform android
-         */
+           */
   "android:clipToBounds": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform ios
-         */
+           */
+  "ios:clipToBounds": string | boolean;
+}
+
+interface HTMLDockLayoutElementAttributes<
+  T extends HTMLDockLayoutElement = HTMLDockLayoutElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+           * Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
+The default value is true.
+           */
+  stretchLastChild: string | boolean;
+
+  /**
+           * Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
+The default value is true.
+@platform android
+           */
+  "android:stretchLastChild": string | boolean;
+
+  /**
+           * Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
+The default value is true.
+@platform ios
+           */
+  "ios:stretchLastChild": string | boolean;
+
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+           * Specify the bottom padding of this layout.
+@platform android
+           */
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+           * Specify the bottom padding of this layout.
+@platform ios
+           */
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+           * Specify the left padding of this layout.
+@platform android
+           */
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+           * Specify the left padding of this layout.
+@platform ios
+           */
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+           * Specify the right padding of this layout.
+@platform android
+           */
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+           * Specify the right padding of this layout.
+@platform ios
+           */
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+           * Specify the top padding of this layout.
+@platform android
+           */
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+           * Specify the top padding of this layout.
+@platform ios
+           */
+  "ios:paddingTop": string | number | LengthType;
+
+  /**
+   * Gets or sets a value indicating whether to clip the content of this layout.
+   */
+  clipToBounds: string | boolean;
+
+  /**
+           * Gets or sets a value indicating whether to clip the content of this layout.
+@platform android
+           */
+  "android:clipToBounds": string | boolean;
+
+  /**
+           * Gets or sets a value indicating whether to clip the content of this layout.
+@platform ios
+           */
   "ios:clipToBounds": string | boolean;
 }
 
@@ -4744,15 +4853,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   flexDirection: string | FlexDirection;
 
   /**
-         * undefined
+           * undefined
 @platform android
-         */
+           */
   "android:flexDirection": string | FlexDirection;
 
   /**
-         * undefined
+           * undefined
 @platform ios
-         */
+           */
   "ios:flexDirection": string | FlexDirection;
 
   /**
@@ -4761,15 +4870,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   flexWrap: string | FlexWrap;
 
   /**
-         * undefined
+           * undefined
 @platform android
-         */
+           */
   "android:flexWrap": string | FlexWrap;
 
   /**
-         * undefined
+           * undefined
 @platform ios
-         */
+           */
   "ios:flexWrap": string | FlexWrap;
 
   /**
@@ -4778,15 +4887,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   justifyContent: string | JustifyContent;
 
   /**
-         * undefined
+           * undefined
 @platform android
-         */
+           */
   "android:justifyContent": string | JustifyContent;
 
   /**
-         * undefined
+           * undefined
 @platform ios
-         */
+           */
   "ios:justifyContent": string | JustifyContent;
 
   /**
@@ -4795,15 +4904,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   alignItems: string | AlignItems;
 
   /**
-         * undefined
+           * undefined
 @platform android
-         */
+           */
   "android:alignItems": string | AlignItems;
 
   /**
-         * undefined
+           * undefined
 @platform ios
-         */
+           */
   "ios:alignItems": string | AlignItems;
 
   /**
@@ -4812,15 +4921,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   alignContent: string | AlignContent;
 
   /**
-         * undefined
+           * undefined
 @platform android
-         */
+           */
   "android:alignContent": string | AlignContent;
 
   /**
-         * undefined
+           * undefined
 @platform ios
-         */
+           */
   "ios:alignContent": string | AlignContent;
 
   /**
@@ -4829,15 +4938,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   paddingBottom: string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform android
-         */
+           */
   "android:paddingBottom": string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingBottom": string | number | LengthType;
 
   /**
@@ -4846,15 +4955,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   paddingLeft: string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform android
-         */
+           */
   "android:paddingLeft": string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingLeft": string | number | LengthType;
 
   /**
@@ -4863,15 +4972,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   paddingRight: string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform android
-         */
+           */
   "android:paddingRight": string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingRight": string | number | LengthType;
 
   /**
@@ -4880,15 +4989,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   paddingTop: string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform android
-         */
+           */
   "android:paddingTop": string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingTop": string | number | LengthType;
 
   /**
@@ -4897,124 +5006,15 @@ interface HTMLFlexboxLayoutElementAttributes<
   clipToBounds: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform android
-         */
+           */
   "android:clipToBounds": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform ios
-         */
-  "ios:clipToBounds": string | boolean;
-}
-
-interface HTMLDockLayoutElementAttributes<
-  T extends HTMLDockLayoutElement = HTMLDockLayoutElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-         * Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
-The default value is true.
-         */
-  stretchLastChild: string | boolean;
-
-  /**
-         * Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
-The default value is true.
-@platform android
-         */
-  "android:stretchLastChild": string | boolean;
-
-  /**
-         * Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
-The default value is true.
-@platform ios
-         */
-  "ios:stretchLastChild": string | boolean;
-
-  /**
-   * Specify the bottom padding of this layout.
-   */
-  paddingBottom: string | number | LengthType;
-
-  /**
-         * Specify the bottom padding of this layout.
-@platform android
-         */
-  "android:paddingBottom": string | number | LengthType;
-
-  /**
-         * Specify the bottom padding of this layout.
-@platform ios
-         */
-  "ios:paddingBottom": string | number | LengthType;
-
-  /**
-   * Specify the left padding of this layout.
-   */
-  paddingLeft: string | number | LengthType;
-
-  /**
-         * Specify the left padding of this layout.
-@platform android
-         */
-  "android:paddingLeft": string | number | LengthType;
-
-  /**
-         * Specify the left padding of this layout.
-@platform ios
-         */
-  "ios:paddingLeft": string | number | LengthType;
-
-  /**
-   * Specify the right padding of this layout.
-   */
-  paddingRight: string | number | LengthType;
-
-  /**
-         * Specify the right padding of this layout.
-@platform android
-         */
-  "android:paddingRight": string | number | LengthType;
-
-  /**
-         * Specify the right padding of this layout.
-@platform ios
-         */
-  "ios:paddingRight": string | number | LengthType;
-
-  /**
-   * Specify the top padding of this layout.
-   */
-  paddingTop: string | number | LengthType;
-
-  /**
-         * Specify the top padding of this layout.
-@platform android
-         */
-  "android:paddingTop": string | number | LengthType;
-
-  /**
-         * Specify the top padding of this layout.
-@platform ios
-         */
-  "ios:paddingTop": string | number | LengthType;
-
-  /**
-   * Gets or sets a value indicating whether to clip the content of this layout.
-   */
-  clipToBounds: string | boolean;
-
-  /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
-@platform android
-         */
-  "android:clipToBounds": string | boolean;
-
-  /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
-@platform ios
-         */
+           */
   "ios:clipToBounds": string | boolean;
 }
 
@@ -5027,15 +5027,15 @@ interface HTMLAbsoluteLayoutElementAttributes<
   paddingBottom: string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform android
-         */
+           */
   "android:paddingBottom": string | number | LengthType;
 
   /**
-         * Specify the bottom padding of this layout.
+           * Specify the bottom padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingBottom": string | number | LengthType;
 
   /**
@@ -5044,15 +5044,15 @@ interface HTMLAbsoluteLayoutElementAttributes<
   paddingLeft: string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform android
-         */
+           */
   "android:paddingLeft": string | number | LengthType;
 
   /**
-         * Specify the left padding of this layout.
+           * Specify the left padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingLeft": string | number | LengthType;
 
   /**
@@ -5061,15 +5061,15 @@ interface HTMLAbsoluteLayoutElementAttributes<
   paddingRight: string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform android
-         */
+           */
   "android:paddingRight": string | number | LengthType;
 
   /**
-         * Specify the right padding of this layout.
+           * Specify the right padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingRight": string | number | LengthType;
 
   /**
@@ -5078,15 +5078,15 @@ interface HTMLAbsoluteLayoutElementAttributes<
   paddingTop: string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform android
-         */
+           */
   "android:paddingTop": string | number | LengthType;
 
   /**
-         * Specify the top padding of this layout.
+           * Specify the top padding of this layout.
 @platform ios
-         */
+           */
   "ios:paddingTop": string | number | LengthType;
 
   /**
@@ -5095,15 +5095,15 @@ interface HTMLAbsoluteLayoutElementAttributes<
   clipToBounds: string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform android
-         */
+           */
   "android:clipToBounds": string | boolean;
 
   /**
-         * Gets or sets a value indicating whether to clip the content of this layout.
+           * Gets or sets a value indicating whether to clip the content of this layout.
 @platform ios
-         */
+           */
   "ios:clipToBounds": string | boolean;
 }
 

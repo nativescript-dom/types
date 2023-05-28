@@ -199,7 +199,10 @@ function vueWriter(metadata: HtmlCustomData) {
       `;
     interfacesString += value;
   }
-  const template = fs.readFileSync("../templates/vue.template", "utf-8");
+  const template = fs.readFileSync(
+    path.join(__dirname, "../../src/templates/vue.template"),
+    "utf-8"
+  );
 
   fs.writeFileSync(
     path.join(__dirname, "..", "..", "..", "vue", "index.d.ts"),
@@ -215,3 +218,5 @@ export async function startVueGenerator() {
     writer: vueWriter,
   });
 }
+
+startVueGenerator();

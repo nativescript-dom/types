@@ -9,7 +9,7 @@ import * as fs from "fs";
 import glob from "glob";
 import * as AttributeKeys from "./attr-literals";
 import { Attribute, HtmlCustomData, Tag } from "./types";
-import { toKebabCase } from "./utils";
+import { isGlobal, toKebabCase } from "./utils";
 import path = require("path");
 import ts = require("typescript");
 const VIEW_CLASS_REGEX =
@@ -150,7 +150,7 @@ async function discoverViews(
 
 export async function getDefaultEventsMap() {
   const meta = await getMetadataFromPath(
-    "../../node_modules/@nativescript-dom/core-types",
+    "../node_modules/@nativescript-dom/core-types",
     "**/*.d.ts",
     false
   );

@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/angular-types",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Typescript definitions for @nativescript/angular that expose @nativescript/core views as DOM elements in HTML templates",
   "main": "",
   "types": "index.d.ts",
@@ -31,8 +31,8 @@
   },
   "homepage": "https://github.com/nativescript-dom/types/tree/main/angular",
   "devDependencies": {
-    "@nativescript-dom/core-types": "^1.0.22",
-    "@nativescript/core": "^8.4.7",
+    "@nativescript-dom/core-types": "^1.0.26",
+    "@nativescript/core": "^8.5.3",
     "@types/node": "^18.14.2",
     "typescript": "^4.9.5"
   },

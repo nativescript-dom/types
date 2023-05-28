@@ -147,3 +147,5 @@ export async function startAngularGenerator() {
     writer: angularWriter,
   });
 }
+
+startAngularGenerator();
