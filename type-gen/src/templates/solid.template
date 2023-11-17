@@ -91,6 +91,8 @@ type TextAlignmentType = CoreTypes.TextAlignmentType;
       backgroundColor?: string;
       "background-color": string;
       color?: string;
+    } & {
+      [name:string]: any
     }
   >;
 
