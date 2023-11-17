@@ -1553,4 +1553,32 @@ declare global {
     prototype: HTMLContainerViewElement;
     new (): HTMLContainerViewElement;
   };
+
+  interface ExtendViewEvents<T extends {}>
+    extends Omit<HTMLViewElement, "addEventListener" | "removeEventListener"> {
+    addEventListener<K extends keyof T>(
+      type: K,
+      listener: (this: HTMLViewElement, ev: T[K]) => any,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    addEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ): void;
+    removeEventListener<K extends keyof T>(
+      type: K,
+      listener: (this: HTMLViewElement, ev: T[K]) => any,
+      options?: boolean | EventListenerOptions
+    ): void;
+    removeEventListener(
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | EventListenerOptions
+    ): void;
+  }
+
+  type AsHTMLView<V, T = {}> = ExtendViewEvents<
+    T & HTMLViewElementEventsMap<V>
+  >;
 }

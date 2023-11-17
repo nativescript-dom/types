@@ -75,7 +75,8 @@ async function discoverViews(
   isModule?: boolean
 ) {
   const sourceModulePath = isModule
-    ? path.dirname(require.resolve(source))
+    ? //@ts-ignore
+      path.dirname(require.resolve(source))
     : path.join(__dirname, source);
 
   const dest = path.join(
@@ -86,15 +87,11 @@ async function discoverViews(
     fs.mkdirSync(dest, { recursive: true });
   }
 
-  console.log("Found module at:", sourceModulePath);
-
   fs.cpSync(sourceModulePath, dest, {
     recursive: true,
   });
 
   const globPattern = path.join(dest, pattern);
-
-  console.log("Finding files in:", globPattern);
 
   const files = await expandGlobs(globPattern);
   const output: Partial<InputFile>[] = [];
@@ -144,7 +141,7 @@ async function discoverViews(
       }
     }
   }
-  output.forEach((item) => console.log(item.className));
+
   return output;
 }
 
@@ -330,6 +327,24 @@ export function generateMetadata(
         console.warn(`No properties found for tag ${tag.name}`);
         continue;
       }
+
+      if (tag.name === "grid-layout" || tag.name === "GridLayout") {
+        tag.properties.push(
+          ...[
+            {
+              name: "rows",
+              type: "string",
+              description: undefined,
+            },
+            {
+              name: "columns",
+              type: "string",
+              description: undefined,
+            },
+          ]
+        );
+      }
+
       tag.attributes = !tag.attributes ? [] : tag.attributes;
       // Visit each prop of each tag
       for (let property of tag.properties) {

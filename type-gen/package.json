@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "generate-angular-types": "yarn tsc && node ./dist/generators/angular.js",
-    "generate-vue-types": "yarn tsc && node ./dist/generators/vue.js"
+    "generate-vue-types": "yarn tsc && node ./dist/generators/vue.js",
+    "generate-solid-types": "yarn tsc && node ./dist/generators/solid.js"
   },
   "repository": {
     "type": "git",
@@ -29,8 +30,8 @@
   },
   "homepage": "https://github.com/nativescript-dom/types/tree/main/core",
   "devDependencies": {
-    "@nativescript-dom/core-types": "^1.0.18",
-    "@nativescript/core": "^8.5.3",
+    "@nativescript-dom/core-types": "^1.0.26",
+    "@nativescript/core": "^8.5.9",
     "@types/node": "^18.14.2",
     "glob": "^9.2.1",
     "typescript": "^4.9.5",

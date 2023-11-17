@@ -25,7 +25,7 @@ declare global {
   type NativeDOMEventWithData<
     T extends EventTarget = HTMLViewElement,
     D = any
-  > = NativeDOMEvent<T> & D;
+  > = NativeDOMEvent<T> & Omit<D, "type">;
 
   interface NativeDOMEvent<T extends EventTarget = HTMLViewElement>
     extends Event {

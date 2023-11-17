@@ -254,6 +254,7 @@ export const HTMLButtonAttributeKeys = [
   "textWrap",
   "accessible",
   "accessibilityRole",
+  ...HTMLTextBaseElementAttributeKeys,
 ];
 export const HTMLFormattedStringElementAttributeKeys = [
   "backgroundColor",
@@ -274,7 +275,10 @@ export const HTMLImageElementAttributeKeys = [
   "decodeWidth",
   "tintColor",
 ];
-export const HTMLLabelElementAttributeKeys = ["textWrap"];
+export const HTMLLabelElementAttributeKeys = [
+  "textWrap",
+  ...HTMLTextBaseElementAttributeKeys,
+];
 export const HTMLListPickerElementAttributeKeys = [
   "items",
   "textField",
@@ -358,9 +362,13 @@ export const HTMLTextFieldElementAttributeKeys = [
   "secure",
   "secureWithoutAutofill",
   "title",
+  ...HTMLTextBaseElementAttributeKeys,
 ];
 
-export const HTMLTextViewElementAttributeKeys = ["maxLines"];
+export const HTMLTextViewElementAttributeKeys = [
+  "maxLines",
+  ...HTMLTextBaseElementAttributeKeys,
+];
 export const HTMLSliderElementAttributeKeys = [
   "maxValue",
   "minValue",

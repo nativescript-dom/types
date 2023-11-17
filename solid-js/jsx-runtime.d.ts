@@ -1,3 +1,4 @@
+import { JSX as SolidJSX } from "solid-js";
 import "@nativescript-dom/core-types";
 import { OmittedStyleObjectKeys } from "@nativescript-dom/core-types/attr-literals/index";
 import "@nativescript-dom/core-types/event-maps/plain-event-maps";
@@ -42,9 +43,6 @@ import {
   FontWeightType,
 } from "@nativescript/core/ui/styling/font-interfaces";
 import { LinearGradient } from "@nativescript/core/ui/styling/linear-gradient";
-import * as RuntimeCore from "@vue/runtime-core";
-import "@vue/runtime-dom";
-import { ElementAttrs } from "@vue/runtime-dom";
 
 type ImageStretchType = CoreTypes.ImageStretchType;
 type FontWeight = FontWeightType;
@@ -63,110 +61,43 @@ type WhiteSpaceType = CoreTypes.WhiteSpaceType;
 type TextDecorationType = CoreTypes.TextDecorationType;
 type TextAlignmentType = CoreTypes.TextAlignmentType;
 
-type ReservedProps<T extends Element> = {
-  key?: string | number | symbol;
-  ref?:
-    | string
-    | RuntimeCore.Ref<T>
-    | ((ref: T, refs: Record<string, any>) => void);
-  ref_for?: boolean;
-  ref_key?: string;
-};
-
-type ElementAttrs<T> = T & ReservedProps<T>;
-
-// Omit the following keys from Style interface that should not be exposed in JSX.
+// Converts camelCase to kebab-case
+type Kebab<
+  T extends string,
+  A extends string = ""
+> = T extends `${infer F}${infer R}`
+  ? Kebab<R, `${A}${F extends Lowercase<F> ? "" : "-"}${Lowercase<F>}`>
+  : A;
+type KebabKeys<T> = {
+  [K in keyof T as K extends string ? Kebab<K> : K]: T[K];
+} & T;
 
 // Allows both kebab-case & camelCase keys in style object.
-/**
- * Generates `onEventName` from `eventName which is required by vue to
- * detect which props are events.
- */
-type OnNativeViewEvents<T> = {
-  [Key in keyof T as `on${Capitalize<Key>}`]?:
-    | ((payload: T[Key]) => void)
-    | undefined;
-};
+type Style = Partial<
+  KebabKeys<
+    Omit<
+      import("@nativescript/core").Style,
+      | OmittedStyleObjectKeys
+      | "width"
+      | "height"
+      | "background"
+      | "backgroundColor"
+      | "color"
+    >
+  > & {
+    width?: string | number;
+    height?: string | number;
+    background?: string;
+    backgroundColor?: string;
+    "background-color": string;
+    color?: string;
+  }
+>;
 
-/**
- * Generates ios:propertyName
- */
-type PlatformIOSKeyMap<T> = {
-  [K in keyof T as `ios:${K}`]?: string | T[K];
-};
-
-/**
- * Generates android:propertyName
- */
-type PlatformAndroidKeyMap<T> = {
-  [K in keyof T as `android:${K}`]?: string | T[K];
-};
-
-type PickAttributes<T, Keys> = Pick<T, Keys>;
-
-type BaseAttributes<T> = {
-  [K in keyof T]?: string | T[K];
-};
-type Style = Omit<import("@nativescript/core").Style, OmittedStyleObjectKeys>;
-/**
- * Extend attributes with `android:attribute` & `ios:attribute` variants.
- */
-type HTMLExtendedAttributes<T> = BaseAttributes<T> &
-  PlatformAndroidKeyMap<T> &
-  PlatformIOSKeyMap<T>;
-
-interface HTMLViewBaseElementAttributes<
+export interface HTMLViewBaseElementAttributes<
   T extends HTMLViewBaseElement = HTMLViewBaseElement
-> extends ElementAttrs<T>,
+> extends SolidJSX.DOMAttributes<T>,
     HTMLAttributes<T> {
-  /**
-* An event that fires when the native view is rendered in the
-native view hierarchy.
-*/
-  onLoaded: (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires when the native view is rendered in the
-native view hierarchy.
-*/
-  "@loaded": (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires when the native view is removed from the
-native view hierarchy.
-*/
-  onUnloaded: (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires when the native view is removed from the
-native view hierarchy.
-*/
-  "@unloaded": (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires as soon as a view is created. At this point, the native view has not been
-created yet.
-*/
-  onCreated: (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires as soon as a view is created. At this point, the native view has not been
-created yet.
-*/
-  "@created": (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires when the native view is disposed. This gets called after the `unloaded`
-event fires.
-*/
-  onDisposeNativeView: (payload: NativeDOMEvent<T>) => void;
-
-  /**
-* An event that fires when the native view is disposed. This gets called after the `unloaded`
-event fires.
-*/
-  "@disposeNativeView": (payload: NativeDOMEvent<T>) => void;
-
   recycleNativeView: string | "always" | "never" | "auto";
 
   /**
@@ -432,83 +363,70 @@ Reusable views are not automatically destroyed when removed from the View tree.
   "ios:style": string | Style;
 }
 
-interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement>
-  extends HTMLViewBaseElementAttributes<T> {
+export interface HTMLViewElementAttributes<
+  T extends HTMLViewElement = HTMLViewElement
+> extends HTMLViewBaseElementAttributes<T> {
   /**
-   * An event that fires when the position or size of a rendered native view changes.
-   */
-  onLayoutChanged: (payload: NativeDOMEvent<T>) => void;
+* An event that fires when the native view is rendered in the
+native view hierarchy.
+*/
+  "on:loaded": (payload: NativeDOMEvent<T>) => void;
+
+  /**
+* An event that fires when the native view is removed from the
+native view hierarchy.
+*/
+  "on:unloaded": (payload: NativeDOMEvent<T>) => void;
+
+  /**
+* An event that fires as soon as a view is created. At this point, the native view has not been
+created yet.
+*/
+  "on:created": (payload: NativeDOMEvent<T>) => void;
+
+  /**
+* An event that fires when the native view is disposed. This gets called after the `unloaded`
+event fires.
+*/
+  "on:disposeNativeView": (payload: NativeDOMEvent<T>) => void;
 
   /**
    * An event that fires when the position or size of a rendered native view changes.
    */
-  "@layoutChanged": (payload: NativeDOMEvent<T>) => void;
+  "on:layoutChanged": (payload: NativeDOMEvent<T>) => void;
 
   /**
    * An event that fires when a native view is shown modally.
    */
-  onShownModally: (payload: NativeDOMEvent<T>) => void;
+  "on:shownModally": (payload: NativeDOMEvent<T>) => void;
 
-  /**
-   * An event that fires when a native view is shown modally.
-   */
-  "@shownModally": (payload: NativeDOMEvent<T>) => void;
+  "on:showingModally": (payload: NativeDOMEvent<T>) => void;
 
-  onShowingModally: (payload: NativeDOMEvent<T>) => void;
+  "on:accessibilityBlur": (payload: NativeDOMEvent<T>) => void;
 
-  "@showingModally": (payload: NativeDOMEvent<T>) => void;
+  "on:accessibilityFocus": (payload: NativeDOMEvent<T>) => void;
 
-  onAccessibilityBlur: (payload: NativeDOMEvent<T>) => void;
+  "on:accessibilityPerformEscape": (payload: NativeDOMEvent<T>) => void;
 
-  "@accessibilityBlur": (payload: NativeDOMEvent<T>) => void;
+  "on:accessibilityFocusChanged": (payload: NativeDOMEvent<T>) => void;
 
-  onAccessibilityFocus: (payload: NativeDOMEvent<T>) => void;
+  "on:tap": (payload: NativeTapGestureEvent<T>) => void;
 
-  "@accessibilityFocus": (payload: NativeDOMEvent<T>) => void;
+  "on:doubleTap": (payload: NativeTapGestureEvent<T>) => void;
 
-  onAccessibilityPerformEscape: (payload: NativeDOMEvent<T>) => void;
+  "on:pan": (payload: NativePanGestureEvent<T>) => void;
 
-  "@accessibilityPerformEscape": (payload: NativeDOMEvent<T>) => void;
+  "on:swipe": (payload: NativeSwipeGestureEvent<T>) => void;
 
-  onAccessibilityFocusChanged: (payload: NativeDOMEvent<T>) => void;
+  "on:rotation": (payload: NativeRotationEvent<T>) => void;
 
-  "@accessibilityFocusChanged": (payload: NativeDOMEvent<T>) => void;
+  "on:longPress": (payload: NativeGestureEvent<T>) => void;
 
-  onTap: (payload: NativeDOMTapGestureEvent<T>) => void;
+  "on:touch": (payload: NativeTouchEvent<T>) => void;
 
-  "@tap": (payload: NativeDOMTapGestureEvent<T>) => void;
+  "on:pinch": (payload: NativePinchGestureEvent<T>) => void;
 
-  onDoubleTap: (payload: NativeDOMTapGestureEvent<T>) => void;
-
-  "@doubleTap": (payload: NativeDOMTapGestureEvent<T>) => void;
-
-  onPan: (payload: NativePanGestureEvent<T>) => void;
-
-  "@pan": (payload: NativePanGestureEvent<T>) => void;
-
-  onSwipe: (payload: NativeSwipeGestureEvent<T>) => void;
-
-  "@swipe": (payload: NativeSwipeGestureEvent<T>) => void;
-
-  onRotation: (payload: NativeRotationEvent<T>) => void;
-
-  "@rotation": (payload: NativeRotationEvent<T>) => void;
-
-  onLongPress: (payload: NativeGestureEvent<T>) => void;
-
-  "@longPress": (payload: NativeGestureEvent<T>) => void;
-
-  onTouch: (payload: NativeTouchEvent<T>) => void;
-
-  "@touch": (payload: NativeTouchEvent<T>) => void;
-
-  onPinch: (payload: NativePinchGestureEvent<T>) => void;
-
-  "@pinch": (payload: NativePinchGestureEvent<T>) => void;
-
-  onAndroidBackPressed: (payload: NativeAndroidBackPressedEvent<T>) => void;
-
-  "@androidBackPressed": (payload: NativeAndroidBackPressedEvent<T>) => void;
+  "on:androidBackPressed": (payload: NativeAndroidBackPressedEvent<T>) => void;
 
   /**
 * The view's unique accessibilityIdentifier.
@@ -1566,22 +1484,14 @@ Accepts language ID tags that follows the "BCP 47" specification.
   "ios:sharedTransitionIgnore": string | boolean;
 }
 
-interface HTMLWebViewElementAttributes<
+export interface HTMLWebViewElementAttributes<
   T extends HTMLWebViewElement = HTMLWebViewElement
 > extends HTMLViewElementAttributes<T> {
-  onLoadStarted: (
+  "on:loadStarted": (
     payload: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>
   ) => void;
 
-  "@loadStarted": (
-    payload: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>
-  ) => void;
-
-  onLoadFinished: (
-    payload: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>
-  ) => void;
-
-  "@loadFinished": (
+  "on:loadFinished": (
     payload: NativeDOMEventWithData<HTMLWebViewElement, LoadEventData>
   ) => void;
 
@@ -1637,14 +1547,10 @@ interface HTMLWebViewElementAttributes<
   "ios:disableZoom": string | boolean;
 }
 
-interface HTMLTimePickerElementAttributes<
+export interface HTMLTimePickerElementAttributes<
   T extends HTMLTimePickerElement = HTMLTimePickerElement
 > extends HTMLViewElementAttributes<T> {
-  onTimeChange: (
-    payload: NativeDOMPropertyChangeEvent<HTMLTimePickerElement> | undefined
-  ) => void;
-
-  "@timeChange": (
+  "on:timeChange": (
     payload: NativeDOMPropertyChangeEvent<HTMLTimePickerElement> | undefined
   ) => void;
 
@@ -1783,34 +1689,177 @@ Valid values are numbers:
   "ios:iosPreferredDatePickerStyle": number | string;
 }
 
-interface HTMLTextViewElementAttributes<
+export interface HTMLTextViewElementAttributes<
   T extends HTMLTextViewElement = HTMLTextViewElement
 > extends HTMLViewElementAttributes<T> {
-  onFocus: (payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>) => void;
-
-  "@focus": (
+  "on:focus": (
     payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>
   ) => void;
 
-  onReturnPress: (
+  "on:returnPress": (
     payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>
   ) => void;
 
-  "@returnPress": (
+  "on:blur": (
     payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>
   ) => void;
 
-  onBlur: (payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>) => void;
-
-  "@blur": (payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>) => void;
-
-  onTextChange: (
+  "on:textChange": (
     payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>
   ) => void;
 
-  "@textChange": (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextViewElement>
-  ) => void;
+  /**
+   * Gets or sets the text.
+   */
+  text: string;
+
+  /**
+* Gets or sets the text.
+@platform android
+*/
+  "android:text": string;
+
+  /**
+* Gets or sets the text.
+@platform ios
+*/
+  "ios:text": string;
+
+  /**
+   * Gets or sets a formatted string.
+   */
+  formattedText: string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform android
+*/
+  "android:formattedText": string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform ios
+*/
+  "ios:formattedText": string | FormattedString;
+
+  /**
+   * Gets or sets font-size style property.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets letterSpace style property.
+   */
+  letterSpacing: number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform android
+*/
+  "android:letterSpacing": number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform ios
+*/
+  "ios:letterSpacing": number | string;
+
+  /**
+   * Gets or sets lineHeight style property.
+   */
+  lineHeight: number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform android
+*/
+  "android:lineHeight": number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform ios
+*/
+  "ios:lineHeight": number | string;
+
+  /**
+   * Gets or sets text-alignment style property.
+   */
+  textAlignment: string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform android
+*/
+  "android:textAlignment": string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform ios
+*/
+  "ios:textAlignment": string | TextAlignmentType;
+
+  /**
+   * Gets or sets text decorations style property.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+
+  /**
+   * Gets or sets text shadow style property.
+   */
+  textShadow: string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform android
+*/
+  "android:textShadow": string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform ios
+*/
+  "ios:textShadow": string | CSSShadow;
+
+  /**
+   * Gets or sets white space style property.
+   */
+  whiteSpace: string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform android
+*/
+  "android:whiteSpace": string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform ios
+*/
+  "ios:whiteSpace": string | WhiteSpaceType;
 
   /**
    * Limits input to a certain number of lines.
@@ -1828,9 +1877,617 @@ interface HTMLTextViewElementAttributes<
 @platform ios
 */
   "ios:maxLines": number | string;
+
+  /**
+   * Gets or sets padding style property.
+   */
+  padding: string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform android
+*/
+  "android:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform ios
+*/
+  "ios:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform android
+*/
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform ios
+*/
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform android
+*/
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform ios
+*/
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform android
+*/
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform ios
+*/
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform android
+*/
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform ios
+*/
+  "ios:paddingTop": string | number | LengthType;
 }
 
-interface HTMLTabViewItemElementAttributes<
+export interface HTMLTextFieldElementAttributes<
+  T extends HTMLTextFieldElement = HTMLTextFieldElement
+> extends HTMLViewElementAttributes<T> {
+  "on:focus": (
+    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
+  ) => void;
+
+  "on:returnPress": (
+    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
+  ) => void;
+
+  "on:blur": (
+    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
+  ) => void;
+
+  "on:textChange": (
+    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
+  ) => void;
+
+  /**
+   * Gets or sets if a text field is for password entry.
+   */
+  secure: string | boolean;
+
+  /**
+* Gets or sets if a text field is for password entry.
+@platform android
+*/
+  "android:secure": string | boolean;
+
+  /**
+* Gets or sets if a text field is for password entry.
+@platform ios
+*/
+  "ios:secure": string | boolean;
+
+  /**
+   * Gets or sets if a text field should dismiss on return.
+   */
+  closeOnReturn: string | boolean;
+
+  /**
+* Gets or sets if a text field should dismiss on return.
+@platform android
+*/
+  "android:closeOnReturn": string | boolean;
+
+  /**
+* Gets or sets if a text field should dismiss on return.
+@platform ios
+*/
+  "ios:closeOnReturn": string | boolean;
+
+  /**
+   * iOS only (to avoid 12+ auto suggested strong password handling)
+   */
+  secureWithoutAutofill: string | boolean;
+
+  /**
+* iOS only (to avoid 12+ auto suggested strong password handling)
+@platform android
+*/
+  "android:secureWithoutAutofill": string | boolean;
+
+  /**
+* iOS only (to avoid 12+ auto suggested strong password handling)
+@platform ios
+*/
+  "ios:secureWithoutAutofill": string | boolean;
+
+  /**
+   * Gets or sets the text.
+   */
+  text: string;
+
+  /**
+* Gets or sets the text.
+@platform android
+*/
+  "android:text": string;
+
+  /**
+* Gets or sets the text.
+@platform ios
+*/
+  "ios:text": string;
+
+  /**
+   * Gets or sets a formatted string.
+   */
+  formattedText: string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform android
+*/
+  "android:formattedText": string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform ios
+*/
+  "ios:formattedText": string | FormattedString;
+
+  /**
+   * Gets or sets font-size style property.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets letterSpace style property.
+   */
+  letterSpacing: number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform android
+*/
+  "android:letterSpacing": number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform ios
+*/
+  "ios:letterSpacing": number | string;
+
+  /**
+   * Gets or sets lineHeight style property.
+   */
+  lineHeight: number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform android
+*/
+  "android:lineHeight": number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform ios
+*/
+  "ios:lineHeight": number | string;
+
+  /**
+   * Gets or sets text-alignment style property.
+   */
+  textAlignment: string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform android
+*/
+  "android:textAlignment": string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform ios
+*/
+  "ios:textAlignment": string | TextAlignmentType;
+
+  /**
+   * Gets or sets text decorations style property.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+
+  /**
+   * Gets or sets text shadow style property.
+   */
+  textShadow: string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform android
+*/
+  "android:textShadow": string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform ios
+*/
+  "ios:textShadow": string | CSSShadow;
+
+  /**
+   * Gets or sets white space style property.
+   */
+  whiteSpace: string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform android
+*/
+  "android:whiteSpace": string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform ios
+*/
+  "ios:whiteSpace": string | WhiteSpaceType;
+
+  /**
+   * Gets or sets padding style property.
+   */
+  padding: string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform android
+*/
+  "android:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform ios
+*/
+  "ios:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform android
+*/
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform ios
+*/
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform android
+*/
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform ios
+*/
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform android
+*/
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform ios
+*/
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform android
+*/
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform ios
+*/
+  "ios:paddingTop": string | number | LengthType;
+}
+
+export interface HTMLSpanElementAttributes<
+  T extends HTMLSpanElement = HTMLSpanElement
+> extends HTMLViewElementAttributes<T> {
+  "on:linkTap": (payload: NativeDOMEvent<HTMLSpanElement>) => void;
+
+  /**
+   * Gets or sets the font family of the span.
+   */
+  fontFamily: string;
+
+  /**
+* Gets or sets the font family of the span.
+@platform android
+*/
+  "android:fontFamily": string;
+
+  /**
+* Gets or sets the font family of the span.
+@platform ios
+*/
+  "ios:fontFamily": string;
+
+  /**
+   * Gets or sets the font size of the span.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets the font size of the span.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets the font size of the span.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets the font style of the span.
+   */
+  fontStyle: string | FontStyleType;
+
+  /**
+* Gets or sets the font style of the span.
+@platform android
+*/
+  "android:fontStyle": string | FontStyleType;
+
+  /**
+* Gets or sets the font style of the span.
+@platform ios
+*/
+  "ios:fontStyle": string | FontStyleType;
+
+  /**
+   * Gets or sets the font weight of the span.
+   */
+  fontWeight: string | FontWeightType;
+
+  /**
+* Gets or sets the font weight of the span.
+@platform android
+*/
+  "android:fontWeight": string | FontWeightType;
+
+  /**
+* Gets or sets the font weight of the span.
+@platform ios
+*/
+  "ios:fontWeight": string | FontWeightType;
+
+  /**
+   * Gets or sets text decorations for the span.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations for the span.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations for the span.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+
+  /**
+   * Gets or sets the text for the span.
+   */
+  text: string;
+
+  /**
+* Gets or sets the text for the span.
+@platform android
+*/
+  "android:text": string;
+
+  /**
+* Gets or sets the text for the span.
+@platform ios
+*/
+  "ios:text": string;
+
+  /**
+   * Gets if the span is tappable or not.
+   */
+  tappable: string | boolean;
+
+  /**
+* Gets if the span is tappable or not.
+@platform android
+*/
+  "android:tappable": string | boolean;
+
+  /**
+* Gets if the span is tappable or not.
+@platform ios
+*/
+  "ios:tappable": string | boolean;
+}
+
+export interface HTMLFormattedStringElementAttributes<
+  T extends HTMLFormattedStringElement = HTMLFormattedStringElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+   * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+   */
+  fontFamily: string;
+
+  /**
+* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontFamily": string;
+
+  /**
+* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontFamily": string;
+
+  /**
+   * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+   */
+  fontStyle: string | FontStyleType;
+
+  /**
+* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontStyle": string | FontStyleType;
+
+  /**
+* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontStyle": string | FontStyleType;
+
+  /**
+   * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+   */
+  fontWeight: string | FontWeightType;
+
+  /**
+* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontWeight": string | FontWeightType;
+
+  /**
+* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontWeight": string | FontWeightType;
+
+  /**
+   * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+}
+
+export interface HTMLTabViewItemElementAttributes<
   T extends HTMLTabViewItemElement = HTMLTabViewItemElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -1868,19 +2525,12 @@ interface HTMLTabViewItemElementAttributes<
   "ios:iconSource": string;
 }
 
-interface HTMLTabViewElementAttributes<
+export interface HTMLTabViewElementAttributes<
   T extends HTMLTabViewElement = HTMLTabViewElement
 > extends HTMLViewElementAttributes<T> {
-  onSelectedIndexChanged: (
+  "on:selectedIndexChanged": (
     payload: NativeDOMEventWithData<
-      HTMLTabViewELement,
-      SelectedIndexChangedEventData
-    >
-  ) => void;
-
-  "@selectedIndexChanged": (
-    payload: NativeDOMEventWithData<
-      HTMLTabViewELement,
+      HTMLTabViewElement,
       SelectedIndexChangedEventData
     >
   ) => void;
@@ -2109,230 +2759,11 @@ Valid values are:
   "ios:androidSwipeEnabled": string | boolean;
 }
 
-interface HTMLSpanElementAttributes<T extends HTMLSpanElement = HTMLSpanElement>
-  extends HTMLViewElementAttributes<T> {
-  onLinkTap: (payload: NativeDOMEvent<HTMLSpanElement>) => void;
-
-  "@linkTap": (payload: NativeDOMEvent<HTMLSpanElement>) => void;
-
-  /**
-   * Gets or sets the font family of the span.
-   */
-  fontFamily: string;
-
-  /**
-* Gets or sets the font family of the span.
-@platform android
-*/
-  "android:fontFamily": string;
-
-  /**
-* Gets or sets the font family of the span.
-@platform ios
-*/
-  "ios:fontFamily": string;
-
-  /**
-   * Gets or sets the font size of the span.
-   */
-  fontSize: number | string;
-
-  /**
-* Gets or sets the font size of the span.
-@platform android
-*/
-  "android:fontSize": number | string;
-
-  /**
-* Gets or sets the font size of the span.
-@platform ios
-*/
-  "ios:fontSize": number | string;
-
-  /**
-   * Gets or sets the font style of the span.
-   */
-  fontStyle: string | FontStyleType;
-
-  /**
-* Gets or sets the font style of the span.
-@platform android
-*/
-  "android:fontStyle": string | FontStyleType;
-
-  /**
-* Gets or sets the font style of the span.
-@platform ios
-*/
-  "ios:fontStyle": string | FontStyleType;
-
-  /**
-   * Gets or sets the font weight of the span.
-   */
-  fontWeight: string | FontWeightType;
-
-  /**
-* Gets or sets the font weight of the span.
-@platform android
-*/
-  "android:fontWeight": string | FontWeightType;
-
-  /**
-* Gets or sets the font weight of the span.
-@platform ios
-*/
-  "ios:fontWeight": string | FontWeightType;
-
-  /**
-   * Gets or sets text decorations for the span.
-   */
-  textDecoration: string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations for the span.
-@platform android
-*/
-  "android:textDecoration": string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations for the span.
-@platform ios
-*/
-  "ios:textDecoration": string | TextDecorationType;
-
-  /**
-   * Gets or sets the text for the span.
-   */
-  text: string;
-
-  /**
-* Gets or sets the text for the span.
-@platform android
-*/
-  "android:text": string;
-
-  /**
-* Gets or sets the text for the span.
-@platform ios
-*/
-  "ios:text": string;
-
-  /**
-   * Gets if the span is tappable or not.
-   */
-  tappable: string | boolean;
-
-  /**
-* Gets if the span is tappable or not.
-@platform android
-*/
-  "android:tappable": string | boolean;
-
-  /**
-* Gets if the span is tappable or not.
-@platform ios
-*/
-  "ios:tappable": string | boolean;
-}
-
-interface HTMLFormattedStringElementAttributes<
-  T extends HTMLFormattedStringElement = HTMLFormattedStringElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-   * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
-   */
-  fontFamily: string;
-
-  /**
-* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontFamily": string;
-
-  /**
-* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontFamily": string;
-
-  /**
-   * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
-   */
-  fontSize: number | string;
-
-  /**
-* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontSize": number | string;
-
-  /**
-* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontSize": number | string;
-
-  /**
-   * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
-   */
-  fontStyle: string | FontStyleType;
-
-  /**
-* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontStyle": string | FontStyleType;
-
-  /**
-* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontStyle": string | FontStyleType;
-
-  /**
-   * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
-   */
-  fontWeight: string | FontWeightType;
-
-  /**
-* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontWeight": string | FontWeightType;
-
-  /**
-* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontWeight": string | FontWeightType;
-
-  /**
-   * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
-   */
-  textDecoration: string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:textDecoration": string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:textDecoration": string | TextDecorationType;
-}
-
-interface HTMLSwitchElementAttributes<
+export interface HTMLSwitchElementAttributes<
   T extends HTMLSwitchElement = HTMLSwitchElement
 > extends HTMLViewElementAttributes<T> {
-  onCheckedChange: (
-    payload: NativeDOMPropertyChangeEvent<HTMLSwitchELement>
-  ) => void;
-
-  "@checkedChange": (
-    payload: NativeDOMPropertyChangeEvent<HTMLSwitchELement>
+  "on:checkedChange": (
+    payload: NativeDOMPropertyChangeEvent<HTMLSwitchElement>
   ) => void;
 
   /**
@@ -2370,31 +2801,100 @@ interface HTMLSwitchElementAttributes<
   "ios:offBackgroundColor": string | Color;
 }
 
-interface HTMLSliderElementAttributes<
+export interface HTMLSegmentedBarItemElementAttributes<
+  T extends HTMLSegmentedBarItemElement = HTMLSegmentedBarItemElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+   * Gets or sets the title of the SegmentedBarItem.
+   */
+  title: string;
+
+  /**
+* Gets or sets the title of the SegmentedBarItem.
+@platform android
+*/
+  "android:title": string;
+
+  /**
+* Gets or sets the title of the SegmentedBarItem.
+@platform ios
+*/
+  "ios:title": string;
+}
+
+export interface HTMLSegmentedBarElementAttributes<
+  T extends HTMLSegmentedBarElement = HTMLSegmentedBarElement
+> extends HTMLViewElementAttributes<T> {
+  "on:selectedIndexChanged": (
+    payload: NativeDOMEventWithData<
+      HTMLSegmentedBarElement,
+      SelectedIndexChangedEventData
+    >
+  ) => void;
+
+  /**
+   * Gets or sets the selected index of the SegmentedBar component.
+   */
+  selectedIndex: number | string;
+
+  /**
+* Gets or sets the selected index of the SegmentedBar component.
+@platform android
+*/
+  "android:selectedIndex": number | string;
+
+  /**
+* Gets or sets the selected index of the SegmentedBar component.
+@platform ios
+*/
+  "ios:selectedIndex": number | string;
+
+  /**
+   * Gets or sets the selected background color of the SegmentedBar component.
+   */
+  selectedBackgroundColor: string | Color;
+
+  /**
+* Gets or sets the selected background color of the SegmentedBar component.
+@platform android
+*/
+  "android:selectedBackgroundColor": string | Color;
+
+  /**
+* Gets or sets the selected background color of the SegmentedBar component.
+@platform ios
+*/
+  "ios:selectedBackgroundColor": string | Color;
+
+  /**
+   * Gets or sets the items of the SegmentedBar.
+   */
+  items: SegmentedBarItem[];
+
+  /**
+* Gets or sets the items of the SegmentedBar.
+@platform android
+*/
+  "android:items": SegmentedBarItem[];
+
+  /**
+* Gets or sets the items of the SegmentedBar.
+@platform ios
+*/
+  "ios:items": SegmentedBarItem[];
+}
+
+export interface HTMLSliderElementAttributes<
   T extends HTMLSliderElement = HTMLSliderElement
 > extends HTMLViewElementAttributes<T> {
-  onAccessibilityDecrement: (
+  "on:accessibilityDecrement": (
     payload: NativeDOMEventWithData<
       HTMLSliderElement,
       AccessibilityIncrementEventData
     >
   ) => void;
 
-  "@accessibilityDecrement": (
-    payload: NativeDOMEventWithData<
-      HTMLSliderElement,
-      AccessibilityIncrementEventData
-    >
-  ) => void;
-
-  onAccessibilityIncrement: (
-    payload: NativeDOMEventWithData<
-      HTMLSliderElement,
-      AccessibilityDecrementEventData
-    >
-  ) => void;
-
-  "@accessibilityIncrement": (
+  "on:accessibilityIncrement": (
     payload: NativeDOMEventWithData<
       HTMLSliderElement,
       AccessibilityDecrementEventData
@@ -2470,114 +2970,16 @@ interface HTMLSliderElementAttributes<
   "ios:accessibilityStep": number | string;
 }
 
-interface HTMLSegmentedBarItemElementAttributes<
-  T extends HTMLSegmentedBarItemElement = HTMLSegmentedBarItemElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-   * Gets or sets the title of the SegmentedBarItem.
-   */
-  title: string;
-
-  /**
-* Gets or sets the title of the SegmentedBarItem.
-@platform android
-*/
-  "android:title": string;
-
-  /**
-* Gets or sets the title of the SegmentedBarItem.
-@platform ios
-*/
-  "ios:title": string;
-}
-
-interface HTMLSegmentedBarElementAttributes<
-  T extends HTMLSegmentedBarElement = HTMLSegmentedBarElement
-> extends HTMLViewElementAttributes<T> {
-  onSelectedIndexChanged: (
-    payload: NativeDOMEventWithData<
-      HTMLSegmentedBarElement,
-      SelectedIndexChangedEventData
-    >
-  ) => void;
-
-  "@selectedIndexChanged": (
-    payload: NativeDOMEventWithData<
-      HTMLSegmentedBarElement,
-      SelectedIndexChangedEventData
-    >
-  ) => void;
-
-  /**
-   * Gets or sets the selected index of the SegmentedBar component.
-   */
-  selectedIndex: number | string;
-
-  /**
-* Gets or sets the selected index of the SegmentedBar component.
-@platform android
-*/
-  "android:selectedIndex": number | string;
-
-  /**
-* Gets or sets the selected index of the SegmentedBar component.
-@platform ios
-*/
-  "ios:selectedIndex": number | string;
-
-  /**
-   * Gets or sets the selected background color of the SegmentedBar component.
-   */
-  selectedBackgroundColor: string | Color;
-
-  /**
-* Gets or sets the selected background color of the SegmentedBar component.
-@platform android
-*/
-  "android:selectedBackgroundColor": string | Color;
-
-  /**
-* Gets or sets the selected background color of the SegmentedBar component.
-@platform ios
-*/
-  "ios:selectedBackgroundColor": string | Color;
-
-  /**
-   * Gets or sets the items of the SegmentedBar.
-   */
-  items: SegmentedBarItem[];
-
-  /**
-* Gets or sets the items of the SegmentedBar.
-@platform android
-*/
-  "android:items": SegmentedBarItem[];
-
-  /**
-* Gets or sets the items of the SegmentedBar.
-@platform ios
-*/
-  "ios:items": SegmentedBarItem[];
-}
-
-interface HTMLSearchBarElementAttributes<
+export interface HTMLSearchBarElementAttributes<
   T extends HTMLSearchBarElement = HTMLSearchBarElement
 > extends HTMLViewElementAttributes<T> {
-  onSubmit: (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
+  "on:submit": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
 
-  "@submit": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
+  "on:clear": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
 
-  onClear: (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
+  "on:close": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
 
-  "@clear": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
-
-  onClose: (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
-
-  "@close": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
-
-  onTextChange: (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
-
-  "@textChange": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
+  "on:textChange": (payload: NativeDOMEvent<HTMLSearchBarElement>) => void;
 
   /**
    * Gets or sets a search bar text.
@@ -2648,12 +3050,103 @@ interface HTMLSearchBarElementAttributes<
   "ios:textFieldHintColor": string | Color;
 }
 
-interface HTMLScrollViewElementAttributes<
+export interface HTMLRepeaterElementAttributes<
+  T extends HTMLRepeaterElement = HTMLRepeaterElement
+> extends HTMLViewElementAttributes<T> {}
+
+export interface HTMLProxyViewContainerElementAttributes<
+  T extends HTMLProxyViewContainerElement = HTMLProxyViewContainerElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform android
+*/
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform ios
+*/
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform android
+*/
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform ios
+*/
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform android
+*/
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform ios
+*/
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform android
+*/
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform ios
+*/
+  "ios:paddingTop": string | number | LengthType;
+
+  /**
+   * Gets or sets a value indicating whether to clip the content of this layout.
+   */
+  clipToBounds: string | boolean;
+
+  /**
+* Gets or sets a value indicating whether to clip the content of this layout.
+@platform android
+*/
+  "android:clipToBounds": string | boolean;
+
+  /**
+* Gets or sets a value indicating whether to clip the content of this layout.
+@platform ios
+*/
+  "ios:clipToBounds": string | boolean;
+}
+
+export interface HTMLScrollViewElementAttributes<
   T extends HTMLScrollViewElement = HTMLScrollViewElement
 > extends HTMLViewElementAttributes<T> {
-  onScroll: (payload: NativeScrollEvent<HTMLScrollViewElement>) => void;
-
-  "@scroll": (payload: NativeScrollEvent<HTMLScrollViewElement>) => void;
+  "on:scroll": (payload: NativeScrollEvent<HTMLScrollViewElement>) => void;
 
   /**
    * Gets or sets a value indicating whether scroll is enabled.
@@ -2775,107 +3268,10 @@ interface HTMLScrollViewElementAttributes<
   "ios:orientation": string | OrientationType;
 }
 
-interface HTMLProxyViewContainerElementAttributes<
-  T extends HTMLProxyViewContainerElement = HTMLProxyViewContainerElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-   * Specify the bottom padding of this layout.
-   */
-  paddingBottom: string | number | LengthType;
-
-  /**
-* Specify the bottom padding of this layout.
-@platform android
-*/
-  "android:paddingBottom": string | number | LengthType;
-
-  /**
-* Specify the bottom padding of this layout.
-@platform ios
-*/
-  "ios:paddingBottom": string | number | LengthType;
-
-  /**
-   * Specify the left padding of this layout.
-   */
-  paddingLeft: string | number | LengthType;
-
-  /**
-* Specify the left padding of this layout.
-@platform android
-*/
-  "android:paddingLeft": string | number | LengthType;
-
-  /**
-* Specify the left padding of this layout.
-@platform ios
-*/
-  "ios:paddingLeft": string | number | LengthType;
-
-  /**
-   * Specify the right padding of this layout.
-   */
-  paddingRight: string | number | LengthType;
-
-  /**
-* Specify the right padding of this layout.
-@platform android
-*/
-  "android:paddingRight": string | number | LengthType;
-
-  /**
-* Specify the right padding of this layout.
-@platform ios
-*/
-  "ios:paddingRight": string | number | LengthType;
-
-  /**
-   * Specify the top padding of this layout.
-   */
-  paddingTop: string | number | LengthType;
-
-  /**
-* Specify the top padding of this layout.
-@platform android
-*/
-  "android:paddingTop": string | number | LengthType;
-
-  /**
-* Specify the top padding of this layout.
-@platform ios
-*/
-  "ios:paddingTop": string | number | LengthType;
-
-  /**
-   * Gets or sets a value indicating whether to clip the content of this layout.
-   */
-  clipToBounds: string | boolean;
-
-  /**
-* Gets or sets a value indicating whether to clip the content of this layout.
-@platform android
-*/
-  "android:clipToBounds": string | boolean;
-
-  /**
-* Gets or sets a value indicating whether to clip the content of this layout.
-@platform ios
-*/
-  "ios:clipToBounds": string | boolean;
-}
-
-interface HTMLRepeaterElementAttributes<
-  T extends HTMLRepeaterElement = HTMLRepeaterElement
-> extends HTMLViewElementAttributes<T> {}
-
-interface HTMLProgressElementAttributes<
+export interface HTMLProgressElementAttributes<
   T extends HTMLProgressElement = HTMLProgressElement
 > extends HTMLViewElementAttributes<T> {
-  onValueChange: (
-    payload: NativeDOMPropertyChangeEvent<HTMLProgressElement>
-  ) => void;
-
-  "@valueChange": (
+  "on:valueChange": (
     payload: NativeDOMPropertyChangeEvent<HTMLProgressElement>
   ) => void;
 
@@ -2914,32 +3310,28 @@ interface HTMLProgressElementAttributes<
   "ios:maxValue": number | string;
 }
 
-interface HTMLListViewElementAttributes<
+export interface HTMLPlaceholderElementAttributes<
+  T extends HTMLPlaceholderElement = HTMLPlaceholderElement
+> extends HTMLViewElementAttributes<T> {
+  "on:creatingView": (
+    payload: NativeDOMEventWithData<HTMLPlaceholderElement, CreateViewEventData>
+  ) => void;
+}
+
+export interface HTMLListViewElementAttributes<
   T extends HTMLListViewElement = HTMLListViewElement
 > extends HTMLViewElementAttributes<T> {
-  onItemLoading: (
+  "on:itemLoading": (
     payload: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>
   ) => void;
 
-  "@itemLoading": (
+  "on:itemTap": (
     payload: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>
   ) => void;
 
-  onItemTap: (
-    payload: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>
-  ) => void;
+  "on:loadMoreItems": (payload: NativeDOMEvent<HTMLListViewElement>) => void;
 
-  "@itemTap": (
-    payload: NativeDOMEventWithData<HTMLListViewElement, ItemEventData>
-  ) => void;
-
-  onLoadMoreItems: (payload: NativeDOMEvent<HTMLListViewElement>) => void;
-
-  "@loadMoreItems": (payload: NativeDOMEvent<HTMLListViewElement>) => void;
-
-  onScroll: (payload: NativeDOMEvent) => void;
-
-  "@scroll": (payload: NativeDOMEvent) => void;
+  "on:scroll": (payload: NativeDOMEvent) => void;
 
   /**
 * Gets or set the items collection of the ListView.
@@ -3059,23 +3451,18 @@ The default value is 44px.
   "ios:iosEstimatedRowHeight": string | number | LengthType;
 }
 
-interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
-  extends HTMLViewElementAttributes<T> {
-  onNavigatingTo: (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+export interface HTMLPageElementAttributes<
+  T extends HTMLPageElement = HTMLPageElement
+> extends HTMLViewElementAttributes<T> {
+  "on:navigatingTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
 
-  "@navigatingTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+  "on:navigatedTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
 
-  onNavigatedTo: (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+  "on:navigatingFrom": (
+    payload: NativeNavigationEvent<HTMLPageElement>
+  ) => void;
 
-  "@navigatedTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  onNavigatingFrom: (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  "@navigatingFrom": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  onNavigatedFrom: (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  "@navigatedFrom": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+  "on:navigatedFrom": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
 
   /**
    * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
@@ -3197,34 +3584,14 @@ interface HTMLPageElementAttributes<T extends HTMLPageElement = HTMLPageElement>
   "ios:androidStatusBarBackground": string | Color;
 }
 
-interface HTMLPlaceholderElementAttributes<
-  T extends HTMLPlaceholderElement = HTMLPlaceholderElement
-> extends HTMLViewElementAttributes<T> {
-  onCreatingView: (
-    payload: NativeDOMEventWithData<HTMLPlaceholderElement, CreateViewEventData>
-  ) => void;
-
-  "@creatingView": (
-    payload: NativeDOMEventWithData<HTMLPlaceholderElement, CreateViewEventData>
-  ) => void;
-}
-
-interface HTMLListPickerElementAttributes<
+export interface HTMLListPickerElementAttributes<
   T extends HTMLListPickerElement = HTMLListPickerElement
 > extends HTMLViewElementAttributes<T> {
-  onSelectedIndexChange: (
+  "on:selectedIndexChange": (
     payload: NativeDOMPropertyChangeEvent<HTMLListPickerElement> | undefined
   ) => void;
 
-  "@selectedIndexChange": (
-    payload: NativeDOMPropertyChangeEvent<HTMLListPickerElement> | undefined
-  ) => void;
-
-  onSelectedValueChange: (
-    payload: NativeDOMPropertyChangeEvent<HTMLListPickerElement> | undefined
-  ) => void;
-
-  "@selectedValueChange": (
+  "on:selectedValueChange": (
     payload: NativeDOMPropertyChangeEvent<HTMLListPickerElement> | undefined
   ) => void;
 
@@ -3266,7 +3633,7 @@ The items property can be set to an array or an object defining length and getIt
   "ios:items": any;
 }
 
-interface HTMLLabelElementAttributes<
+export interface HTMLLabelElementAttributes<
   T extends HTMLLabelElement = HTMLLabelElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3285,9 +3652,247 @@ interface HTMLLabelElementAttributes<
 @platform ios
 */
   "ios:textWrap": string | boolean;
+
+  /**
+   * Gets or sets the text.
+   */
+  text: string;
+
+  /**
+* Gets or sets the text.
+@platform android
+*/
+  "android:text": string;
+
+  /**
+* Gets or sets the text.
+@platform ios
+*/
+  "ios:text": string;
+
+  /**
+   * Gets or sets a formatted string.
+   */
+  formattedText: string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform android
+*/
+  "android:formattedText": string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform ios
+*/
+  "ios:formattedText": string | FormattedString;
+
+  /**
+   * Gets or sets font-size style property.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets letterSpace style property.
+   */
+  letterSpacing: number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform android
+*/
+  "android:letterSpacing": number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform ios
+*/
+  "ios:letterSpacing": number | string;
+
+  /**
+   * Gets or sets lineHeight style property.
+   */
+  lineHeight: number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform android
+*/
+  "android:lineHeight": number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform ios
+*/
+  "ios:lineHeight": number | string;
+
+  /**
+   * Gets or sets text-alignment style property.
+   */
+  textAlignment: string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform android
+*/
+  "android:textAlignment": string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform ios
+*/
+  "ios:textAlignment": string | TextAlignmentType;
+
+  /**
+   * Gets or sets text decorations style property.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+
+  /**
+   * Gets or sets text shadow style property.
+   */
+  textShadow: string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform android
+*/
+  "android:textShadow": string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform ios
+*/
+  "ios:textShadow": string | CSSShadow;
+
+  /**
+   * Gets or sets white space style property.
+   */
+  whiteSpace: string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform android
+*/
+  "android:whiteSpace": string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform ios
+*/
+  "ios:whiteSpace": string | WhiteSpaceType;
+
+  /**
+   * Gets or sets padding style property.
+   */
+  padding: string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform android
+*/
+  "android:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform ios
+*/
+  "ios:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform android
+*/
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform ios
+*/
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform android
+*/
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform ios
+*/
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform android
+*/
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform ios
+*/
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform android
+*/
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform ios
+*/
+  "ios:paddingTop": string | number | LengthType;
 }
 
-interface HTMLImageElementAttributes<
+export interface HTMLImageElementAttributes<
   T extends HTMLImageElement = HTMLImageElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3425,7 +4030,7 @@ This property is Android specific.
   "ios:decodeWidth": string | number | LengthType;
 }
 
-interface HTMLHtmlViewElementAttributes<
+export interface HTMLHtmlViewElementAttributes<
   T extends HTMLHtmlViewElement = HTMLHtmlViewElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3446,16 +4051,12 @@ interface HTMLHtmlViewElementAttributes<
   "ios:html": string;
 }
 
-interface HTMLFrameElementAttributes<
+export interface HTMLFrameElementAttributes<
   T extends HTMLFrameElement = HTMLFrameElement
 > extends HTMLViewElementAttributes<T> {
-  onNavigatingTo: (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+  "on:navigatingTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
 
-  "@navigatingTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  onNavigatedTo: (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  "@navigatedTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+  "on:navigatedTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
 
   /**
    * Used to control the visibility the Navigation Bar in iOS and the Action Bar in Android.
@@ -3509,14 +4110,10 @@ interface HTMLFrameElementAttributes<
   "ios:transition": string | NavigationTransition;
 }
 
-interface HTMLDatePickerElementAttributes<
+export interface HTMLDatePickerElementAttributes<
   T extends HTMLDatePickerElement = HTMLDatePickerElement
 > extends HTMLViewElementAttributes<T> {
-  onDateChange: (
-    payload: NativeDOMPropertyChangeEvent<HTMLDatePickerElement>
-  ) => void;
-
-  "@dateChange": (
+  "on:dateChange": (
     payload: NativeDOMPropertyChangeEvent<HTMLDatePickerElement>
   ) => void;
 
@@ -3655,7 +4252,7 @@ Valid values are numbers:
   "ios:iosPreferredDatePickerStyle": number | string;
 }
 
-interface HTMLContentViewElementAttributes<
+export interface HTMLContentViewElementAttributes<
   T extends HTMLContentViewElement = HTMLContentViewElement
 > extends HTMLViewElementAttributes<T> {
   content: string | View;
@@ -3673,7 +4270,7 @@ interface HTMLContentViewElementAttributes<
   "ios:content": string | View;
 }
 
-interface HTMLButtonElementAttributes<
+export interface HTMLButtonElementAttributes<
   T extends HTMLButtonElement = HTMLButtonElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3692,9 +4289,247 @@ interface HTMLButtonElementAttributes<
 @platform ios
 */
   "ios:textWrap": string | boolean;
+
+  /**
+   * Gets or sets the text.
+   */
+  text: string;
+
+  /**
+* Gets or sets the text.
+@platform android
+*/
+  "android:text": string;
+
+  /**
+* Gets or sets the text.
+@platform ios
+*/
+  "ios:text": string;
+
+  /**
+   * Gets or sets a formatted string.
+   */
+  formattedText: string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform android
+*/
+  "android:formattedText": string | FormattedString;
+
+  /**
+* Gets or sets a formatted string.
+@platform ios
+*/
+  "ios:formattedText": string | FormattedString;
+
+  /**
+   * Gets or sets font-size style property.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets font-size style property.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets letterSpace style property.
+   */
+  letterSpacing: number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform android
+*/
+  "android:letterSpacing": number | string;
+
+  /**
+* Gets or sets letterSpace style property.
+@platform ios
+*/
+  "ios:letterSpacing": number | string;
+
+  /**
+   * Gets or sets lineHeight style property.
+   */
+  lineHeight: number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform android
+*/
+  "android:lineHeight": number | string;
+
+  /**
+* Gets or sets lineHeight style property.
+@platform ios
+*/
+  "ios:lineHeight": number | string;
+
+  /**
+   * Gets or sets text-alignment style property.
+   */
+  textAlignment: string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform android
+*/
+  "android:textAlignment": string | TextAlignmentType;
+
+  /**
+* Gets or sets text-alignment style property.
+@platform ios
+*/
+  "ios:textAlignment": string | TextAlignmentType;
+
+  /**
+   * Gets or sets text decorations style property.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations style property.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+
+  /**
+   * Gets or sets text shadow style property.
+   */
+  textShadow: string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform android
+*/
+  "android:textShadow": string | CSSShadow;
+
+  /**
+* Gets or sets text shadow style property.
+@platform ios
+*/
+  "ios:textShadow": string | CSSShadow;
+
+  /**
+   * Gets or sets white space style property.
+   */
+  whiteSpace: string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform android
+*/
+  "android:whiteSpace": string | WhiteSpaceType;
+
+  /**
+* Gets or sets white space style property.
+@platform ios
+*/
+  "ios:whiteSpace": string | WhiteSpaceType;
+
+  /**
+   * Gets or sets padding style property.
+   */
+  padding: string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform android
+*/
+  "android:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+* Gets or sets padding style property.
+@platform ios
+*/
+  "ios:padding": string | number | LengthDipUnit | LengthPxUnit;
+
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform android
+*/
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform ios
+*/
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform android
+*/
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform ios
+*/
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform android
+*/
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform ios
+*/
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform android
+*/
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform ios
+*/
+  "ios:paddingTop": string | number | LengthType;
 }
 
-interface HTMLActivityIndicatorElementAttributes<
+export interface HTMLActivityIndicatorElementAttributes<
   T extends HTMLActivityIndicatorElement = HTMLActivityIndicatorElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3715,7 +4550,7 @@ interface HTMLActivityIndicatorElementAttributes<
   "ios:busy": string | boolean;
 }
 
-interface HTMLActionBarElementAttributes<
+export interface HTMLActionBarElementAttributes<
   T extends HTMLActionBarElement = HTMLActionBarElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3848,7 +4683,7 @@ Valid values are:
     | "alwaysTemplate";
 }
 
-interface HTMLActionItemElementAttributes<
+export interface HTMLActionItemElementAttributes<
   T extends HTMLActionItemElement = HTMLActionItemElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3886,7 +4721,7 @@ interface HTMLActionItemElementAttributes<
   "ios:icon": string;
 }
 
-interface HTMLNavigationButtonElementAttributes<
+export interface HTMLNavigationButtonElementAttributes<
   T extends HTMLNavigationButtonElement = HTMLNavigationButtonElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -3924,92 +4759,31 @@ interface HTMLNavigationButtonElementAttributes<
   "ios:icon": string;
 }
 
-interface HTMLTextFieldElementAttributes<
-  T extends HTMLTextFieldElement = HTMLTextFieldElement
+export interface HTMLStackLayoutElementAttributes<
+  T extends HTMLStackLayoutElement = HTMLStackLayoutElement
 > extends HTMLViewElementAttributes<T> {
-  onFocus: (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
-
-  "@focus": (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
-
-  onReturnPress: (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
-
-  "@returnPress": (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
-
-  onBlur: (payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>) => void;
-
-  "@blur": (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
-
-  onTextChange: (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
-
-  "@textChange": (
-    payload: NativeDOMPropertyChangeEvent<HTMLTextFieldElement>
-  ) => void;
+  /**
+* Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+*/
+  orientation: string | OrientationType;
 
   /**
-   * Gets or sets if a text field is for password entry.
-   */
-  secure: string | boolean;
-
-  /**
-* Gets or sets if a text field is for password entry.
+* Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
 @platform android
 */
-  "android:secure": string | boolean;
+  "android:orientation": string | OrientationType;
 
   /**
-* Gets or sets if a text field is for password entry.
+* Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
 @platform ios
 */
-  "ios:secure": string | boolean;
-
-  /**
-   * Gets or sets if a text field should dismiss on return.
-   */
-  closeOnReturn: string | boolean;
-
-  /**
-* Gets or sets if a text field should dismiss on return.
-@platform android
-*/
-  "android:closeOnReturn": string | boolean;
-
-  /**
-* Gets or sets if a text field should dismiss on return.
-@platform ios
-*/
-  "ios:closeOnReturn": string | boolean;
-
-  /**
-   * iOS only (to avoid 12+ auto suggested strong password handling)
-   */
-  secureWithoutAutofill: string | boolean;
-
-  /**
-* iOS only (to avoid 12+ auto suggested strong password handling)
-@platform android
-*/
-  "android:secureWithoutAutofill": string | boolean;
-
-  /**
-* iOS only (to avoid 12+ auto suggested strong password handling)
-@platform ios
-*/
-  "ios:secureWithoutAutofill": string | boolean;
+  "ios:orientation": string | OrientationType;
 }
 
-interface HTMLWrapLayoutElementAttributes<
+export interface HTMLWrapLayoutElementAttributes<
   T extends HTMLWrapLayoutElement = HTMLWrapLayoutElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -4158,7 +4932,7 @@ Default value is Number.NaN which does not restrict children.
   "ios:clipToBounds": string | boolean;
 }
 
-interface HTMLRootLayoutElementAttributes<
+export interface HTMLRootLayoutElementAttributes<
   T extends HTMLRootLayoutElement = HTMLRootLayoutElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -4247,7 +5021,7 @@ interface HTMLRootLayoutElementAttributes<
   "ios:clipToBounds": string | boolean;
 }
 
-interface HTMLGridLayoutElementAttributes<
+export interface HTMLGridLayoutElementAttributes<
   T extends HTMLGridLayoutElement = HTMLGridLayoutElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -4334,33 +5108,37 @@ interface HTMLGridLayoutElementAttributes<
 @platform ios
 */
   "ios:clipToBounds": string | boolean;
-}
 
-interface HTMLStackLayoutElementAttributes<
-  T extends HTMLStackLayoutElement = HTMLStackLayoutElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-* Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-*/
-  orientation: string | OrientationType;
+  rows: string;
 
   /**
-* Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
+* 
 @platform android
 */
-  "android:orientation": string | OrientationType;
+  "android:rows": string;
 
   /**
-* Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
+* 
 @platform ios
 */
-  "ios:orientation": string | OrientationType;
+  "ios:rows": string;
+
+  columns: string;
+
+  /**
+* 
+@platform android
+*/
+  "android:columns": string;
+
+  /**
+* 
+@platform ios
+*/
+  "ios:columns": string;
 }
 
-interface HTMLFlexboxLayoutElementAttributes<
+export interface HTMLFlexboxLayoutElementAttributes<
   T extends HTMLFlexboxLayoutElement = HTMLFlexboxLayoutElement
 > extends HTMLViewElementAttributes<T> {
   flexDirection: string | FlexDirection;
@@ -4519,7 +5297,7 @@ interface HTMLFlexboxLayoutElementAttributes<
   "ios:clipToBounds": string | boolean;
 }
 
-interface HTMLDockLayoutElementAttributes<
+export interface HTMLDockLayoutElementAttributes<
   T extends HTMLDockLayoutElement = HTMLDockLayoutElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -4628,7 +5406,7 @@ The default value is true.
   "ios:clipToBounds": string | boolean;
 }
 
-interface HTMLAbsoluteLayoutElementAttributes<
+export interface HTMLAbsoluteLayoutElementAttributes<
   T extends HTMLAbsoluteLayoutElement = HTMLAbsoluteLayoutElement
 > extends HTMLViewElementAttributes<T> {
   /**
@@ -4717,359 +5495,335 @@ interface HTMLAbsoluteLayoutElementAttributes<
   "ios:clipToBounds": string | boolean;
 }
 
-interface HTMLContainerViewElementAttributes<
+export interface HTMLContainerViewElementAttributes<
   T extends HTMLContainerViewElement = HTMLContainerViewElement
 > extends HTMLViewElementAttributes<T> {}
 
-interface HTMLCustomLayoutViewElementAttributes<
+export interface HTMLCustomLayoutViewElementAttributes<
   T extends HTMLCustomLayoutViewElement = HTMLCustomLayoutViewElement
 > extends HTMLViewElementAttributes<T> {}
 
-/**
- * Extend html elements that conflict with nativescript views.
- */
-declare module "@vue/runtime-dom" {
-  export interface LabelHTMLAttributes extends HTMLLabelElementAttributes {}
-  export interface SpanHTMLAttributes extends HTMLSpanElementAttributes {}
-  export interface ButtonHTMLAttributes extends HTMLButtonElementAttributes {}
-}
+// allow arbitrary props on all elements.
+type JSXElementAttributes<T extends HTMLViewBaseElementAttributes> =
+  Partial<T> & {
+    [name: string]: any;
+  };
 
-declare module "@vue/runtime-core" {
-  export type DefineNativeComponent<T> = DefineComponent<Partial<T>>;
+interface CoreIntrinsicElements {
+  /**
+   * Represents a standard WebView widget.
+   */
+  webview: JSXElementAttributes<HTMLWebViewElementAttributes>;
 
   /**
-   * @nativescript Define all components as both PascalCase & kebab-case since vue allows both.
+   * Represents an time picker.
    */
-  export interface GlobalComponents {
-    /**
-     * A UI component used to display <Page> elements. Every app needs at least a single <Frame> element, usually set as the root element.
-     */
-    Frame: DefineNativeComponent<HTMLFrameElementAttributes>;
-    /**
-     * A UI component that represents an application screen. NativeScript apps typically consist of one or more `<Page>` that wrap content such as an `<ActionBar>` and other UI widgets.
-     */
-    Page: DefineNativeComponent<HTMLPageElementAttributes>;
-    /**
-     * This class is the base class for all UI components. A View occupies a rectangular area on the screen and is responsible for drawing and layouting of all UI components within.
-     */
-    View: DefineNativeComponent<HTMLViewElementAttributes>;
-    /**
-     * A layout container that lets you stack the child elements vertically (default) or horizontally.
-     */
-    StackLayout: DefineNativeComponent<HTMLStackLayoutElementAttributes>;
-    /**
-     * A layout container that provides a non-exact implementation of the CSS Flexbox layout. This layout lets you arrange child components both horizontally and vertically.
-     */
-    FlexboxLayout: DefineNativeComponent<HTMLFlexboxLayoutElementAttributes>;
-    /**
-        * A layout container that lets you arrange its child elements in a table-like manner.
-   
-   The grid consists of rows, columns, and cells. A cell can span one or more rows and one or more columns. 
-   It can contain multiple child elements which can span over multiple rows and columns, and even overlap each other.
-   
-   By default, <GridLayout> has one column and one row. You can add columns and rows by configuring the columns and the rows properties. 
-   In these properties, you need to set the number of columns and rows and their width and height. You set the number of columns by listing their widths, 
-   separated by a comma. You set the number of rows by listing their heights, separated by a comma.
-        */
-    GridLayout: DefineNativeComponent<HTMLGridLayoutElementAttributes>;
-    /**
-     * A UI component that shows an editable or a read-only multi-line text container. You can use it to let users type large text in your app or to show longer, multi-line text on the screen.
-     */
-    TextView: DefineNativeComponent<HTMLTextViewElementAttributes>;
-    /**
-     * An input component that creates an editable single-line box.
-     */
-    TextField: DefineNativeComponent<HTMLTextFieldElementAttributes>;
-    /**
-     * A layout container that lets you position items in rows or columns, based on the orientation property.
-     * When the space is filled, the container automatically wraps items onto a new row or column.
-     */
-    WrapLayout: DefineNativeComponent<HTMLWrapLayoutElementAttributes>;
-    /**
-     * The WebView component is used to display web content within your application.
-     * You use the control by providing a `src` attribute that accepts a URL,a path
-     * to a local HTML file or directly HTML string.
-     */
-    WebView: DefineNativeComponent<HTMLWebViewElementAttributes>;
-    /**
-     * A layout that lets you specify exact locations (left/top coordinates) of its children.
-     */
-    AbsoluteLayout: DefineNativeComponent<HTMLAbsoluteLayoutElementAttributes>;
-    /**
-     * Provides an abstraction over the ActionBar (android) and NavigationBar (iOS).
-     */
-    ActionBar: DefineNativeComponent<HTMLActionBarElementAttributes>;
-    /**
-     * Represents an action item in the action bar.
-     */
-    ActionItem: DefineNativeComponent<HTMLActionItemElementAttributes>;
-    /**
-     * Represents a UI widget which displays a progress indicator hinting the user for some background operation running.
-     */
-    ActivityIndicator: DefineNativeComponent<HTMLActivityIndicatorElementAttributes>;
-    ContentView: DefineNativeComponent<HTMLContentViewElementAttributes>;
-    /**
-     * A UI component that lets users select a date from a pre-configured range.
-     */
-    DatePicker: DefineNativeComponent<HTMLDatePickerElementAttributes>;
-    /**
-     * a layout container that lets you dock child elements to the sides or the center of the layout.
-     *
-     * Use the `dock` property to dock its children to the `left`, `right`, `top`, `bottom` or `center` of the layout.
-     * To dock a child element to the center, it must be the last child of the container and you must set
-     * the `stretchLastChild` property of the parent to `true`.
-     */
-    DockLayout: DefineNativeComponent<HTMLDockLayoutElementAttributes>;
-    /**
-     * A View to support various text transformations and decorations. The FormattedString class can be used
-     * with all text-related components like `Label`, `TextView`, `TextField` and even `Button`.
-     *
-     * FormattedString only accepts `span` as it's children.
-     */
-    FormattedString: DefineNativeComponent<HTMLFormattedStringElementAttributes>;
-    /**
-     * The HtmlView represents a view with HTML content. Use this component instead of a WebView when you want to show static HTML content with base HTML support.
-     */
-    HtmlView: DefineNativeComponent<HTMLHtmlViewElementAttributes>;
-    /**
-     * The Image widget shows an image in your mobile application.
-     */
-    Image: DefineNativeComponent<HTMLImageElementAttributes>;
-    /**
-     * The ListPicker is a spinner type component for listing options.
-     */
-    ListPicker: DefineNativeComponent<HTMLListPickerElementAttributes>;
-    /**
-     * A UI component that is used to render large lists of data.
-     */
-    ListView: DefineNativeComponent<HTMLListViewElementAttributes>;
-    /**
-     *
-     */
-    NavigationButton: DefineNativeComponent<HTMLNavigationButtonElementAttributes>;
-    /**
-     * `<Placeholder>` allows you to add any native widget to your application. To do that, you need to put a Placeholder somewhere in
-     * the UI hierarchy and then create and configure the native widget that you want to appear there. Finally,
-     * pass your native widget to the event arguments of the creatingView event.
-     */
-    Placeholder: DefineNativeComponent<HTMLPlaceholderElementAttributes>;
-    /**
-     * A UI component that shows a bar to indicate the progress of a task.
-     */
-    Progress: DefineNativeComponent<HTMLProgressElementAttributes>;
+  timepicker: JSXElementAttributes<HTMLTimePickerElementAttributes>;
 
-    ProxyView: DefineNativeComponent<HTMLProxyViewContainerElementAttributes>;
-    /**
-     * A layout container designed to be used as the primary root layout container for your app with a built in api to easily control dynamic view layers. It extends a GridLayout so has all the features of a grid but enhanced with additional apis.
-     */
-    RootLayout: DefineNativeComponent<HTMLRootLayoutElementAttributes>;
-    /**
-     * A UI component that shows a scrollable content area. Content can be scrolled vertically or horizontally.
-     */
-    ScrollView: DefineNativeComponent<HTMLScrollViewElementAttributes>;
-    /**
-     * A UI component that provides a user interface for entering search queries and submitting requests to the search provider.
-     */
-    SearchBar: DefineNativeComponent<HTMLSearchBarElementAttributes>;
-    /**
-     * A UI bar component that displays a set of buttons for discrete selection. Can show text or images.
-     */
-    SegmentedBar: DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
-    /**
-     * An item displayed inside SegmentedBar.
-     */
-    SegmentedBarItem: DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
-    /**
-     * A UI component that provides a slider control for picking values within a specified numeric range.
-     */
-    Slider: DefineNativeComponent<HTMLSliderElementAttributes>;
-    /**
-     * A UI component that lets users toggle between two states.
-     */
-    Switch: DefineNativeComponent<HTMLSwitchElementAttributes>;
-    /**
-     * A navigation component that shows content grouped into tabs and lets users switch between tabs.
-     */
-    TabView: DefineNativeComponent<HTMLTabViewElementAttributes>;
-    /**
-     * A screen inside TabView.
-     *
-     * Currently, TabViewItem expects a single child element. In most cases, you might want to wrap your content in a layout.
-     */
-    TabViewItem: DefineNativeComponent<HTMLTabViewItemElementAttributes>;
-    /**
-     * A UI component that lets users select time.
-     */
-    TimePicker: DefineNativeComponent<HTMLTimePickerElementAttributes>;
+  /**
+   * Represents an editable multiline text view.
+   */
+  textview: JSXElementAttributes<HTMLTextViewElementAttributes>;
 
-    Label: DefineNativeComponent<HTMLLabelElementAttributes>;
+  /**
+   * Represents an editable text field.
+   */
+  textfield: JSXElementAttributes<HTMLTextFieldElementAttributes>;
 
-    Span: DefineNativeComponent<HTMLSpanElementAttributes>;
+  /**
+   * A class used to create a single part of formatted string with a common text properties.
+   */
+  span: JSXElementAttributes<HTMLSpanElementAttributes>;
 
-    Button: DefineNativeComponent<HTMLButtonElementAttributes>;
+  /**
+   * A class used to create a formatted (rich text) string.
+   */
+  formattedstring: JSXElementAttributes<HTMLFormattedStringElementAttributes>;
 
-    /**
-     * A UI component used to display <Page> elements. Every app needs at least a single <Frame> element, usually set as the root element.
-     */
-    frame: DefineNativeComponent<HTMLFrameElementAttributes>;
-    /**
-     * A UI component that represents an application screen. NativeScript apps typically consist of one or more `<Page>` that wrap content such as an `<ActionBar>` and other UI widgets.
-     */
-    page: DefineNativeComponent<HTMLPageElementAttributes>;
-    /**
-     * This class is the base class for all UI components. A View occupies a rectangular area on the screen and is responsible for drawing and layouting of all UI components within.
-     */
-    view: DefineNativeComponent<HTMLViewElementAttributes>;
-    /**
-     * A layout container that lets you stack the child elements vertically (default) or horizontally.
-     */
-    "stack-layout": DefineNativeComponent<HTMLStackLayoutElementAttributes>;
-    /**
-     * A layout container that provides a non-exact implementation of the CSS Flexbox layout. This layout lets you arrange child components both horizontally and vertically.
-     */
-    "flexbox-layout": DefineNativeComponent<HTMLFlexboxLayoutElementAttributes>;
-    /**
-        * A layout container that lets you arrange its child elements in a table-like manner.
-   
-   The grid consists of rows, columns, and cells. A cell can span one or more rows and one or more columns. 
-   It can contain multiple child elements which can span over multiple rows and columns, and even overlap each other.
-   
-   By default, <GridLayout> has one column and one row. You can add columns and rows by configuring the columns and the rows properties. 
-   In these properties, you need to set the number of columns and rows and their width and height. You set the number of columns by listing their widths, 
-   separated by a comma. You set the number of rows by listing their heights, separated by a comma.
-        */
-    "grid-layout": DefineNativeComponent<HTMLGridLayoutElementAttributes>;
-    /**
-     * A UI component that shows an editable or a read-only multi-line text container. You can use it to let users type large text in your app or to show longer, multi-line text on the screen.
-     */
-    "text-view": DefineNativeComponent<HTMLTextViewElementAttributes>;
-    /**
-     * An input component that creates an editable single-line box.
-     */
-    "text-field": DefineNativeComponent<HTMLTextFieldElementAttributes>;
-    /**
-     * A layout container that lets you position items in rows or columns, based on the orientation property.
-     * When the space is filled, the container automatically wraps items onto a new row or column.
-     */
-    "wrap-layout": DefineNativeComponent<HTMLWrapLayoutElementAttributes>;
-    /**
-     * The WebView component is used to display web content within your application.
-     * You use the control by providing a `src` attribute that accepts a URL,a path
-     * to a local HTML file or directly HTML string.
-     */
-    "web-view": DefineNativeComponent<HTMLWebViewElementAttributes>;
-    /**
-     * A layout that lets you specify exact locations (left/top coordinates) of its children.
-     */
-    "absolute-layout": DefineNativeComponent<HTMLAbsoluteLayoutElementAttributes>;
-    /**
-     * Provides an abstraction over the ActionBar (android) and NavigationBar (iOS).
-     */
-    "action-bar": DefineNativeComponent<HTMLActionBarElementAttributes>;
-    /**
-     * Represents an action item in the action bar.
-     */
-    "action-item": DefineNativeComponent<HTMLActionItemElementAttributes>;
-    /**
-     * Represents a UI widget which displays a progress indicator hinting the user for some background operation running.
-     */
-    "activity-indicator": DefineNativeComponent<HTMLActivityIndicatorElementAttributes>;
-    "content-view": DefineNativeComponent<HTMLContentViewElementAttributes>;
-    /**
-     * A UI component that lets users select a date from a pre-configured range.
-     */
-    "date-picker": DefineNativeComponent<HTMLDatePickerElementAttributes>;
-    /**
-     * a layout container that lets you dock child elements to the sides or the center of the layout.
-     *
-     * Use the `dock` property to dock its children to the `left`, `right`, `top`, `bottom` or `center` of the layout.
-     * To dock a child element to the center, it must be the last child of the container and you must set
-     * the `stretchLastChild` property of the parent to `true`.
-     */
-    "dock-layout": DefineNativeComponent<HTMLDockLayoutElementAttributes>;
-    /**
-     * A View to support various text transformations and decorations. The FormattedString class can be used
-     * with all text-related components like `Label`, `TextView`, `TextField` and even `Button`.
-     *
-     * FormattedString only accepts `span` as it's children.
-     */
-    "formatted-string": DefineNativeComponent<HTMLFormattedStringElementAttributes>;
-    /**
-     * The HtmlView represents a view with HTML content. Use this component instead of a WebView when you want to show static HTML content with base HTML support.
-     */
-    "html-view": DefineNativeComponent<HTMLHtmlViewElementAttributes>;
-    /**
-     * The Image widget shows an image in your mobile application.
-     */
-    image: DefineNativeComponent<HTMLImageElementAttributes>;
-    /**
-     * The ListPicker is a spinner type component for listing options.
-     */
-    "list-picker": DefineNativeComponent<HTMLListPickerElementAttributes>;
-    /**
-     * A UI component that is used to render large lists of data.
-     */
-    "list-view": DefineNativeComponent<HTMLListViewElementAttributes>;
-    /**
-     *
-     */
-    "navigation-button": DefineNativeComponent<HTMLNavigationButtonElementAttributes>;
-    /**
-     * `<Placeholder>` allows you to add any native widget to your application. To do that, you need to put a Placeholder somewhere in
-     * the UI hierarchy and then create and configure the native widget that you want to appear there. Finally,
-     * pass your native widget to the event arguments of the creatingView event.
-     */
-    placeholder: DefineNativeComponent<HTMLPlaceholderElementAttributes>;
-    /**
-     * A UI component that shows a bar to indicate the progress of a task.
-     */
-    progress: DefineNativeComponent<HTMLProgressElementAttributes>;
+  /**
+   * Represents a tab view entry.
+   */
+  tabviewitem: JSXElementAttributes<HTMLTabViewItemElementAttributes>;
 
-    "proxy-view": DefineNativeComponent<HTMLProxyViewContainerElementAttributes>;
-    /**
-     * A layout container designed to be used as the primary root layout container for your app with a built in api to easily control dynamic view layers. It extends a GridLayout so has all the features of a grid but enhanced with additional apis.
-     */
-    "root-layout": DefineNativeComponent<HTMLRootLayoutElementAttributes>;
-    /**
-     * A UI component that shows a scrollable content area. Content can be scrolled vertically or horizontally.
-     */
-    "scroll-view": DefineNativeComponent<HTMLScrollViewElementAttributes>;
-    /**
-     * A UI component that provides a user interface for entering search queries and submitting requests to the search provider.
-     */
-    "search-bar": DefineNativeComponent<HTMLSearchBarElementAttributes>;
-    /**
-     * A UI bar component that displays a set of buttons for discrete selection. Can show text or images.
-     */
-    segmentedbar: DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
-    /**
-     * An item displayed inside SegmentedBar.
-     */
-    "segmentedbar-item": DefineNativeComponent<HTMLSegmentedBarElementAttributes>;
-    /**
-     * A UI component that provides a slider control for picking values within a specified numeric range.
-     */
-    slider: DefineNativeComponent<HTMLSliderElementAttributes>;
-    /**
-     * A UI component that lets users toggle between two states.
-     */
-    switch: DefineNativeComponent<HTMLSwitchElementAttributes>;
-    /**
-     * A navigation component that shows content grouped into tabs and lets users switch between tabs.
-     */
-    tabview: DefineNativeComponent<HTMLTabViewElementAttributes>;
-    /**
-     * A screen inside TabView.
-     *
-     * Currently, TabViewItem expects a single child element. In most cases, you might want to wrap your content in a layout.
-     */
-    "tabview-item": DefineNativeComponent<HTMLTabViewItemElementAttributes>;
-    /**
-     * A UI component that lets users select time.
-     */
-    "time-picker": DefineNativeComponent<HTMLTimePickerElementAttributes>;
-    label: DefineNativeComponent<HTMLLabelElementAttributes>;
-    span: DefineNativeComponent<HTMLSpanElementAttributes>;
-    button: DefineNativeComponent<HTMLButtonElementAttributes>;
+  /**
+   * Represents a tab view.
+   */
+  tabview: JSXElementAttributes<HTMLTabViewElementAttributes>;
+
+  /**
+   * Represents a switch component.
+   */
+  switch: JSXElementAttributes<HTMLSwitchElementAttributes>;
+
+  /**
+   * Represents a SegmentedBar item.
+   */
+  segmentedbaritem: JSXElementAttributes<HTMLSegmentedBarItemElementAttributes>;
+
+  /**
+   * Represents a UI SegmentedBar component.
+   */
+  segmentedbar: JSXElementAttributes<HTMLSegmentedBarElementAttributes>;
+
+  /**
+   * Represents a slider component.
+   */
+  slider: JSXElementAttributes<HTMLSliderElementAttributes>;
+
+  /**
+   * Represents a search bar component.
+   */
+  searchbar: JSXElementAttributes<HTMLSearchBarElementAttributes>;
+
+  /**
+   * Represents a UI Repeater component.
+   */
+  repeater: JSXElementAttributes<HTMLRepeaterElementAttributes>;
+
+  /**
+* Proxy view container that adds all its native children directly to the parent.
+To be used as a logical grouping container of views.
+*/
+  proxyviewcontainer: JSXElementAttributes<HTMLProxyViewContainerElementAttributes>;
+
+  /**
+   * Represents a scrollable area that can have content that is larger than its bounds.
+   */
+  scrollview: JSXElementAttributes<HTMLScrollViewElementAttributes>;
+
+  /**
+   * Represents a progress component.
+   */
+  progress: JSXElementAttributes<HTMLProgressElementAttributes>;
+
+  /**
+   * Represents a Placeholder, which is used to add a native view to the visual tree.
+   */
+  placeholder: JSXElementAttributes<HTMLPlaceholderElementAttributes>;
+
+  /**
+   * Represents a view that shows items in a vertically scrolling list.
+   */
+  listview: JSXElementAttributes<HTMLListViewElementAttributes>;
+
+  /**
+   * Represents a logical unit for navigation (inside Frame).
+   */
+  page: JSXElementAttributes<HTMLPageElementAttributes>;
+
+  /**
+   * Represents an list picker.
+   */
+  listpicker: JSXElementAttributes<HTMLListPickerElementAttributes>;
+
+  /**
+   * Represents a text label.
+   */
+  label: JSXElementAttributes<HTMLLabelElementAttributes>;
+
+  /**
+   * Represents a class that provides functionality for loading and streching image(s).
+   */
+  image: JSXElementAttributes<HTMLImageElementAttributes>;
+
+  /**
+* Represents a view with html content. Use this component instead WebView when you want to show just static HTML content.
+[iOS support](https://developer.apple.com/documentation/foundation/nsattributedstring/1524613-initwithdata)
+[android support](http://developer.android.com/reference/android/text/Html.html)
+*/
+  htmlview: JSXElementAttributes<HTMLHtmlViewElementAttributes>;
+
+  /**
+* Represents the logical View unit that is responsible for navigation within an application.
+Nested frames are supported, enabling hierarchical navigation scenarios.
+*/
+  frame: JSXElementAttributes<HTMLFrameElementAttributes>;
+
+  /**
+   * Represents an date picker.
+   */
+  datepicker: JSXElementAttributes<HTMLDatePickerElementAttributes>;
+
+  contentview: JSXElementAttributes<HTMLContentViewElementAttributes>;
+
+  /**
+   * Represents a standard Button widget.
+   */
+  button: JSXElementAttributes<HTMLButtonElementAttributes>;
+
+  /**
+   * Represents a UI widget which displays a progress indicator hinting the user for some background operation running.
+   */
+  activityindicator: JSXElementAttributes<HTMLActivityIndicatorElementAttributes>;
+
+  /**
+   * Provides an abstraction over the ActionBar (android) and NavigationBar (iOS).
+   */
+  actionbar: JSXElementAttributes<HTMLActionBarElementAttributes>;
+
+  /**
+   * Represents an action item in the action bar.
+   */
+  actionitem: JSXElementAttributes<HTMLActionItemElementAttributes>;
+
+  /**
+   * Represents the navigation (a.k.a. "back") button.
+   */
+  navigationbutton: JSXElementAttributes<HTMLNavigationButtonElementAttributes>;
+
+  /**
+   * A Layout that arranges its children horizontally or vertically. The direction can be set by orientation property.
+   */
+  stacklayout: JSXElementAttributes<HTMLStackLayoutElementAttributes>;
+
+  /**
+* WrapLayout position children in rows or columns depending on orientation property
+until space is filled and then wraps them on new row or column.
+*/
+  wraplayout: JSXElementAttributes<HTMLWrapLayoutElementAttributes>;
+
+  rootlayout: JSXElementAttributes<HTMLRootLayoutElementAttributes>;
+
+  /**
+   * Defines a rectangular layout area that consists of columns and rows.
+   */
+  gridlayout: JSXElementAttributes<HTMLGridLayoutElementAttributes>;
+
+  flexboxlayout: JSXElementAttributes<HTMLFlexboxLayoutElementAttributes>;
+
+  /**
+   * A Layout that arranges its children at its outer edges, and allows its last child to take up the remaining space.
+   */
+  docklayout: JSXElementAttributes<HTMLDockLayoutElementAttributes>;
+
+  /**
+   * A layout that lets you specify exact locations (left/top coordinates) of its children.
+   */
+  absolutelayout: JSXElementAttributes<HTMLAbsoluteLayoutElementAttributes>;
+
+  /**
+   * Base class for all UI components that are containers.
+   */
+  containerview: JSXElementAttributes<HTMLContainerViewElementAttributes>;
+
+  /**
+   * Base class for all UI components that implement custom layouts.
+   */
+  customlayoutview: JSXElementAttributes<HTMLCustomLayoutViewElementAttributes>;
+}
+
+export namespace JSX {
+  export interface IntrinsicElements extends CoreIntrinsicElements {}
+
+  export interface IntrinsicElements {
+    // allow arbitrary native elements and props
+    // @ts-ignore suppress ts:2374 = Duplicate string index signature.
+    [name: string]: JSXElementAttributes<HTMLViewElementAttributes>;
+  }
+
+  export function mapElementTag<K extends keyof IntrinsicElements>(
+    tag: K
+  ): IntrinsicElements[K];
+
+  export function createElement<
+    Element extends IntrinsicElements,
+    Key extends keyof IntrinsicElements
+  >(element: Key | undefined | null, attrs: Element[Key]): Element[Key];
+
+  export function createElement<
+    Element extends IntrinsicElements,
+    Key extends keyof IntrinsicElements,
+    T
+  >(
+    element: Key | undefined | null,
+    attrsEnhancers: T,
+    attrs: Element[Key] & T
+  ): Element[Key];
+
+  export type Element = SolidJSX.Element;
+  export interface ArrayElement extends Array<Element> {}
+
+  export interface FunctionElement {
+    (): Element;
+  }
+
+  interface IntrinsicAttributes {
+    ref?: unknown | ((e: unknown) => void);
+  }
+
+  export interface ElementClass {
+    // empty, libs can define requirements downstream
+  }
+  export interface ElementAttributesProperty {
+    // empty, libs can define requirements downstream
+  }
+  export interface ElementChildrenAttribute {
+    children: {};
+  }
+
+  interface ArrayElement extends Array<Element> {}
+
+  type Accessor<T> = () => T;
+
+  interface CustomEvents {}
+  interface CustomCaptureEvents {}
+}
+
+declare global {
+  namespace JSX {
+    export interface IntrinsicElements extends CoreIntrinsicElements {}
+
+    export interface IntrinsicElements {
+      // allow arbitrary elements
+      // @ts-ignore suppress ts:2374 = Duplicate string index signature.
+      [name: string]: any;
+    }
+
+    export function mapElementTag<K extends keyof IntrinsicElements>(
+      tag: K
+    ): IntrinsicElements[K];
+
+    export function createElement<
+      Element extends IntrinsicElements,
+      Key extends keyof IntrinsicElements
+    >(element: Key | undefined | null, attrs: Element[Key]): Element[Key];
+
+    export function createElement<
+      Element extends IntrinsicElements,
+      Key extends keyof IntrinsicElements,
+      T
+    >(
+      element: Key | undefined | null,
+      attrsEnhancers: T,
+      attrs: Element[Key] & T
+    ): Element[Key];
+
+    export type Element = SolidJSX.Element;
+    export interface ArrayElement extends Array<Element> {}
+
+    export interface FunctionElement {
+      (): Element;
+    }
+
+    interface IntrinsicAttributes {
+      ref?: unknown | ((e: unknown) => void);
+    }
+
+    export interface ElementClass {
+      // empty, libs can define requirements downstream
+    }
+    export interface ElementAttributesProperty {
+      // empty, libs can define requirements downstream
+    }
+    export interface ElementChildrenAttribute {
+      children: {};
+    }
+
+    interface ArrayElement extends Array<Element> {}
+
+    type Accessor<T> = () => T;
+
+    interface CustomEvents {}
+    interface CustomCaptureEvents {}
   }
 }

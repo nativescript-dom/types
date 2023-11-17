@@ -5,7 +5,7 @@ import {
   getMetadataFromPath,
   viewBaseAttributes,
 } from "..";
-import { Attribute, HtmlCustomData, Tag, WebTypesRoot } from "../types";
+import { Attribute, HtmlCustomData, Tag } from "../types";
 import {
   AttrKeys,
   isGlobal,
@@ -15,7 +15,7 @@ import {
 } from "../utils";
 import path = require("path");
 
-function vueVisitor(
+function solidVisitor(
   type: "attribute" | "tag" | "event" | "event-tag",
   item: Tag | Attribute,
   tag: Tag | undefined,
@@ -30,29 +30,20 @@ function vueVisitor(
         `@${item.name}`,
         (item as Attribute).type
       );
-      const vueEvent = {
+      const solidEvent = {
         ...(item as Attribute),
-        name: `on${item.name[0].toUpperCase() + item.name.slice(1)}`,
+        name: `on:${item.name}`,
         type: type,
       };
 
-      const vueEventAt = {
-        ...(item as Attribute),
-        name: `@${item.name}`,
-        type: type,
-      };
-
-      if (
-        propExists(vueEvent, globalAttributes) &&
-        propExists(vueEventAt, globalAttributes)
-      ) {
+      if (propExists(solidEvent, globalAttributes)) {
         return [];
       }
 
       if (isGlobal(tag.name)) {
-        globalAttributes.push(vueEvent, vueEventAt);
+        globalAttributes.push(solidEvent);
       } else {
-        return [vueEvent, vueEventAt];
+        return [solidEvent];
       }
       break;
     }
@@ -131,33 +122,9 @@ function getDescription(attr: Attribute) {
     : "";
 }
 
-function vueWriter(metadata: HtmlCustomData) {
-  const webTypes: WebTypesRoot = {
-    name: "@nativescript-dom/vue-types",
-    schema:
-      "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
-    version: "2.0.0",
-    contributions: {
-      html: {
-        elements: [],
-        attributes: [],
-      },
-    },
-  };
-  webTypes.contributions.html.elements.push(
-    ...metadata.tags.map((tag) => ({
-      ...tag,
-      source: {
-        module: tag.path,
-        symbol: tag.name.includes("-") ? pascalize(tag.name) : tag.name,
-      },
-    }))
-  );
-
-  webTypes.contributions.html.attributes.push(...metadata.globalAttributes);
-
+function solidWriter(metadata: HtmlCustomData) {
   let interfacesString = `
-    interface HTMLViewBaseElementAttributes<T extends HTMLViewBaseElement = HTMLViewBaseElement> extends ElementAttrs<T>, HTMLAttributes<T> {
+  export interface HTMLViewBaseElementAttributes<T extends HTMLViewBaseElement = HTMLViewBaseElement> extends SolidJSX.DOMAttributes<T>, HTMLAttributes<T> {
       ${metadata.globalAttributes
         .filter((attr) => viewBaseAttributes.indexOf(attr.name) > -1)
         .map(
@@ -169,7 +136,7 @@ function vueWriter(metadata: HtmlCustomData) {
         .join("\n")}
     }\n\n
   
-    interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement> extends HTMLViewBaseElementAttributes<T> {
+    export interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement> extends HTMLViewBaseElementAttributes<T> {
       ${metadata.globalAttributes
         .filter((attr) => viewBaseAttributes.indexOf(attr.name) === -1)
         .map(
@@ -181,12 +148,18 @@ function vueWriter(metadata: HtmlCustomData) {
         .join("\n")}
     }\n\n
   `;
-
+  const JSXIntrinsicElements = [];
   for (let tag of metadata.tags) {
     const attrClass = `HTML${pascalize(tag.name)}ElementAttributes`;
-    if (interfacesString.indexOf(attrClass) > -1) continue;
+    if (interfacesString.indexOf(`export interface ${attrClass}`) > -1)
+      continue;
+
+    if (tag.name === "grid-layout") {
+      console.log(tag.attributes);
+    }
+
     const value = `\n
-      interface ${attrClass}<T extends HTML${pascalize(
+      export interface ${attrClass}<T extends HTML${pascalize(
       tag.name
     )}Element = HTML${pascalize(
       tag.name
@@ -204,25 +177,36 @@ function vueWriter(metadata: HtmlCustomData) {
       }\n\n
       `;
     interfacesString += value;
+
+    JSXIntrinsicElements.push(`${getDescription(tag as never)}
+${tag.name.toLowerCase()}: JSXElementAttributes<HTML${pascalize(
+      tag.name
+    )}ElementAttributes>;`);
   }
-  const template = fs.readFileSync(
-    path.join(__dirname, "../../src/templates/vue.template"),
+  let template = fs.readFileSync(
+    path.join(__dirname, "../../src/templates/solid.template"),
     "utf-8"
+  );
+  template = template.replace("<__CONTENT_HERE__>", interfacesString);
+
+  template = template.replace(
+    `<__ELEMENTS_HERE__>`,
+    JSXIntrinsicElements.join("\n\n")
   );
 
   fs.writeFileSync(
-    path.join(__dirname, "..", "..", "..", "vue", "index.d.ts"),
-    template.replace("<__CONTENT_HERE__>", interfacesString)
+    path.join(__dirname, "..", "..", "..", "solid-js", "jsx-runtime.d.ts"),
+    template
   );
 }
 
-export async function startVueGenerator() {
+export async function startSolidGenerator() {
   const events = await getDefaultEventsMap();
   const data = await getMetadataFromPath("@nativescript/core", "ui/**/*.ts");
   generateMetadata(JSON.stringify(data), JSON.stringify(events), {
-    visitor: vueVisitor,
-    writer: vueWriter,
+    visitor: solidVisitor,
+    writer: solidWriter,
   });
 }
 
-startVueGenerator();
+startSolidGenerator();
