@@ -5828,3 +5828,10 @@ declare global {
     interface CustomCaptureEvents {}
   }
 }
+
+declare function Fragment(props: { children: JSX.Element }): JSX.Element;
+declare function jsx(
+  type: any,
+  props: any
+): () => any;
+export { jsx, jsx as jsxs, jsx as jsxDEV, Fragment };
