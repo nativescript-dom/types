@@ -100,7 +100,7 @@ type TextAlignmentType = CoreTypes.TextAlignmentType;
 <__CONTENT_HERE__>
 
 // allow arbitrary props on all elements.
-type JSXElementAttributes<T extends HTMLViewBaseElementAttributes> = Partial<T> & {
+type JSXElementAttributes<T = HTMLViewElementAttributes> = Partial<T> & {
   [name:string]: any
 };
 

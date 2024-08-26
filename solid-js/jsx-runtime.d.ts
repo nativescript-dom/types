@@ -91,6 +91,8 @@ type Style = Partial<
     backgroundColor?: string;
     "background-color": string;
     color?: string;
+  } & {
+    [name: string]: any;
   }
 >;
 
@@ -2273,220 +2275,6 @@ export interface HTMLTextFieldElementAttributes<
   "ios:paddingTop": string | number | LengthType;
 }
 
-export interface HTMLSpanElementAttributes<
-  T extends HTMLSpanElement = HTMLSpanElement
-> extends HTMLViewElementAttributes<T> {
-  "on:linkTap": (payload: NativeDOMEvent<HTMLSpanElement>) => void;
-
-  /**
-   * Gets or sets the font family of the span.
-   */
-  fontFamily: string;
-
-  /**
-* Gets or sets the font family of the span.
-@platform android
-*/
-  "android:fontFamily": string;
-
-  /**
-* Gets or sets the font family of the span.
-@platform ios
-*/
-  "ios:fontFamily": string;
-
-  /**
-   * Gets or sets the font size of the span.
-   */
-  fontSize: number | string;
-
-  /**
-* Gets or sets the font size of the span.
-@platform android
-*/
-  "android:fontSize": number | string;
-
-  /**
-* Gets or sets the font size of the span.
-@platform ios
-*/
-  "ios:fontSize": number | string;
-
-  /**
-   * Gets or sets the font style of the span.
-   */
-  fontStyle: string | FontStyleType;
-
-  /**
-* Gets or sets the font style of the span.
-@platform android
-*/
-  "android:fontStyle": string | FontStyleType;
-
-  /**
-* Gets or sets the font style of the span.
-@platform ios
-*/
-  "ios:fontStyle": string | FontStyleType;
-
-  /**
-   * Gets or sets the font weight of the span.
-   */
-  fontWeight: string | FontWeightType;
-
-  /**
-* Gets or sets the font weight of the span.
-@platform android
-*/
-  "android:fontWeight": string | FontWeightType;
-
-  /**
-* Gets or sets the font weight of the span.
-@platform ios
-*/
-  "ios:fontWeight": string | FontWeightType;
-
-  /**
-   * Gets or sets text decorations for the span.
-   */
-  textDecoration: string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations for the span.
-@platform android
-*/
-  "android:textDecoration": string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations for the span.
-@platform ios
-*/
-  "ios:textDecoration": string | TextDecorationType;
-
-  /**
-   * Gets or sets the text for the span.
-   */
-  text: string;
-
-  /**
-* Gets or sets the text for the span.
-@platform android
-*/
-  "android:text": string;
-
-  /**
-* Gets or sets the text for the span.
-@platform ios
-*/
-  "ios:text": string;
-
-  /**
-   * Gets if the span is tappable or not.
-   */
-  tappable: string | boolean;
-
-  /**
-* Gets if the span is tappable or not.
-@platform android
-*/
-  "android:tappable": string | boolean;
-
-  /**
-* Gets if the span is tappable or not.
-@platform ios
-*/
-  "ios:tappable": string | boolean;
-}
-
-export interface HTMLFormattedStringElementAttributes<
-  T extends HTMLFormattedStringElement = HTMLFormattedStringElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-   * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
-   */
-  fontFamily: string;
-
-  /**
-* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontFamily": string;
-
-  /**
-* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontFamily": string;
-
-  /**
-   * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
-   */
-  fontSize: number | string;
-
-  /**
-* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontSize": number | string;
-
-  /**
-* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontSize": number | string;
-
-  /**
-   * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
-   */
-  fontStyle: string | FontStyleType;
-
-  /**
-* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontStyle": string | FontStyleType;
-
-  /**
-* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontStyle": string | FontStyleType;
-
-  /**
-   * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
-   */
-  fontWeight: string | FontWeightType;
-
-  /**
-* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:fontWeight": string | FontWeightType;
-
-  /**
-* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:fontWeight": string | FontWeightType;
-
-  /**
-   * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
-   */
-  textDecoration: string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
-@platform android
-*/
-  "android:textDecoration": string | TextDecorationType;
-
-  /**
-* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
-@platform ios
-*/
-  "ios:textDecoration": string | TextDecorationType;
-}
-
 export interface HTMLTabViewItemElementAttributes<
   T extends HTMLTabViewItemElement = HTMLTabViewItemElement
 > extends HTMLViewElementAttributes<T> {
@@ -2757,6 +2545,220 @@ Valid values are:
 @platform ios
 */
   "ios:androidSwipeEnabled": string | boolean;
+}
+
+export interface HTMLSpanElementAttributes<
+  T extends HTMLSpanElement = HTMLSpanElement
+> extends HTMLViewElementAttributes<T> {
+  "on:linkTap": (payload: NativeDOMEvent<HTMLSpanElement>) => void;
+
+  /**
+   * Gets or sets the font family of the span.
+   */
+  fontFamily: string;
+
+  /**
+* Gets or sets the font family of the span.
+@platform android
+*/
+  "android:fontFamily": string;
+
+  /**
+* Gets or sets the font family of the span.
+@platform ios
+*/
+  "ios:fontFamily": string;
+
+  /**
+   * Gets or sets the font size of the span.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets the font size of the span.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets the font size of the span.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets the font style of the span.
+   */
+  fontStyle: string | FontStyleType;
+
+  /**
+* Gets or sets the font style of the span.
+@platform android
+*/
+  "android:fontStyle": string | FontStyleType;
+
+  /**
+* Gets or sets the font style of the span.
+@platform ios
+*/
+  "ios:fontStyle": string | FontStyleType;
+
+  /**
+   * Gets or sets the font weight of the span.
+   */
+  fontWeight: string | FontWeightType;
+
+  /**
+* Gets or sets the font weight of the span.
+@platform android
+*/
+  "android:fontWeight": string | FontWeightType;
+
+  /**
+* Gets or sets the font weight of the span.
+@platform ios
+*/
+  "ios:fontWeight": string | FontWeightType;
+
+  /**
+   * Gets or sets text decorations for the span.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations for the span.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations for the span.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
+
+  /**
+   * Gets or sets the text for the span.
+   */
+  text: string;
+
+  /**
+* Gets or sets the text for the span.
+@platform android
+*/
+  "android:text": string;
+
+  /**
+* Gets or sets the text for the span.
+@platform ios
+*/
+  "ios:text": string;
+
+  /**
+   * Gets if the span is tappable or not.
+   */
+  tappable: string | boolean;
+
+  /**
+* Gets if the span is tappable or not.
+@platform android
+*/
+  "android:tappable": string | boolean;
+
+  /**
+* Gets if the span is tappable or not.
+@platform ios
+*/
+  "ios:tappable": string | boolean;
+}
+
+export interface HTMLFormattedStringElementAttributes<
+  T extends HTMLFormattedStringElement = HTMLFormattedStringElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+   * Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+   */
+  fontFamily: string;
+
+  /**
+* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontFamily": string;
+
+  /**
+* Gets or sets the font family which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontFamily": string;
+
+  /**
+   * Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+   */
+  fontSize: number | string;
+
+  /**
+* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontSize": number | string;
+
+  /**
+* Gets or sets the font size which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontSize": number | string;
+
+  /**
+   * Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+   */
+  fontStyle: string | FontStyleType;
+
+  /**
+* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontStyle": string | FontStyleType;
+
+  /**
+* Gets or sets the font style which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontStyle": string | FontStyleType;
+
+  /**
+   * Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+   */
+  fontWeight: string | FontWeightType;
+
+  /**
+* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:fontWeight": string | FontWeightType;
+
+  /**
+* Gets or sets the font weight which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:fontWeight": string | FontWeightType;
+
+  /**
+   * Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+   */
+  textDecoration: string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+@platform android
+*/
+  "android:textDecoration": string | TextDecorationType;
+
+  /**
+* Gets or sets text decorations which will be used for all spans that doesn't have a specific value.
+@platform ios
+*/
+  "ios:textDecoration": string | TextDecorationType;
 }
 
 export interface HTMLSwitchElementAttributes<
@@ -3054,95 +3056,6 @@ export interface HTMLRepeaterElementAttributes<
   T extends HTMLRepeaterElement = HTMLRepeaterElement
 > extends HTMLViewElementAttributes<T> {}
 
-export interface HTMLProxyViewContainerElementAttributes<
-  T extends HTMLProxyViewContainerElement = HTMLProxyViewContainerElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-   * Specify the bottom padding of this layout.
-   */
-  paddingBottom: string | number | LengthType;
-
-  /**
-* Specify the bottom padding of this layout.
-@platform android
-*/
-  "android:paddingBottom": string | number | LengthType;
-
-  /**
-* Specify the bottom padding of this layout.
-@platform ios
-*/
-  "ios:paddingBottom": string | number | LengthType;
-
-  /**
-   * Specify the left padding of this layout.
-   */
-  paddingLeft: string | number | LengthType;
-
-  /**
-* Specify the left padding of this layout.
-@platform android
-*/
-  "android:paddingLeft": string | number | LengthType;
-
-  /**
-* Specify the left padding of this layout.
-@platform ios
-*/
-  "ios:paddingLeft": string | number | LengthType;
-
-  /**
-   * Specify the right padding of this layout.
-   */
-  paddingRight: string | number | LengthType;
-
-  /**
-* Specify the right padding of this layout.
-@platform android
-*/
-  "android:paddingRight": string | number | LengthType;
-
-  /**
-* Specify the right padding of this layout.
-@platform ios
-*/
-  "ios:paddingRight": string | number | LengthType;
-
-  /**
-   * Specify the top padding of this layout.
-   */
-  paddingTop: string | number | LengthType;
-
-  /**
-* Specify the top padding of this layout.
-@platform android
-*/
-  "android:paddingTop": string | number | LengthType;
-
-  /**
-* Specify the top padding of this layout.
-@platform ios
-*/
-  "ios:paddingTop": string | number | LengthType;
-
-  /**
-   * Gets or sets a value indicating whether to clip the content of this layout.
-   */
-  clipToBounds: string | boolean;
-
-  /**
-* Gets or sets a value indicating whether to clip the content of this layout.
-@platform android
-*/
-  "android:clipToBounds": string | boolean;
-
-  /**
-* Gets or sets a value indicating whether to clip the content of this layout.
-@platform ios
-*/
-  "ios:clipToBounds": string | boolean;
-}
-
 export interface HTMLScrollViewElementAttributes<
   T extends HTMLScrollViewElement = HTMLScrollViewElement
 > extends HTMLViewElementAttributes<T> {
@@ -3268,6 +3181,95 @@ export interface HTMLScrollViewElementAttributes<
   "ios:orientation": string | OrientationType;
 }
 
+export interface HTMLProxyViewContainerElementAttributes<
+  T extends HTMLProxyViewContainerElement = HTMLProxyViewContainerElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+   * Specify the bottom padding of this layout.
+   */
+  paddingBottom: string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform android
+*/
+  "android:paddingBottom": string | number | LengthType;
+
+  /**
+* Specify the bottom padding of this layout.
+@platform ios
+*/
+  "ios:paddingBottom": string | number | LengthType;
+
+  /**
+   * Specify the left padding of this layout.
+   */
+  paddingLeft: string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform android
+*/
+  "android:paddingLeft": string | number | LengthType;
+
+  /**
+* Specify the left padding of this layout.
+@platform ios
+*/
+  "ios:paddingLeft": string | number | LengthType;
+
+  /**
+   * Specify the right padding of this layout.
+   */
+  paddingRight: string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform android
+*/
+  "android:paddingRight": string | number | LengthType;
+
+  /**
+* Specify the right padding of this layout.
+@platform ios
+*/
+  "ios:paddingRight": string | number | LengthType;
+
+  /**
+   * Specify the top padding of this layout.
+   */
+  paddingTop: string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform android
+*/
+  "android:paddingTop": string | number | LengthType;
+
+  /**
+* Specify the top padding of this layout.
+@platform ios
+*/
+  "ios:paddingTop": string | number | LengthType;
+
+  /**
+   * Gets or sets a value indicating whether to clip the content of this layout.
+   */
+  clipToBounds: string | boolean;
+
+  /**
+* Gets or sets a value indicating whether to clip the content of this layout.
+@platform android
+*/
+  "android:clipToBounds": string | boolean;
+
+  /**
+* Gets or sets a value indicating whether to clip the content of this layout.
+@platform ios
+*/
+  "ios:clipToBounds": string | boolean;
+}
+
 export interface HTMLProgressElementAttributes<
   T extends HTMLProgressElement = HTMLProgressElement
 > extends HTMLViewElementAttributes<T> {
@@ -3308,6 +3310,139 @@ export interface HTMLProgressElementAttributes<
 @platform ios
 */
   "ios:maxValue": number | string;
+}
+
+export interface HTMLPageElementAttributes<
+  T extends HTMLPageElement = HTMLPageElement
+> extends HTMLViewElementAttributes<T> {
+  "on:navigatingTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+
+  "on:navigatedTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+
+  "on:navigatingFrom": (
+    payload: NativeNavigationEvent<HTMLPageElement>
+  ) => void;
+
+  "on:navigatedFrom": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
+
+  /**
+   * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
+   */
+  actionBarHidden: string | boolean;
+
+  /**
+* Used to hide the Navigation Bar in iOS and the Action Bar in Android.
+@platform android
+*/
+  "android:actionBarHidden": string | boolean;
+
+  /**
+* Used to hide the Navigation Bar in iOS and the Action Bar in Android.
+@platform ios
+*/
+  "ios:actionBarHidden": string | boolean;
+
+  /**
+   * Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
+   */
+  enableSwipeBackNavigation: string | boolean;
+
+  /**
+* Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
+@platform android
+*/
+  "android:enableSwipeBackNavigation": string | boolean;
+
+  /**
+* Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
+@platform ios
+*/
+  "ios:enableSwipeBackNavigation": string | boolean;
+
+  /**
+   * Should page changed be annnounced to the screen reader.
+   */
+  accessibilityAnnouncePageEnabled: string | boolean;
+
+  /**
+* Should page changed be annnounced to the screen reader.
+@platform android
+*/
+  "android:accessibilityAnnouncePageEnabled": string | boolean;
+
+  /**
+* Should page changed be annnounced to the screen reader.
+@platform ios
+*/
+  "ios:accessibilityAnnouncePageEnabled": string | boolean;
+
+  /**
+   * A property that is used to pass a data from another page (while navigate to).
+   */
+  navigationContext: any;
+
+  /**
+* A property that is used to pass a data from another page (while navigate to).
+@platform android
+*/
+  "android:navigationContext": any;
+
+  /**
+* A property that is used to pass a data from another page (while navigate to).
+@platform ios
+*/
+  "ios:navigationContext": any;
+
+  /**
+   * Gets the ActionBar for this page.
+   */
+  actionBar: string | ActionBar;
+
+  /**
+* Gets the ActionBar for this page.
+@platform android
+*/
+  "android:actionBar": string | ActionBar;
+
+  /**
+* Gets the ActionBar for this page.
+@platform ios
+*/
+  "ios:actionBar": string | ActionBar;
+
+  /**
+   * Gets or sets the style of the status bar.
+   */
+  statusBarStyle: string | "light" | "dark";
+
+  /**
+* Gets or sets the style of the status bar.
+@platform android
+*/
+  "android:statusBarStyle": string | "light" | "dark";
+
+  /**
+* Gets or sets the style of the status bar.
+@platform ios
+*/
+  "ios:statusBarStyle": string | "light" | "dark";
+
+  /**
+   * Gets or sets the color of the status bar in Android.
+   */
+  androidStatusBarBackground: string | Color;
+
+  /**
+* Gets or sets the color of the status bar in Android.
+@platform android
+*/
+  "android:androidStatusBarBackground": string | Color;
+
+  /**
+* Gets or sets the color of the status bar in Android.
+@platform ios
+*/
+  "ios:androidStatusBarBackground": string | Color;
 }
 
 export interface HTMLPlaceholderElementAttributes<
@@ -3449,139 +3584,6 @@ The default value is 44px.
 @platform ios
 */
   "ios:iosEstimatedRowHeight": string | number | LengthType;
-}
-
-export interface HTMLPageElementAttributes<
-  T extends HTMLPageElement = HTMLPageElement
-> extends HTMLViewElementAttributes<T> {
-  "on:navigatingTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  "on:navigatedTo": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  "on:navigatingFrom": (
-    payload: NativeNavigationEvent<HTMLPageElement>
-  ) => void;
-
-  "on:navigatedFrom": (payload: NativeNavigationEvent<HTMLPageElement>) => void;
-
-  /**
-   * Used to hide the Navigation Bar in iOS and the Action Bar in Android.
-   */
-  actionBarHidden: string | boolean;
-
-  /**
-* Used to hide the Navigation Bar in iOS and the Action Bar in Android.
-@platform android
-*/
-  "android:actionBarHidden": string | boolean;
-
-  /**
-* Used to hide the Navigation Bar in iOS and the Action Bar in Android.
-@platform ios
-*/
-  "ios:actionBarHidden": string | boolean;
-
-  /**
-   * Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
-   */
-  enableSwipeBackNavigation: string | boolean;
-
-  /**
-* Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
-@platform android
-*/
-  "android:enableSwipeBackNavigation": string | boolean;
-
-  /**
-* Used to control if swipe back navigation in iOS is enabled. This property is iOS specific. Default value: true
-@platform ios
-*/
-  "ios:enableSwipeBackNavigation": string | boolean;
-
-  /**
-   * Should page changed be annnounced to the screen reader.
-   */
-  accessibilityAnnouncePageEnabled: string | boolean;
-
-  /**
-* Should page changed be annnounced to the screen reader.
-@platform android
-*/
-  "android:accessibilityAnnouncePageEnabled": string | boolean;
-
-  /**
-* Should page changed be annnounced to the screen reader.
-@platform ios
-*/
-  "ios:accessibilityAnnouncePageEnabled": string | boolean;
-
-  /**
-   * A property that is used to pass a data from another page (while navigate to).
-   */
-  navigationContext: any;
-
-  /**
-* A property that is used to pass a data from another page (while navigate to).
-@platform android
-*/
-  "android:navigationContext": any;
-
-  /**
-* A property that is used to pass a data from another page (while navigate to).
-@platform ios
-*/
-  "ios:navigationContext": any;
-
-  /**
-   * Gets the ActionBar for this page.
-   */
-  actionBar: string | ActionBar;
-
-  /**
-* Gets the ActionBar for this page.
-@platform android
-*/
-  "android:actionBar": string | ActionBar;
-
-  /**
-* Gets the ActionBar for this page.
-@platform ios
-*/
-  "ios:actionBar": string | ActionBar;
-
-  /**
-   * Gets or sets the style of the status bar.
-   */
-  statusBarStyle: string | "light" | "dark";
-
-  /**
-* Gets or sets the style of the status bar.
-@platform android
-*/
-  "android:statusBarStyle": string | "light" | "dark";
-
-  /**
-* Gets or sets the style of the status bar.
-@platform ios
-*/
-  "ios:statusBarStyle": string | "light" | "dark";
-
-  /**
-   * Gets or sets the color of the status bar in Android.
-   */
-  androidStatusBarBackground: string | Color;
-
-  /**
-* Gets or sets the color of the status bar in Android.
-@platform android
-*/
-  "android:androidStatusBarBackground": string | Color;
-
-  /**
-* Gets or sets the color of the status bar in Android.
-@platform ios
-*/
-  "ios:androidStatusBarBackground": string | Color;
 }
 
 export interface HTMLListPickerElementAttributes<
@@ -3892,6 +3894,27 @@ export interface HTMLLabelElementAttributes<
   "ios:paddingTop": string | number | LengthType;
 }
 
+export interface HTMLHtmlViewElementAttributes<
+  T extends HTMLHtmlViewElement = HTMLHtmlViewElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+   * Gets or sets html string for the HtmlView.
+   */
+  html: string;
+
+  /**
+* Gets or sets html string for the HtmlView.
+@platform android
+*/
+  "android:html": string;
+
+  /**
+* Gets or sets html string for the HtmlView.
+@platform ios
+*/
+  "ios:html": string;
+}
+
 export interface HTMLImageElementAttributes<
   T extends HTMLImageElement = HTMLImageElement
 > extends HTMLViewElementAttributes<T> {
@@ -4028,27 +4051,6 @@ This property is Android specific.
 @platform ios
 */
   "ios:decodeWidth": string | number | LengthType;
-}
-
-export interface HTMLHtmlViewElementAttributes<
-  T extends HTMLHtmlViewElement = HTMLHtmlViewElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-   * Gets or sets html string for the HtmlView.
-   */
-  html: string;
-
-  /**
-* Gets or sets html string for the HtmlView.
-@platform android
-*/
-  "android:html": string;
-
-  /**
-* Gets or sets html string for the HtmlView.
-@platform ios
-*/
-  "ios:html": string;
 }
 
 export interface HTMLFrameElementAttributes<
@@ -4759,30 +4761,6 @@ export interface HTMLNavigationButtonElementAttributes<
   "ios:icon": string;
 }
 
-export interface HTMLStackLayoutElementAttributes<
-  T extends HTMLStackLayoutElement = HTMLStackLayoutElement
-> extends HTMLViewElementAttributes<T> {
-  /**
-* Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-*/
-  orientation: string | OrientationType;
-
-  /**
-* Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-@platform android
-*/
-  "android:orientation": string | OrientationType;
-
-  /**
-* Gets or sets if layout should be horizontal or vertical.
-The default value is vertical.
-@platform ios
-*/
-  "ios:orientation": string | OrientationType;
-}
-
 export interface HTMLWrapLayoutElementAttributes<
   T extends HTMLWrapLayoutElement = HTMLWrapLayoutElement
 > extends HTMLViewElementAttributes<T> {
@@ -4930,6 +4908,30 @@ Default value is Number.NaN which does not restrict children.
 @platform ios
 */
   "ios:clipToBounds": string | boolean;
+}
+
+export interface HTMLStackLayoutElementAttributes<
+  T extends HTMLStackLayoutElement = HTMLStackLayoutElement
+> extends HTMLViewElementAttributes<T> {
+  /**
+* Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+*/
+  orientation: string | OrientationType;
+
+  /**
+* Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+@platform android
+*/
+  "android:orientation": string | OrientationType;
+
+  /**
+* Gets or sets if layout should be horizontal or vertical.
+The default value is vertical.
+@platform ios
+*/
+  "ios:orientation": string | OrientationType;
 }
 
 export interface HTMLRootLayoutElementAttributes<
@@ -5138,78 +5140,28 @@ export interface HTMLGridLayoutElementAttributes<
   "ios:columns": string;
 }
 
-export interface HTMLFlexboxLayoutElementAttributes<
-  T extends HTMLFlexboxLayoutElement = HTMLFlexboxLayoutElement
+export interface HTMLDockLayoutElementAttributes<
+  T extends HTMLDockLayoutElement = HTMLDockLayoutElement
 > extends HTMLViewElementAttributes<T> {
-  flexDirection: string | FlexDirection;
+  /**
+* Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
+The default value is true.
+*/
+  stretchLastChild: string | boolean;
 
   /**
-* 
+* Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
+The default value is true.
 @platform android
 */
-  "android:flexDirection": string | FlexDirection;
+  "android:stretchLastChild": string | boolean;
 
   /**
-* 
+* Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
+The default value is true.
 @platform ios
 */
-  "ios:flexDirection": string | FlexDirection;
-
-  flexWrap: string | FlexWrap;
-
-  /**
-* 
-@platform android
-*/
-  "android:flexWrap": string | FlexWrap;
-
-  /**
-* 
-@platform ios
-*/
-  "ios:flexWrap": string | FlexWrap;
-
-  justifyContent: string | JustifyContent;
-
-  /**
-* 
-@platform android
-*/
-  "android:justifyContent": string | JustifyContent;
-
-  /**
-* 
-@platform ios
-*/
-  "ios:justifyContent": string | JustifyContent;
-
-  alignItems: string | AlignItems;
-
-  /**
-* 
-@platform android
-*/
-  "android:alignItems": string | AlignItems;
-
-  /**
-* 
-@platform ios
-*/
-  "ios:alignItems": string | AlignItems;
-
-  alignContent: string | AlignContent;
-
-  /**
-* 
-@platform android
-*/
-  "android:alignContent": string | AlignContent;
-
-  /**
-* 
-@platform ios
-*/
-  "ios:alignContent": string | AlignContent;
+  "ios:stretchLastChild": string | boolean;
 
   /**
    * Specify the bottom padding of this layout.
@@ -5297,28 +5249,78 @@ export interface HTMLFlexboxLayoutElementAttributes<
   "ios:clipToBounds": string | boolean;
 }
 
-export interface HTMLDockLayoutElementAttributes<
-  T extends HTMLDockLayoutElement = HTMLDockLayoutElement
+export interface HTMLFlexboxLayoutElementAttributes<
+  T extends HTMLFlexboxLayoutElement = HTMLFlexboxLayoutElement
 > extends HTMLViewElementAttributes<T> {
-  /**
-* Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
-The default value is true.
-*/
-  stretchLastChild: string | boolean;
+  flexDirection: string | FlexDirection;
 
   /**
-* Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
-The default value is true.
+* 
 @platform android
 */
-  "android:stretchLastChild": string | boolean;
+  "android:flexDirection": string | FlexDirection;
 
   /**
-* Gets or sets a value that indicates whether the last child element within a DockLayout stretches to fill the remaining available space.
-The default value is true.
+* 
 @platform ios
 */
-  "ios:stretchLastChild": string | boolean;
+  "ios:flexDirection": string | FlexDirection;
+
+  flexWrap: string | FlexWrap;
+
+  /**
+* 
+@platform android
+*/
+  "android:flexWrap": string | FlexWrap;
+
+  /**
+* 
+@platform ios
+*/
+  "ios:flexWrap": string | FlexWrap;
+
+  justifyContent: string | JustifyContent;
+
+  /**
+* 
+@platform android
+*/
+  "android:justifyContent": string | JustifyContent;
+
+  /**
+* 
+@platform ios
+*/
+  "ios:justifyContent": string | JustifyContent;
+
+  alignItems: string | AlignItems;
+
+  /**
+* 
+@platform android
+*/
+  "android:alignItems": string | AlignItems;
+
+  /**
+* 
+@platform ios
+*/
+  "ios:alignItems": string | AlignItems;
+
+  alignContent: string | AlignContent;
+
+  /**
+* 
+@platform android
+*/
+  "android:alignContent": string | AlignContent;
+
+  /**
+* 
+@platform ios
+*/
+  "ios:alignContent": string | AlignContent;
 
   /**
    * Specify the bottom padding of this layout.
@@ -5504,10 +5506,9 @@ export interface HTMLCustomLayoutViewElementAttributes<
 > extends HTMLViewElementAttributes<T> {}
 
 // allow arbitrary props on all elements.
-type JSXElementAttributes<T extends HTMLViewBaseElementAttributes> =
-  Partial<T> & {
-    [name: string]: any;
-  };
+type JSXElementAttributes<T = HTMLViewElementAttributes> = Partial<T> & {
+  [name: string]: any;
+};
 
 interface CoreIntrinsicElements {
   /**
@@ -5531,16 +5532,6 @@ interface CoreIntrinsicElements {
   textfield: JSXElementAttributes<HTMLTextFieldElementAttributes>;
 
   /**
-   * A class used to create a single part of formatted string with a common text properties.
-   */
-  span: JSXElementAttributes<HTMLSpanElementAttributes>;
-
-  /**
-   * A class used to create a formatted (rich text) string.
-   */
-  formattedstring: JSXElementAttributes<HTMLFormattedStringElementAttributes>;
-
-  /**
    * Represents a tab view entry.
    */
   tabviewitem: JSXElementAttributes<HTMLTabViewItemElementAttributes>;
@@ -5549,6 +5540,16 @@ interface CoreIntrinsicElements {
    * Represents a tab view.
    */
   tabview: JSXElementAttributes<HTMLTabViewElementAttributes>;
+
+  /**
+   * A class used to create a single part of formatted string with a common text properties.
+   */
+  span: JSXElementAttributes<HTMLSpanElementAttributes>;
+
+  /**
+   * A class used to create a formatted (rich text) string.
+   */
+  formattedstring: JSXElementAttributes<HTMLFormattedStringElementAttributes>;
 
   /**
    * Represents a switch component.
@@ -5581,20 +5582,25 @@ interface CoreIntrinsicElements {
   repeater: JSXElementAttributes<HTMLRepeaterElementAttributes>;
 
   /**
+   * Represents a scrollable area that can have content that is larger than its bounds.
+   */
+  scrollview: JSXElementAttributes<HTMLScrollViewElementAttributes>;
+
+  /**
 * Proxy view container that adds all its native children directly to the parent.
 To be used as a logical grouping container of views.
 */
   proxyviewcontainer: JSXElementAttributes<HTMLProxyViewContainerElementAttributes>;
 
   /**
-   * Represents a scrollable area that can have content that is larger than its bounds.
-   */
-  scrollview: JSXElementAttributes<HTMLScrollViewElementAttributes>;
-
-  /**
    * Represents a progress component.
    */
   progress: JSXElementAttributes<HTMLProgressElementAttributes>;
+
+  /**
+   * Represents a logical unit for navigation (inside Frame).
+   */
+  page: JSXElementAttributes<HTMLPageElementAttributes>;
 
   /**
    * Represents a Placeholder, which is used to add a native view to the visual tree.
@@ -5607,11 +5613,6 @@ To be used as a logical grouping container of views.
   listview: JSXElementAttributes<HTMLListViewElementAttributes>;
 
   /**
-   * Represents a logical unit for navigation (inside Frame).
-   */
-  page: JSXElementAttributes<HTMLPageElementAttributes>;
-
-  /**
    * Represents an list picker.
    */
   listpicker: JSXElementAttributes<HTMLListPickerElementAttributes>;
@@ -5622,16 +5623,16 @@ To be used as a logical grouping container of views.
   label: JSXElementAttributes<HTMLLabelElementAttributes>;
 
   /**
-   * Represents a class that provides functionality for loading and streching image(s).
-   */
-  image: JSXElementAttributes<HTMLImageElementAttributes>;
-
-  /**
 * Represents a view with html content. Use this component instead WebView when you want to show just static HTML content.
 [iOS support](https://developer.apple.com/documentation/foundation/nsattributedstring/1524613-initwithdata)
 [android support](http://developer.android.com/reference/android/text/Html.html)
 */
   htmlview: JSXElementAttributes<HTMLHtmlViewElementAttributes>;
+
+  /**
+   * Represents a class that provides functionality for loading and streching image(s).
+   */
+  image: JSXElementAttributes<HTMLImageElementAttributes>;
 
   /**
 * Represents the logical View unit that is responsible for navigation within an application.
@@ -5672,15 +5673,15 @@ Nested frames are supported, enabling hierarchical navigation scenarios.
   navigationbutton: JSXElementAttributes<HTMLNavigationButtonElementAttributes>;
 
   /**
-   * A Layout that arranges its children horizontally or vertically. The direction can be set by orientation property.
-   */
-  stacklayout: JSXElementAttributes<HTMLStackLayoutElementAttributes>;
-
-  /**
 * WrapLayout position children in rows or columns depending on orientation property
 until space is filled and then wraps them on new row or column.
 */
   wraplayout: JSXElementAttributes<HTMLWrapLayoutElementAttributes>;
+
+  /**
+   * A Layout that arranges its children horizontally or vertically. The direction can be set by orientation property.
+   */
+  stacklayout: JSXElementAttributes<HTMLStackLayoutElementAttributes>;
 
   rootlayout: JSXElementAttributes<HTMLRootLayoutElementAttributes>;
 
@@ -5689,12 +5690,12 @@ until space is filled and then wraps them on new row or column.
    */
   gridlayout: JSXElementAttributes<HTMLGridLayoutElementAttributes>;
 
-  flexboxlayout: JSXElementAttributes<HTMLFlexboxLayoutElementAttributes>;
-
   /**
    * A Layout that arranges its children at its outer edges, and allows its last child to take up the remaining space.
    */
   docklayout: JSXElementAttributes<HTMLDockLayoutElementAttributes>;
+
+  flexboxlayout: JSXElementAttributes<HTMLFlexboxLayoutElementAttributes>;
 
   /**
    * A layout that lets you specify exact locations (left/top coordinates) of its children.

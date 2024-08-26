@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/solidjs-types",
-  "version": "1.0.17",
+  "version": "1.0.20",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for solidjs",
   "main": "",
   "types": "index.d.ts",
