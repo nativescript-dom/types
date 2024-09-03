@@ -210,7 +210,7 @@ export type HTMLTextBaseElementAttributeKeys =
   | "fontStyle"
   | "fontFamily"
   | "fontSize";
-export type HTMLButtonAttributeKeys =
+export type HTMLButtonAttributeKeys = HTMLTextBaseElementAttributeKeys 
   | "textWrap"
   | "accessible"
   | "accessibilityRole";
@@ -231,7 +231,9 @@ export type HTMLImageElementAttributeKeys =
   | "decodeHeight"
   | "decodeWidth"
   | "tintColor";
-export type HTMLLabelElementAttributeKeys = "textWrap";
+
+export type HTMLLabelElementAttributeKeys = HTMLTextBaseElementAttributeKeys | "textWrap";
+
 export type HTMLListPickerElementAttributeKeys =
   | "items"
   | "textField"
@@ -259,10 +261,10 @@ export type HTMLScrollViewElementAttributeKeys =
   | "orientation"
   | "horizontalOffset";
 export type HTMLSearchBarElementAttributeKeys =
+  | HTMLEditableTextBaseElementAttributeKeys
   | "textFieldHintColor"
   | "textFieldBackgroundColor"
-  | "text"
-  | "hint";
+  | "text";
 export type HTMLSegmentedBarElementAttributeKeys =
   | "items"
   | "selectedBackgroundColor"
@@ -290,7 +292,9 @@ export type HTMLTabViewItemElementAttributeKeys =
   | "textTransform"
   | "iconSource"
   | "title";
+
 export type HTMLEditableTextBaseElementAttributeKeys =
+  | HTMLTextBaseElementAttributeKeys
   | "updateTextTrigger"
   | "autocapitalizationType"
   | "autocorrect"
@@ -301,13 +305,16 @@ export type HTMLEditableTextBaseElementAttributeKeys =
   | "maxLength"
   | "maxLines"
   | "returnKeyType";
+
 export type HTMLTextFieldElementAttributeKeys =
+  | HTMLEditableTextBaseElementAttributeKeys
   | "closeOnReturn"
   | "secure"
   | "secureWithoutAutofill"
   | "title";
 
-export type HTMLTextViewElementAttributeKeys = "maxLines";
+export type HTMLTextViewElementAttributeKeys = HTMLEditableTextBaseElementAttributeKeys;
+
 export type HTMLSliderElementAttributeKeys =
   | "maxValue"
   | "minValue"

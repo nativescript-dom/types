@@ -251,6 +251,7 @@ export const HTMLTextBaseElementAttributeKeys = [
   "fontSize",
 ];
 export const HTMLButtonAttributeKeys = [
+  ...HTMLTextBaseElementAttributeKeys,
   "textWrap",
   "accessible",
   "accessibilityRole",
@@ -304,12 +305,6 @@ export const HTMLScrollViewElementAttributeKeys = [
   "orientation",
   "horizontalOffset",
 ];
-export const HTMLSearchBarElementAttributeKeys = [
-  "textFieldHintColor",
-  "textFieldBackgroundColor",
-  "text",
-  "hint",
-];
 export const HTMLSegmentedBarElementAttributeKeys = [
   "items",
   "selectedBackgroundColor",
@@ -353,14 +348,24 @@ export const HTMLEditableTextBaseElementAttributeKeys = [
   "maxLines",
   "returnKeyType",
 ];
+
+export const HTMLSearchBarElementAttributeKeys = [
+  "textFieldHintColor",
+  "textFieldBackgroundColor",
+  "text",
+  "hint",
+  ...HTMLEditableTextBaseElementAttributeKeys
+];
+
 export const HTMLTextFieldElementAttributeKeys = [
   "closeOnReturn",
   "secure",
   "secureWithoutAutofill",
   "title",
+  ...HTMLEditableTextBaseElementAttributeKeys
 ];
 
-export const HTMLTextViewElementAttributeKeys = ["maxLines"];
+export const HTMLTextViewElementAttributeKeys = HTMLEditableTextBaseElementAttributeKeys;
 export const HTMLSliderElementAttributeKeys = [
   "maxValue",
   "minValue",

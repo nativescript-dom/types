@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/vue-types",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "TypeScript definitions for @nativescript/core views exposed as JSX intrinsic elements for vue",
   "main": "",
   "types": "index.d.ts",

@@ -308,12 +308,6 @@ export const HTMLScrollViewElementAttributeKeys = [
   "orientation",
   "horizontalOffset",
 ];
-export const HTMLSearchBarElementAttributeKeys = [
-  "textFieldHintColor",
-  "textFieldBackgroundColor",
-  "text",
-  "hint",
-];
 export const HTMLSegmentedBarElementAttributeKeys = [
   "items",
   "selectedBackgroundColor",
@@ -346,6 +340,7 @@ export const HTMLTabViewItemElementAttributeKeys = [
   "title",
 ];
 export const HTMLEditableTextBaseElementAttributeKeys = [
+  ...HTMLTextBaseElementAttributeKeys,
   "updateTextTrigger",
   "autocapitalizationType",
   "autocorrect",
@@ -357,18 +352,25 @@ export const HTMLEditableTextBaseElementAttributeKeys = [
   "maxLines",
   "returnKeyType",
 ];
+
+export const HTMLSearchBarElementAttributeKeys = [
+  "textFieldHintColor",
+  "textFieldBackgroundColor",
+  "text",
+  "hint",
+  ...HTMLEditableTextBaseElementAttributeKeys
+];
+
 export const HTMLTextFieldElementAttributeKeys = [
   "closeOnReturn",
   "secure",
   "secureWithoutAutofill",
   "title",
-  ...HTMLTextBaseElementAttributeKeys,
+  "hint",
+  ...HTMLEditableTextBaseElementAttributeKeys,
 ];
 
-export const HTMLTextViewElementAttributeKeys = [
-  "maxLines",
-  ...HTMLTextBaseElementAttributeKeys,
-];
+export const HTMLTextViewElementAttributeKeys = HTMLEditableTextBaseElementAttributeKeys;
 export const HTMLSliderElementAttributeKeys = [
   "maxValue",
   "minValue",

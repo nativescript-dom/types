@@ -1,7 +1,6 @@
 src/
 script.sh
 node_modules
-metadata
 dist
 @nativescript
 package.lock.json

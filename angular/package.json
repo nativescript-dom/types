@@ -1,6 +1,6 @@
 {
   "name": "@nativescript-dom/angular-types",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Typescript definitions for @nativescript/angular that expose @nativescript/core views as DOM elements in HTML templates",
   "main": "",
   "types": "index.d.ts",
