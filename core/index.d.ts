@@ -1582,3 +1582,36 @@ declare global {
     T & HTMLViewElementEventsMap<V>
   >;
 }
+
+
+// Allow Application.run({ create: () => document }) by widening types
+declare module '@nativescript/core/application' {
+  import type { NavigationEntry, View } from '@nativescript/core';
+
+  // Additional run option supported by the DOM runtime
+  export interface RunOptionsDOM {
+    create: () => Document;
+  }
+
+  interface ApplicationCommon {
+    // widen accepted run options to include our DOM run option
+    run(entry?: string | NavigationEntry | RunOptionsDOM): void;
+
+    // widen helpers that work with the root view so Document is allowed
+    createRootView(view?: View | Document, fireLaunchEvent?: boolean, additionalLanchEventData?: any): View | Document;
+    getRootView(): View | Document;
+  }
+}
+
+// DOM-specific conveniences used by the runtime
+declare global {
+  interface HTMLElement {
+    // In lib.dom.d.ts, document.body is typed as HTMLElement
+    // so declare it here as well to cover both HTMLElement and HTMLBodyElement
+    actionBarHidden?: boolean;
+  }
+  interface HTMLBodyElement {
+    // NativeScript DOM runtime supports toggling the ActionBar via document.body.actionBarHidden
+    actionBarHidden?: boolean;
+  }
+}
