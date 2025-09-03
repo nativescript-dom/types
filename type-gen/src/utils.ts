@@ -7,6 +7,10 @@ export function capitalize(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export function toCamelCase(str: string) {
+  return str[0].toLowerCase() + str.slice(1);
+}
+
 export function pascalize(string: string) {
   // splitting words by dash
   const words = string.split("-");

@@ -2,6 +2,12 @@ export interface Attribute {
   description: string;
   name: string;
   type: string;
+  source?: any;
+}
+
+type EventsType = {
+  import: string,
+  list: string[]
 }
 
 export interface Tag {
@@ -10,6 +16,8 @@ export interface Tag {
   description: string;
   properties: Attribute[];
   attributes: Attribute[];
+  events: EventsType;
+  source?: string
 }
 
 export interface HtmlCustomData {
