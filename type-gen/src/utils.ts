@@ -84,3 +84,8 @@ for (let key in AttributeKeys) {
   AttrKeys[pascalKey] = AttributeKeys[key];
   AttrKeys[kebabKey] = AttributeKeys[key];
 }
+
+export function sanitizeFileName(fileName: string): string {
+  // Remove invalid characters: / \ ? % * : | " < >
+  return fileName.replace(/[\/\\\?\%\*\:\|\"\<\>]/g, '_');
+}

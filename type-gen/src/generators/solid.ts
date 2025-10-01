@@ -1,212 +1,147 @@
-import * as fs from "fs";
 import {
-  generateMetadata,
-  getDefaultEventsMap,
-  getMetadataFromPath,
-  viewBaseAttributes,
-} from "..";
-import { Attribute, HtmlCustomData, Tag } from "../types";
-import {
-  AttrKeys,
-  isGlobal,
-  pascalize,
-  propExists,
-  resolveAttributeType,
-} from "../utils";
-import path = require("path");
+  CliArgumentsMap,
+  CoreTypes,
+  HtmlCustomData,
+  isCoreType,
+  isSimpleType,
+  OutputType,
+} from "../types";
+import { toKebabCase } from "../utils";
 
-function solidVisitor(
-  type: "attribute" | "tag" | "event" | "event-tag",
-  item: Tag | Attribute,
-  tag: Tag | undefined,
-  globalAttributes: Attribute[]
-): Tag[] | Attribute[] | undefined {
-  switch (type) {
-    // Do not modify events, return as is.
-    case "event-tag":
-      return [item as Tag];
-    case "event": {
-      const type = resolveAttributeType(
-        `@${item.name}`,
-        (item as Attribute).type
-      );
-      const solidEvent = {
-        ...(item as Attribute),
-        name: `on:${item.name}`,
-        type: type,
-      };
+const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicElements>(
+      tag: K
+    ): IntrinsicElements[K];
 
-      if (propExists(solidEvent, globalAttributes)) {
-        return [];
-      }
+    export function createElement<
+      Element extends IntrinsicElements,
+      Key extends keyof IntrinsicElements
+    >(element: Key | undefined | null, attrs: Element[Key]): Element[Key];
 
-      if (isGlobal(tag.name)) {
-        globalAttributes.push(solidEvent);
-      } else {
-        return [solidEvent];
-      }
-      break;
+    export function createElement<
+      Element extends IntrinsicElements,
+      Key extends keyof IntrinsicElements,
+      T
+    >(
+      element: Key | undefined | null,
+      attrsEnhancers: T,
+      attrs: Element[Key] & T
+    ): Element[Key];
+
+    export interface ArrayElement extends Array<Element> {}
+
+    export interface FunctionElement {
+      (): Element;
     }
-    case "tag": {
-      if (isGlobal(item.name)) return [];
-      // Fix source path and return the tag.
-      // We can return multiple tags here, for example
-      // to support multiple type of casings.
-      return [
-        {
-          ...(item as Tag),
-          path: (item as Tag).path?.replace("./../", ""),
-          attributes: tag?.attributes || [],
-          name: pascalize(item.name),
-        },
-        {
-          ...(item as Tag),
-          path: (item as Tag).path?.replace("./../", ""),
-          attributes: tag?.attributes || [],
-          name: item.name,
-        },
-      ];
+
+    interface IntrinsicAttributes {
+      ref?: unknown | ((e: unknown) => void);
     }
-    case "attribute": {
-      const KeysMap = AttrKeys[tag.name] || [];
-      if (
-        propExists(item as Attribute, globalAttributes) ||
-        propExists(item as Attribute, tag?.attributes) ||
-        KeysMap.indexOf(item.name) === -1
-      )
-        return [];
-      // skip attributes that end with Event keyword.
-      if (item.name.endsWith("Event")) return [];
 
-      const type = resolveAttributeType(item.name, (item as Attribute).type);
+    export interface ElementClass {
+      // empty, libs can define requirements downstream
+    }
+    export interface ElementAttributesProperty {
+      // empty, libs can define requirements downstream
+    }
+    export interface ElementChildrenAttribute {
+      children: {};
+    }
 
-      const platformAttribues = [
-        {
-          ...(item as Attribute),
-          name: `android:${item.name}`,
-          description: (item.description || "") + "\n@platform android",
-          type: type,
-        },
-        {
-          ...(item as Attribute),
-          name: `ios:${item.name}`,
-          description: (item.description || "") + "\n@platform ios",
-          type: type,
-        },
-      ];
-      const attributes = [
-        {
-          ...(item as Attribute),
-          type: type,
-          description: item.description ? item.description : undefined,
-        },
-        ...platformAttribues,
-      ];
+    interface ArrayElement extends Array<Element> {}
 
-      if (isGlobal(tag.name)) {
-        globalAttributes.push(...attributes);
-        return [];
-      } else {
-        return attributes;
+
+    interface CustomEvents {}
+    interface CustomCaptureEvents {}`;
+
+/**
+ *
+ * @param args
+ * @param path
+ * @param data
+ * @returns
+ */
+export function generateSolidTypes(
+  args: CliArgumentsMap,
+  path: string,
+  data: HtmlCustomData
+): OutputType[] {
+  const importSource = path;
+  const imports = [];
+  const intrinsicElements: {
+    htmlName: string;
+    source: string;
+    name: string;
+  }[] = [];
+
+  for (let tag of data.tags) {
+    const intrinsicElement = {
+      htmlName: toKebabCase(tag.name),
+      source: "",
+      name: `${tag.name}Attributes`,
+    };
+
+    intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
+
+    if (!imports.find((t) => t === tag.name.trim())) {
+      imports.push(tag.name);
+    }
+
+    for (let property of tag.properties) {
+      intrinsicElement.source += `\n\n/**\n*\n${property.description}\n*/\n${property.name}?: ${property.type}`;
+
+      if (property.type) {
+        for (let type of property.type.split("|"))
+          if (!isSimpleType(type.trim())) {
+            const strippedType = type.trim().replace("[]", "");
+            if (
+              !imports.find((t) => t === strippedType) &&
+              !isCoreType(strippedType)
+            ) {
+              imports.push(strippedType);
+            }
+          }
       }
     }
+
+    if (tag.events) {
+      for (let event of tag.events) {
+        intrinsicElement.source += `\n\n/**\n*\n${event.description}\n*/\n"on:${event.name}"?: (event:${event.type}) => void`;
+        const type = event.type.trim();
+        if (!imports.find((t) => t === type)) {
+          imports.push(type);
+        }
+      }
+    }
+
+    intrinsicElement.source += `\n\n}\n\n`;
+    intrinsicElements.push(intrinsicElement);
   }
-  return [];
+
+  const output = [
+    `import {JSX as SolidJSX } from "solid-js";`,
+    `import {\nCoreTypes,\n${imports.join(",\n")}\n} from "${importSource}"`,
+    "",
+    "",
+    CoreTypes,
+    "",
+    "interface NSDOMAttributes<T> extends SolidJSX.CustomAttributes<T>, SolidJSX.DirectiveAttributes, SolidJSX.DirectiveFunctionAttributes<T> {}",
+    "",
+    "declare global {",
+    "   namespace JSX {",
+    SolidJSXTypes,
+    ...intrinsicElements.map((e) => e.source),
+    `export interface IntrinsicElements {`,
+    ...intrinsicElements.map((e) => `"${e.htmlName}": ${e.name},`),
+    "}",
+    "   }",
+    "}",
+  ].join("\n");
+
+  return [
+    {
+      data: output,
+      format: "d.ts",
+      nameSuffix: "jsx",
+    },
+  ];
 }
-
-function getDescription(attr: Attribute) {
-  return attr.description && attr.description.trim() !== ""
-    ? `/**
-* ${attr.description}
-*/`
-    : "";
-}
-
-function solidWriter(metadata: HtmlCustomData) {
-  let interfacesString = `
-  export interface HTMLViewBaseElementAttributes<T extends HTMLViewBaseElement = HTMLViewBaseElement> extends SolidJSX.DOMAttributes<T>, HTMLAttributes<T> {
-      ${metadata.globalAttributes
-        .filter((attr) => viewBaseAttributes.indexOf(attr.name) > -1)
-        .map(
-          (attr) => `
-        ${getDescription(attr)} 
-        "${attr.name}": ${attr.type};\n
-        `
-        )
-        .join("\n")}
-    }\n\n
-  
-    export interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement> extends HTMLViewBaseElementAttributes<T> {
-      ${metadata.globalAttributes
-        .filter((attr) => viewBaseAttributes.indexOf(attr.name) === -1)
-        .map(
-          (attr) => `
-        ${getDescription(attr)} 
-        "${attr.name}": ${attr.type};\n
-        `
-        )
-        .join("\n")}
-    }\n\n
-  `;
-  const JSXIntrinsicElements = [];
-  for (let tag of metadata.tags) {
-    const attrClass = `HTML${pascalize(tag.name)}ElementAttributes`;
-    if (interfacesString.indexOf(`export interface ${attrClass}`) > -1)
-      continue;
-
-    if (tag.name === "grid-layout") {
-      console.log(tag.attributes);
-    }
-
-    const value = `\n
-      export interface ${attrClass}<T extends HTML${pascalize(
-      tag.name
-    )}Element = HTML${pascalize(
-      tag.name
-    )}Element> extends HTMLViewElementAttributes<T> {
-  
-        ${tag.attributes
-          .map(
-            (attr) => `
-          ${getDescription(attr)} 
-          "${attr.name}": ${attr.type};\n
-          `
-          )
-          .join("\n")}
-  
-      }\n\n
-      `;
-    interfacesString += value;
-
-    JSXIntrinsicElements.push(`${getDescription(tag as never)}
-${tag.name.toLowerCase()}: JSXElementAttributes<HTML${pascalize(
-      tag.name
-    )}ElementAttributes>;`);
-  }
-  let template = fs.readFileSync(
-    path.join(__dirname, "../../src/templates/solid.template"),
-    "utf-8"
-  );
-  template = template.replace("<__CONTENT_HERE__>", interfacesString);
-
-  template = template.replace(
-    `<__ELEMENTS_HERE__>`,
-    JSXIntrinsicElements.join("\n\n")
-  );
-
-  fs.writeFileSync(
-    path.join(__dirname, "..", "..", "..", "solid-js", "jsx-runtime.d.ts"),
-    template
-  );
-}
-
-export async function startSolidGenerator() {
-  const events = await getDefaultEventsMap();
-  const data = await getMetadataFromPath("@nativescript/core", "ui/**/*.ts");
-  generateMetadata(JSON.stringify(data), JSON.stringify(events), {
-    visitor: solidVisitor,
-    writer: solidWriter,
-  });
-}
-
-startSolidGenerator();
