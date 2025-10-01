@@ -1,4 +1,29 @@
-import { CliArgumentsMap, HtmlCustomData, OutputType, Tag, WebTypesRoot } from "../types";
+import {
+  Attribute,
+  AttributeValue,
+  CliArgumentsMap,
+  HtmlCustomData,
+  OutputType,
+  Tag,
+  WebTypesRoot,
+} from "../types";
+
+function extractValuesFromAttributeType(
+  attribute: Attribute
+): AttributeValue[] | undefined {
+  if (attribute.type === "boolean") {
+    return [
+      {
+        name: "true",
+      },
+      {
+        name: "false",
+      },
+    ];
+  }
+
+  return undefined;
+}
 
 export function generateAngularTypes(
   args: CliArgumentsMap,
@@ -19,12 +44,13 @@ export function generateAngularTypes(
   };
 
   const metadata: HtmlCustomData = {
-    version: "1.1",
+    $schema:
+      "https://raw.githubusercontent.com/microsoft/vscode-html-languageservice/refs/heads/main/docs/customData.schema.json",
+    version: 1.1,
     tags: [],
   };
 
   for (let tag of data.tags) {
-    if (metadata.tags.length === 1) continue;
     const index =
       metadata.tags.push({
         name: tag.name,
@@ -41,13 +67,18 @@ export function generateAngularTypes(
 
     if (tag.properties) {
       for (let attribute of tag.properties) {
+        const description =
+          attribute.description + `\n\n@type ${attribute.type}`;
         metadata.tags[index].attributes.push({
           ...attribute,
           source: path,
+          values: extractValuesFromAttributeType(attribute),
+          description,
         });
         webTypes.contributions.html.elements[index2].attributes.push({
           ...attribute,
           source: path,
+          description,
         });
       }
     }
@@ -58,13 +89,13 @@ export function generateAngularTypes(
           ...event,
           name: `(${event.name})`,
           source: path,
-          description: `${event.description}\n\n@emits ${event.type}`,
+          description: `${event.description}\n\n@type ${event.type}`,
         });
         webTypes.contributions.html.elements[index2].attributes.push({
           ...event,
           name: `(${event.name})`,
           source: path,
-          description: `${event.description}\n\n@emits ${event.type}`,
+          description: `${event.description}\n\n@type ${event.type}`,
         });
       }
     }
