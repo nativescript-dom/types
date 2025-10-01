@@ -79,11 +79,17 @@ export type InputFile = {
   };
 };
 
+export interface AttributeValue {
+  name: string;
+  description?: string;
+}
+
 export interface Attribute {
   description: string;
   name: string;
   type: string;
   source?: any;
+  values?: AttributeValue[];
 }
 
 export type EventType = {
@@ -105,7 +111,8 @@ export interface Tag {
 }
 
 export interface HtmlCustomData {
-  version: string;
+  $schema: string;
+  version: number;
   tags: Tag[];
 }
 
