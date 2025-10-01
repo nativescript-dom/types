@@ -1,13 +1,8 @@
 #! /usr/bin/env node
 import * as fs from "fs";
-import { generateMetadata, getMetadataFromPath, viewBaseAttributes } from "..";
-import { Attribute, HtmlCustomData, Tag } from "../types";
-import {
-  isGlobal,
-  pascalize,
-  resolveAttributeType,
-  toKebabCase,
-} from "../utils";
+import { generateTypes } from "..";
+import { CliArgumentsMap } from "../types";
+import { sanitizeFileName } from "../utils";
 import path = require("path");
 
 const args = process.argv.slice(2);
@@ -26,37 +21,41 @@ if (args[0] === "--help" || args[0] === "-h") {
 Options:
     -p | --package: The package for which to generate types.
     -o | --output: The output path where the types should be generated.
-    -f | --format: The format of the types to generate. (jsx | webtypes)
+    -f | --framework: The framework to generate the types for. (solidjs | vue | svelte | angular | react)
     -c | --core: Generate types for @nativescript/core.
     -a | --all: Generate types for all packages based on project dependencies.
+    -d | --directory: Generate types from a directory.
+    -n | --filename: Name of the output file.
     -h | --help: Show help.    
 `);
   process.exit(0);
 }
 
-type ParsedArgs = {
-  package?: string;
-  output?: string;
-  format?: "jsx" | "web-types";
-  core?: boolean;
-  all?: boolean;
-};
+function parseArgs(args: any[]) {
+  let parsedArgs: CliArgumentsMap = {};
+  const _args = [];
+  for (let arg of args) {
+    if (arg.includes("=")) {
+      const parts = arg.split("=");
+      _args.push(...parts);
+    } else {
+      _args.push(arg);
+    }
+  }
 
-function parseArgs(args: any[]): ParsedArgs {
-  let parsedArgs: any = {};
-  for (let i = 0; i < args.length; i++) {
-    switch (args[i]) {
+  for (let i = 0; i < _args.length; i++) {
+    switch (_args[i]) {
       case "-p":
       case "--package":
-        parsedArgs.package = args[i + 1];
+        parsedArgs.package = _args[i + 1];
         break;
       case "-o":
       case "--output":
-        parsedArgs.output = args[i + 1];
+        parsedArgs.output = _args[i + 1];
         break;
       case "-f":
-      case "--format":
-        parsedArgs.format = args[i + 1];
+      case "--framework":
+        parsedArgs.framework = _args[i + 1];
         break;
       case "-c":
       case "--core":
@@ -65,6 +64,14 @@ function parseArgs(args: any[]): ParsedArgs {
       case "-a":
       case "--all":
         parsedArgs.all = true;
+        break;
+      case "-d":
+      case "--directory":
+        parsedArgs.directory = _args[i + 1];
+        break;
+      case "-n":
+      case "--filename":
+        parsedArgs.filename = _args[i + 1];
         break;
     }
   }
@@ -97,246 +104,40 @@ if (parsedArgs.package) {
   }
 }
 
-if (
-  parsedArgs.format &&
-  parsedArgs.format !== "jsx" &&
-  parsedArgs.format !== "web-types"
-) {
-  console.error("Invalid format provided. Use 'jsx' or 'web-types'.");
+if (!parsedArgs.framework) {
+  console.error(
+    "Invalid framework provided. The framework to generate the types for. (solidjs | vue | svelte | angular | react)."
+  );
   process.exit(1);
 }
 
-// 1. Parse the arguments
-// 2. Check if @nativescript/core is installed in node_modules, throw error if not.
-// 3. Check types format needed, JSX or Web Types
-// 4. Check Output path required
-// 5. Check package for which we need to generate the types
-// 6. Check if the package is installed in node_modules, throw error if not.
-// 7. If -a | --all provided, generate types for all packages based on project dependencies.
-// 8. Use --core flag to generate types for @nativescript/core
+export async function startCliTypeGenerator() {
+  const types = await generateTypes(parsedArgs);
+  if (types?.length) {
+    for (let type of types) {
+      const filename = parsedArgs.filename
+        ? `${parsedArgs.filename}`
+        : `${
+            parsedArgs.package
+              ? sanitizeFileName(parsedArgs.package)
+              : parsedArgs.core
+              ? "core"
+              : "ns"
+          }_${parsedArgs.framework}_${type.nameSuffix}.${type.format}`;
 
-function cliVisitor(
-  type: "attribute" | "tag" | "event",
-  item: Tag | Attribute | string,
-  tag: Tag | undefined,
-  globalAttributes: Attribute[],
-  viewEvents: Attribute[]
-): Tag[] | Attribute[] | undefined {
-  switch (type) {
-    // Do not modify events, return as is.
-    case "event": {
-      const eventName = item as string;
-      const eventAttribute = viewEvents.find((e) => e.name === eventName);
-      const elementName = `HTML${pascalize(toKebabCase(tag.name))}Element`;
-      const type = resolveAttributeType(
-        `@${eventName}`,
-        eventAttribute?.type
-          ? `NativeDOMEventWithData<${elementName}, ${eventAttribute.type}>`
-          : `NativeDOMEvent<${elementName}>`
-      );
-      const solidEvent = {
-        name: `on:${eventName}`,
-        type: type,
-        description: `Event raised when the ${eventName} event is triggered.`,
-        source: eventAttribute
-          ? {
-              source: eventAttribute.source,
-              type: eventAttribute.type,
-            }
-          : undefined,
-      };
-
-      return [solidEvent as Attribute];
-    }
-    case "tag": {
-      const tag = item as Tag;
-      if (isGlobal(tag.name)) return [];
-      // Fix source path and return the tag.
-      // We can return multiple tags here, for example
-      // to support multiple type of casings.
-      return [
-        {
-          ...tag,
-          path: (item as Tag).path?.replace("./../", ""),
-          attributes: tag?.attributes || [],
-          name: pascalize(tag.name),
-        },
-      ];
-    }
-    case "attribute": {
-      const attribute = item as Attribute;
-      if (attribute.name.endsWith("Event")) {
-        const eventName = attribute.name.slice(0, attribute.name.length - 5);
-        const eventAttribute = viewEvents.find((e) => e.name === eventName);
-        const elementName = `HTML${pascalize(toKebabCase(tag?.name))}Element`;
-        return [
-          {
-            ...attribute,
-            name: `on:${eventName}`,
-            description: `Event raised when the ${eventName} event is triggered.`,
-            type: resolveAttributeType(
-              `@${eventName}`,
-              (eventAttribute as Attribute)?.type
-                ? `NativeDOMEventWithData<${elementName}, ${
-                    (item as Attribute).type
-                  }>`
-                : `NativeDOMEvent<${elementName}>`
-            ),
-            source: eventAttribute
-              ? {
-                  source: eventAttribute.source,
-                  type: eventAttribute.type,
-                }
-              : undefined,
-          },
-        ];
+          
+      if (parsedArgs.output && !fs.existsSync(parsedArgs.output)) {
+        fs.mkdirSync(parsedArgs.output, {
+          recursive: true
+        })
       }
 
-      const type = resolveAttributeType(
-        attribute.name,
-        (item as Attribute).type
+      fs.writeFileSync(
+        parsedArgs.output ? `${parsedArgs.output}/${filename}` : filename,
+        type.data
       );
-
-      // const platformAttribues = [
-      //   {
-      //     ...(item as Attribute),
-      //     name: `android:${attribute.name}`,
-      //     description: (attribute.description || "") + "\n@platform android",
-      //     type: type,
-      //   },
-      //   {
-      //     ...(item as Attribute),
-      //     name: `ios:${attribute.name}`,
-      //     description: (attribute.description || "") + "\n@platform ios",
-      //     type: type,
-      //   },
-      // ];
-      const attributes = [
-        {
-          ...(item as Attribute),
-          type: type,
-          description: attribute.description
-            ? attribute.description
-            : undefined,
-        },
-        // ...platformAttribues,
-      ];
-
-      return attributes;
     }
   }
-  return [];
-}
-
-function getDescription(attr: Attribute) {
-  return attr.description && attr.description.trim() !== ""
-    ? `/**
-  * ${attr.description}
-  */`
-    : "";
-}
-
-function cliWriter(metadata: HtmlCustomData) {
-  fs.writeFileSync("metadata.json", JSON.stringify(metadata, null, 2));
-  return;
-
-  let interfacesString = `
-    export interface HTMLViewBaseElementAttributes<T extends HTMLViewBaseElement = HTMLViewBaseElement> extends SolidJSX.DOMAttributes<T>, HTMLAttributes<T> {
-        ${metadata.globalAttributes
-          .filter((attr) => viewBaseAttributes.indexOf(attr.name) > -1)
-          .map(
-            (attr) => `
-          ${getDescription(attr)} 
-          "${attr.name}": ${attr.type};\n
-          `
-          )
-          .join("\n")}
-      }\n\n
-    
-      export interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement> extends HTMLViewBaseElementAttributes<T> {
-        ${metadata.globalAttributes
-          .filter((attr) => viewBaseAttributes.indexOf(attr.name) === -1)
-          .map(
-            (attr) => `
-          ${getDescription(attr)} 
-          "${attr.name}": ${attr.type};\n
-          `
-          )
-          .join("\n")}
-      }\n\n
-    `;
-  const JSXIntrinsicElements = [];
-  for (let tag of metadata.tags) {
-    const attrClass = `HTML${pascalize(tag.name)}ElementAttributes`;
-    if (interfacesString.indexOf(`export interface ${attrClass}`) > -1)
-      continue;
-
-    if (tag.name === "grid-layout") {
-      console.log(tag.attributes);
-    }
-
-    const value = `\n
-        export interface ${attrClass}<T extends HTML${pascalize(
-      tag.name
-    )}Element = HTML${pascalize(
-      tag.name
-    )}Element> extends HTMLViewElementAttributes<T> {
-    
-          ${tag.attributes
-            .map(
-              (attr) => `
-            ${getDescription(attr)} 
-            "${attr.name}": ${attr.type};\n
-            `
-            )
-            .join("\n")}
-    
-        }\n\n
-        `;
-    interfacesString += value;
-
-    JSXIntrinsicElements.push(`${getDescription(tag as never)}
-  ${tag.name.toLowerCase()}: JSXElementAttributes<HTML${pascalize(
-      tag.name
-    )}ElementAttributes>;`);
-  }
-  let template = fs.readFileSync(
-    path.join(__dirname, "../../src/templates/solid.template"),
-    "utf-8"
-  );
-  template = template.replace("<__CONTENT_HERE__>", interfacesString);
-
-  template = template.replace(
-    `<__ELEMENTS_HERE__>`,
-    JSXIntrinsicElements.join("\n\n")
-  );
-
-  fs.writeFileSync(
-    path.join(__dirname, "..", "..", "..", "solid-js", "jsx-runtime.d.ts"),
-    template
-  );
-}
-
-export async function startCliTypeGenerator() {
-  // const events = await getDefaultEventsMap();
-
-  const paths = parsedArgs.package
-    ? parsedArgs.package
-    : parsedArgs.core
-    ? "@nativescript/core"
-    : undefined;
-
-  if (!paths) return null;
-
-  const data = await getMetadataFromPath(
-    "@nativescript-community/ui-webview",
-    "**/*.ts"
-  );
-
-  generateMetadata(JSON.stringify(data), JSON.stringify({}), {
-    visitor: cliVisitor,
-    writer: cliWriter,
-  });
 }
 
 startCliTypeGenerator();

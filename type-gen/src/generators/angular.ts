@@ -1,114 +1,10 @@
-import * as fs from "fs";
-import { generateMetadata, getDefaultEventsMap, getMetadataFromPath } from "..";
-import { Attribute, HtmlCustomData, Tag, WebTypesRoot } from "../types";
-import {
-  AttrKeys,
-  isGlobal,
-  pascalize,
-  propExists,
-  resolveAttributeType,
-} from "../utils";
-import path = require("path");
+import { CliArgumentsMap, HtmlCustomData, OutputType, Tag, WebTypesRoot } from "../types";
 
-function angularVisitor(
-  type: "attribute" | "tag" | "event" | "event-tag",
-  item: Tag | Attribute,
-  tag: Tag | undefined,
-  globalAttributes: Attribute[]
-): Tag[] | Attribute[] | undefined {
-  switch (type) {
-    // Do not modify events, return as is.
-    case "event-tag":
-      return [item as Tag];
-    case "event": {
-      const angularEvent = {
-        ...(item as Attribute),
-        name: `(${item.name})`,
-        type: resolveAttributeType(`(${item.name})`, (item as Attribute).type),
-      };
-      if (propExists(angularEvent, globalAttributes)) return [];
-
-      if (isGlobal(tag.name)) {
-        globalAttributes.push(angularEvent);
-      } else {
-        return [angularEvent];
-      }
-      break;
-    }
-    case "tag": {
-      if (isGlobal(item.name)) return [];
-      // Fix source path and return the tag.
-      // We can return multiple tags here, for example
-      // to support multiple type of casings.
-      return [
-        {
-          ...(item as Tag),
-          path: (item as Tag).path?.replace("./../", ""),
-          attributes: tag?.attributes || [],
-          name: pascalize(item.name),
-        },
-        {
-          ...(item as Tag),
-          path: (item as Tag).path?.replace("./../", ""),
-          attributes: tag?.attributes || [],
-          name: item.name,
-        },
-      ];
-    }
-    case "attribute": {
-      const KeysMap = AttrKeys[tag.name] || [];
-      if (
-        propExists(item as Attribute, globalAttributes) ||
-        propExists(item as Attribute, tag?.attributes) ||
-        KeysMap.indexOf(item.name) === -1
-      )
-        return [];
-
-      // skip attributes that end with Event keyword.
-      if (item.name.endsWith("Event")) return [];
-      const type = resolveAttributeType(item.name, (item as Attribute).type);
-      const source = {
-        module: "@nativescript/core",
-        symbol: pascalize(tag.name),
-      };
-      const platformAttribues = [
-        {
-          ...(item as Attribute),
-          name: `android:${item.name}`,
-          description: item.description + "\n@platform android",
-          type: type,
-          source,
-        },
-        {
-          ...(item as Attribute),
-          name: `ios:${item.name}`,
-          description: item.description + "\n@platform ios",
-          type: type,
-          source,
-        },
-      ];
-
-      const attributes = [
-        { ...(item as Attribute), type: type, source },
-        ...platformAttribues,
-      ];
-
-      if (isGlobal(tag.name)) {
-        globalAttributes.push(...attributes);
-        return [];
-      } else {
-        return attributes;
-      }
-    }
-  }
-  return [];
-}
-
-function angularWriter(metadata: HtmlCustomData) {
-  fs.writeFileSync(
-    path.join(__dirname, "..", "..", "..", "angular", "metadata.json"),
-    JSON.stringify(metadata)
-  );
+export function generateAngularTypes(
+  args: CliArgumentsMap,
+  path: string,
+  data: HtmlCustomData
+): OutputType[] {
   const webTypes: WebTypesRoot = {
     name: "@nativescript-dom/angular-types",
     schema:
@@ -121,31 +17,69 @@ function angularWriter(metadata: HtmlCustomData) {
       },
     },
   };
-  webTypes.contributions.html.elements.push(
-    ...metadata.tags.map((tag) => ({
-      ...tag,
-      source: {
-        module: "@nativescript/core",
-        symbol: tag.name.includes("-") ? pascalize(tag.name) : tag.name,
-      },
-    }))
-  );
 
-  webTypes.contributions.html.attributes.push(...metadata.globalAttributes);
-  fs.writeFileSync(
-    path.join(__dirname, "..", "..", "..", "angular", "web-types.json"),
-    JSON.stringify(webTypes)
-  );
+  const metadata: HtmlCustomData = {
+    version: "1.1",
+    tags: [],
+  };
+
+  for (let tag of data.tags) {
+    if (metadata.tags.length === 1) continue;
+    const index =
+      metadata.tags.push({
+        name: tag.name,
+        description: tag.description,
+        attributes: [],
+      } as Tag) - 1;
+
+    const index2 =
+      webTypes.contributions.html.elements.push({
+        name: tag.name,
+        description: tag.description,
+        attributes: [],
+      }) - 1;
+
+    if (tag.properties) {
+      for (let attribute of tag.properties) {
+        metadata.tags[index].attributes.push({
+          ...attribute,
+          source: path,
+        });
+        webTypes.contributions.html.elements[index2].attributes.push({
+          ...attribute,
+          source: path,
+        });
+      }
+    }
+
+    if (tag.events) {
+      for (let event of tag.events) {
+        metadata.tags[index].attributes.push({
+          ...event,
+          name: `(${event.name})`,
+          source: path,
+          description: `${event.description}\n\n@emits ${event.type}`,
+        });
+        webTypes.contributions.html.elements[index2].attributes.push({
+          ...event,
+          name: `(${event.name})`,
+          source: path,
+          description: `${event.description}\n\n@emits ${event.type}`,
+        });
+      }
+    }
+  }
+
+  return [
+    {
+      data: JSON.stringify(webTypes),
+      format: "json",
+      nameSuffix: "web-types",
+    },
+    {
+      data: JSON.stringify(metadata),
+      format: "json",
+      nameSuffix: "metadata",
+    },
+  ];
 }
-
-export async function startAngularGenerator() {
-  const events = await getDefaultEventsMap();
-  const data = await getMetadataFromPath("@nativescript/core", "ui/**/*.ts");
-
-  generateMetadata(JSON.stringify(data), JSON.stringify(events), {
-    visitor: angularVisitor,
-    writer: angularWriter,
-  });
-}
-
-startAngularGenerator();
