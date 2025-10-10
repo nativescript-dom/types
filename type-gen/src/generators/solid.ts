@@ -7,6 +7,7 @@ import {
   OutputType,
 } from "../types";
 import { toKebabCase } from "../utils";
+import { format } from "prettier";
 
 const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicElements>(
       tag: K
@@ -60,11 +61,11 @@ const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicEl
  * @param data
  * @returns
  */
-export function generateSolidTypes(
+export async function generateSolidTypes(
   args: CliArgumentsMap,
   path: string,
   data: HtmlCustomData
-): OutputType[] {
+): Promise<OutputType[]> {
   const importSource = path;
   const imports = [];
   const intrinsicElements: {
@@ -87,7 +88,7 @@ export function generateSolidTypes(
     }
 
     for (let property of tag.properties) {
-      intrinsicElement.source += `\n\n/**\n*\n${property.description}\n*/\n${property.name}?: ${property.type}`;
+      intrinsicElement.source += `\n\n      /**\n     * ${property.description}\n*/\n${property.name}?: ${property.type}`;
 
       if (property.type) {
         for (let type of property.type.split("|"))
@@ -105,7 +106,7 @@ export function generateSolidTypes(
 
     if (tag.events) {
       for (let event of tag.events) {
-        intrinsicElement.source += `\n\n/**\n*\n${event.description}\n*/\n"on:${event.name}"?: (event:${event.type}) => void`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description}\n*/\n"on:${event.name}"?: (event:${event.type}) => void`;
         const type = event.type.trim();
         if (!imports.find((t) => t === type)) {
           imports.push(type);
@@ -126,7 +127,7 @@ export function generateSolidTypes(
     "",
     "interface NSDOMAttributes<T> extends SolidJSX.CustomAttributes<T>, SolidJSX.DirectiveAttributes, SolidJSX.DirectiveFunctionAttributes<T> {}",
     "",
-    "declare global {",
+    `declare module "ns-solid-jsx" {`,
     "   namespace JSX {",
     SolidJSXTypes,
     ...intrinsicElements.map((e) => e.source),
@@ -139,7 +140,9 @@ export function generateSolidTypes(
 
   return [
     {
-      data: output,
+      data: await format(output, {
+        parser: "typescript",
+      }),
       format: "d.ts",
       nameSuffix: "jsx",
     },

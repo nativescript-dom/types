@@ -143,7 +143,7 @@ export async function generateTypes(
       return generateAngularTypes(args, root, rawData);
     case "react":
     case "solid":
-      return generateSolidTypes(args, root, rawData);
+      return await generateSolidTypes(args, root, rawData);
     case "svelte":
     case "vue":
       break;
