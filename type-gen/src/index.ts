@@ -11,13 +11,16 @@ import { generateAngularTypes } from "./generators/angular";
 import { jsonTransformerLocal } from "./transformer";
 import {
   CliArgumentsMap,
+  EventType,
+  gestureEvents,
   HtmlCustomData,
   InputFile,
-  OutputType
+  OutputType,
 } from "./types";
 import path = require("path");
 import ts = require("typescript");
 import { generateSolidTypes } from "./generators/solid";
+import { generateVueTypes } from "./generators/vue";
 const { resolvePackagePath } = require("@rigor789/resolve-package-path");
 
 async function visitFilesForSource(
@@ -106,11 +109,27 @@ export async function getMetadataFromPath(
     version: 1.1,
     tags: [],
   };
+
   // Append all entries into a single entry
   for (let entry of jsonEntries) {
     //@ts-ignore
     if (entry.tags.length === 0) continue;
     for (let tag of entry.tags) {
+      tag.events = tag.events ?? [];
+      for (const ge of gestureEvents) {
+        const exists = tag.events.some((e) => e.name === ge.name);
+        if (!exists) {
+          const eventObj: EventType = {
+            name: ge.name,
+            description: "Gesture Event",
+            deprecated: undefined,
+            deprecatedMessage: "",
+            type: ge.type,
+          };
+          tag.events.push(eventObj);
+        }
+      }
+
       htmlCustomData.tags.push(tag);
     }
   }
@@ -119,16 +138,14 @@ export async function getMetadataFromPath(
   return htmlCustomData;
 }
 
-
-
 export async function generateTypes(
   args: CliArgumentsMap
 ): Promise<OutputType[]> {
   const root = args.package
     ? args.package
     : args.core
-    ? "@nativescript/core"
-    : args.directory;
+      ? "@nativescript/core"
+      : args.directory;
 
   if (!root) return [];
 
@@ -146,6 +163,6 @@ export async function generateTypes(
       return await generateSolidTypes(args, root, rawData);
     case "svelte":
     case "vue":
-      break;
+      return await generateVueTypes(args, root, rawData);
   }
 }

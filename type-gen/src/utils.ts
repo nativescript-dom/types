@@ -1,6 +1,5 @@
 import { Attribute } from "./types";
 
-import * as AttributeKeys from "./attr-literals";
 export function capitalize(string: string) {
   // take first character, uppercase it
   // add the rest of the string
@@ -32,31 +31,20 @@ export const toKebabCase = (str: string) => {
   );
 };
 
-export function resolveAttributeType(name: string, type: string) {
-  if (name.startsWith("(")) {
-    return `(event: ${type || "NativeDOMEvent"}) => void`;
+export function resolveAttributeType(type: string) {
+  if (!type) return "string";
+  const types = type.split("|").map(type => type.trim())
+  if (types.length === 1 && types[1] === "number" || types[1] === "boolean") {
+    return `string | ${type}`;
   }
 
-  if (name.startsWith("@")) {
-    return `(payload: ${type || "NativeDOMEvent"}) => void`;
-  }
-  if (!type) {
-    console.log("attribute has undefined type", name, type);
-    return "any";
-  }
-  if (type.includes("Length")) {
-    let resolvedType = "";
-    if (!type.includes("string")) resolvedType += "string |";
-    if (!type.includes("number")) resolvedType += "number |";
-    return (resolvedType += type);
+  if (types.some(type => type === "number" || type === "boolean") && !types.some(type => type === "string")) return `string | ${type}`
+
+  if (types.includes("Color")) {
+    return "ColorValue";
   }
 
-  if (type === "number") return (type += " | string");
-  if (type === "string") return "string";
-  if (type.includes("[]")) return type;
-  if (type.includes("Array<")) return type;
-
-  return "string |" + type;
+  return type;
 }
 
 export function propExists(attr: Attribute, inAttributes: Attribute[]) {
@@ -67,22 +55,6 @@ export function isGlobal(name: string) {
   if (name === "view") return true;
   if (name === "view-events") return true;
   return /(view-base|view-base-events)/g.test(name);
-}
-
-export const AttrKeys = {};
-
-for (let key in AttributeKeys) {
-  const pascalKey = key
-    .replace("HTML", "")
-    .replace("ElementAttributes", "")
-    .replace("ElementAttributeKeys", "")
-    .replace("AttributeKeys", "");
-  const kebabKey = pascalKey
-    .split(/\.?(?=[A-Z])/)
-    .join("-")
-    .toLowerCase();
-  AttrKeys[pascalKey] = AttributeKeys[key];
-  AttrKeys[kebabKey] = AttributeKeys[key];
 }
 
 export function sanitizeFileName(fileName: string): string {
