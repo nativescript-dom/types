@@ -5,17 +5,17 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "jsx":"preserve",
+    "jsxImportSource": "ns-react",
     "noEmitHelpers": true,
     "noEmitOnError": true,
-    "jsx": "react",
     "lib": ["ESNext", "dom"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"],
-      "@/*": ["src/*"]
-    }
+      "@/*": ["src/*"],
+      "ns-react/jsx-runtime": ["../../out/core_react_jsx.d.ts"]
+    },
   },
-  "include": ["./src/**/*.tsx?"],
-  "files": ["./references.d.ts"],
   "exclude": ["node_modules", "platforms"]
 }
