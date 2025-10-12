@@ -1,0 +1,57 @@
+{
+  "name": "nativescript-template-blank-solid",
+  "main": "src/index.js",
+  "version": "1.0.0",
+  "description": "Nativescript Blank Starter with Solid",
+  "author": "Ammar Ahmed <ammarahmed6506@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ammarahm-ed/nativescript-template-blank-solid"
+  },
+  "homepage": "https://github.com/ammarahm-ed/nativescript-template-blank-solid",
+  "bugs": {
+    "url": "https://github.com/ammarahm-ed/nativescript-template-blank-solid/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src",
+    "App_Resources",
+    "hooks",
+    "tools",
+    "!tools/assets",
+    "patches",
+    "types",
+    ".editorconfig",
+    "tsconfig.json",
+    "webpack.config.js"
+  ],
+  "keywords": [
+    "nativescript",
+    "mobile",
+    "{N}",
+    "vue"
+  ],
+  "dependencies": {
+    "@nativescript-community/solid-js": "0.1.2",
+    "@nativescript-community/ui-collectionview": "^5.3.3",
+    "@nativescript/core": "9.0.0-alpha.20",
+    "dominative": "^0.1.3",
+    "solid-js": "^1.9.9",
+    "undom-ng": "^1.0.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.10",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.22.5",
+    "@nativescript/webpack": "5.0.18",
+    "babel": "^6.23.0",
+    "babel-loader": "^9.1.3",
+    "babel-preset-solid": "^1.7.12",
+    "patch-package": "^8.0.0",
+    "solid-refresh": "^0.5.3",
+    "typescript": "~5.1.6"
+  }
+}
