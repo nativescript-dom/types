@@ -42,16 +42,17 @@
   "peerDependencies": {
     "@nativescript/core": "*",
     "@types/node": "*",
-    "typescript": "*",
-    "solid-js": "^1.9.9"
+    "solid-js": "^1.9.9",
+    "typescript": "*"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "dependencies": {
-    "ts-simple-type": "^2.0.0-next.0",
-    "prettier": "^3.6.2",
+    "@rigor789/resolve-package-path": "^1.0.7",
     "glob": "^9.2.1",
-    "typescript": "5.2.2",
-    "web-component-analyzer": "^2.0.0",
-    "@rigor789/resolve-package-path": "^1.0.7"
+    "prettier": "^3.6.2",
+    "svelte": "^4.2.18",
+    "ts-simple-type": "^2.0.0-next.0",
+    "typescript": "*",
+    "web-component-analyzer": "^2.0.0"
   }
 }

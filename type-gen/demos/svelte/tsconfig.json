@@ -5,13 +5,14 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": ["dom", "ESNext"],
+    "jsxFactory": "svelteNS.JSX",
     "sourceMap": true,
     "noEmitHelpers": true,
     "importHelpers": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["app/*"],
-      "@/*": ["app/*"]
+      "@/*": ["app/*"],
     },
     "typeRoots": ["types"],
     "types": ["node"],
@@ -21,6 +22,9 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true
   },
+  "svelteOptions": {
+        "namespace": "svelteNS.JSX"
+    },
   "include": ["app", "types"],
   "exclude": ["node_modules", "platforms"]
 }

@@ -8,9 +8,81 @@ import {
   JsxStyleObject,
   OutputType,
 } from "../types";
-import { pascalize, resolveAttributeType } from "../utils";
+import { pascalize, resolveAttributeType, toCamelCase } from "../utils";
 
-export async function generateVueTypes(
+const SvelteJSX = ` // Every namespace eligible for use with the new Svelte intellisense needs to implement the following two functions
+
+    // Every namespace eligible for use needs to implement the following two functions
+    /**
+     * @internal do not use
+     */
+    function mapElementTag<K extends keyof ElementTagNameMap>(
+      tag: K
+    ): ElementTagNameMap[K];
+    function mapElementTag<K extends keyof SVGElementTagNameMap>(
+      tag: K
+    ): SVGElementTagNameMap[K];
+    function mapElementTag(tag: any): any; // needs to be any because used in context of <svelte:element>
+
+    /**
+     * @internal do not use
+     */
+    function createElement<
+      Elements extends IntrinsicElements,
+      Key extends keyof Elements
+    >(
+      // "undefined | null" because of <svelte:element>
+      element: Key | undefined | null,
+      attrs: string extends Key ? HTMLViewElementAttributes<any> : Elements[Key]
+    ): Key extends keyof ElementTagNameMap
+      ? ElementTagNameMap[Key]
+      : Key extends keyof SVGElementTagNameMap
+      ? SVGElementTagNameMap[Key]
+      : any;
+
+    function createElement<
+      Elements extends IntrinsicElements,
+      Key extends keyof Elements,
+      T
+    >(
+      // "undefined | null" because of <svelte:element>
+      element: Key | undefined | null,
+      attrsEnhancers: T,
+      attrs: (string extends Key
+        ? HTMLViewElementAttributes<any>
+        : Elements[Key]) &
+        T
+    ): Key extends keyof ElementTagNameMap
+      ? ElementTagNameMap[Key]
+      : Key extends keyof SVGElementTagNameMap
+      ? SVGElementTagNameMap[Key]
+      : any;
+
+    //
+
+    function mapElementTag(tag: any): HTMLElement;
+
+    function createElement<
+      Elements extends IntrinsicElements,
+      Key extends keyof Elements
+    >(
+      // "undefined | null" because of <svelte:element>
+      element: Key | undefined | null,
+      attrs: Elements[Key]
+    ): HTMLElement;
+
+    function createElement<
+      Elements extends IntrinsicElements,
+      Key extends keyof Elements,
+      T
+    >(
+      // "undefined | null" because of <svelte:element>
+      element: Key | undefined | null,
+      attrsEnhancers: T,
+      attrs: Elements[Key] & T
+    ): HTMLElement;`
+
+export async function generateSvelteTypes(
   args: CliArgumentsMap,
   path: string,
   data: HtmlCustomData
@@ -28,13 +100,14 @@ export async function generateVueTypes(
     if (tag.name === "View" || tag.name === "ViewBase") continue;
 
     const intrinsicElement = {
-      htmlName: tag.name,
+      htmlName: toCamelCase(tag.name),
       source: "",
       name: `${tag.name}Attributes`,
       description: tag.description
     };
 
     intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
+    intrinsicElement.source += `\n[name: string]: any`
 
 
     if (!imports.find((t) => t === tag.name.trim())) {
@@ -66,7 +139,7 @@ export async function generateVueTypes(
           event.description === "Gesture Event"
             ? event.type
             : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description}\n@type ${event.type}\n*/\n"on:${event.name}"?: (event:${eventType}) => void`;
         const type = event.type.trim();
         if (!imports.find((t) => t === type)) {
           imports.push(type);
@@ -79,7 +152,7 @@ export async function generateVueTypes(
   }
 
   const output = [
-    `import * as RuntimeCore from "@vue/runtime-core";`,
+    `import { HTMLAttributes } from "svelte/elements";`,
     `import {\nCoreTypes,\n${imports.join(",\n")}\n} from "${importSource}";`,
     `import { ClipPathFunction } from "@nativescript/core/ui/styling/clip-path-function";`,
     `import { FlexGrow, FlexShrink, Order } from "@nativescript/core/ui/layouts/flexbox-layout";`,
@@ -88,26 +161,20 @@ export async function generateVueTypes(
     CoreTypes,
     "",
     `export type NSDOMEvent<T> = T;`,
-    `type ReservedProps<T> = {
-  key?: string | number | symbol;
-  ref?:
-    | string
-    | RuntimeCore.Ref<T>
-    | ((ref: T, refs: Record<string, any>) => void);
-  ref_for?: boolean;
-  ref_key?: string;
-};
-
-type ElementAttrs<T> = ReservedProps<T>;`,
-    `export type NSDOMAttributes<T> = ElementAttrs<T>;`,
+    `export interface NSDOMAttributes<T> {
+      class?: string
+    }`,
     "",
     JsxStyleObject,
     ...intrinsicElements.map((e) => e.source),
-    `declare module "@vue/runtime-core" {`,
-    `export interface GlobalComponents {`,
+    `declare global {`,
+    `   namespace svelteNS.JSX {`,
+    SvelteJSX,
+    `export interface IntrinsicElements {`,
     ...intrinsicElements.map(
-      (e) => `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": DefineComponent<${e.name}>,`
+      (e) => `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
     ),
+    "}",
     "}",
     "}",
   ].join("\n");

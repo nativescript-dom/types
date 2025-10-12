@@ -90,6 +90,7 @@ export async function generateSolidTypes(
     };
 
     intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
+    intrinsicElement.source += `\n[name: string]: any`
 
     if (!imports.find((t) => t === tag.name.trim())) {
       imports.push(tag.name);
