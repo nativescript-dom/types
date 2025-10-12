@@ -15,5 +15,5 @@
     "outDir": "./dist",
     "types": ["node"]
   },
-  "exclude": ["node_modules", "out", "dist"]
+  "exclude": ["node_modules", "out", "dist", "demos"]
 }
