@@ -22,6 +22,7 @@ import ts = require("typescript");
 import { generateSolidTypes } from "./generators/solid";
 import { generateVueTypes } from "./generators/vue";
 import { generateSvelteTypes } from "./generators/svelte";
+import { generateReactTypes } from "./generators/react";
 const { resolvePackagePath } = require("@rigor789/resolve-package-path");
 
 async function visitFilesForSource(
@@ -160,6 +161,7 @@ export async function generateTypes(
     case "angular":
       return generateAngularTypes(args, root, rawData);
     case "react":
+      return generateReactTypes(args, root, rawData);
     case "solid":
       return await generateSolidTypes(args, root, rawData);
     case "svelte":
