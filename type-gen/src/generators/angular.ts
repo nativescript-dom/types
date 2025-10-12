@@ -51,6 +51,7 @@ export function generateAngularTypes(
   };
 
   for (let tag of data.tags) {
+    if (tag.name === "View" || tag.name === "ViewBase") continue;
     const index =
       metadata.tags.push({
         name: tag.name,
