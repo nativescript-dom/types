@@ -1,227 +1,124 @@
-// import * as fs from "fs";
-// import {
-//   generateMetadata,
-//   getDefaultEventsMap,
-//   getMetadataFromPath,
-//   viewBaseAttributes,
-// } from "..";
-// import { Attribute, HtmlCustomData, Tag, WebTypesRoot } from "../types";
-// import {
-//   AttrKeys,
-//   isGlobal,
-//   pascalize,
-//   propExists,
-//   resolveAttributeType,
-// } from "../utils";
-// import path = require("path");
+import { format } from "prettier";
+import {
+  CliArgumentsMap,
+  CoreTypes,
+  HtmlCustomData,
+  isCoreType,
+  isSimpleType,
+  JsxStyleObject,
+  OutputType,
+} from "../types";
+import { pascalize, resolveAttributeType } from "../utils";
 
-// function vueVisitor(
-//   type: "attribute" | "tag" | "event" | "event-tag",
-//   item: Tag | Attribute,
-//   tag: Tag | undefined,
-// ): Tag[] | Attribute[] | undefined {
-//   switch (type) {
-//     // Do not modify events, return as is.
-//     case "event-tag":
-//       return [item as Tag];
-//     case "event": {
-//       const type = resolveAttributeType(
-//         `@${item.name}`,
-//         (item as Attribute).type
-//       );
-//       const vueEvent = {
-//         ...(item as Attribute),
-//         name: `on${item.name[0].toUpperCase() + item.name.slice(1)}`,
-//         type: type,
-//       };
+export async function generateVueTypes(
+  args: CliArgumentsMap,
+  path: string,
+  data: HtmlCustomData
+): Promise<OutputType[]> {
+  const importSource = path;
+  const imports = ["AccessibilityLiveRegion"];
+  const intrinsicElements: {
+    htmlName: string;
+    source: string;
+    name: string;
+    description: string;
+  }[] = [];
 
-//       const vueEventAt = {
-//         ...(item as Attribute),
-//         name: `@${item.name}`,
-//         type: type,
-//       };
+  for (let tag of data.tags) {
+    if (tag.name === "View" || tag.name === "ViewBase") continue;
 
-//       if (
-//         propExists(vueEvent, globalAttributes) &&
-//         propExists(vueEventAt, globalAttributes)
-//       ) {
-//         return [];
-//       }
+    const intrinsicElement = {
+      htmlName: tag.name,
+      source: "",
+      name: `${tag.name}Attributes`,
+      description: tag.description
+    };
 
-//       if (isGlobal(tag.name)) {
-//         globalAttributes.push(vueEvent, vueEventAt);
-//       } else {
-//         return [vueEvent, vueEventAt];
-//       }
-//       break;
-//     }
-//     case "tag": {
-//       if (isGlobal(item.name)) return [];
-//       // Fix source path and return the tag.
-//       // We can return multiple tags here, for example
-//       // to support multiple type of casings.
-//       return [
-//         {
-//           ...(item as Tag),
-//           path: (item as Tag).path?.replace("./../", ""),
-//           attributes: tag?.attributes || [],
-//           name: pascalize(item.name),
-//         },
-//         {
-//           ...(item as Tag),
-//           path: (item as Tag).path?.replace("./../", ""),
-//           attributes: tag?.attributes || [],
-//           name: item.name,
-//         },
-//       ];
-//     }
-//     case "attribute": {
-//       const KeysMap = AttrKeys[tag.name] || [];
-//       if (
-//         propExists(item as Attribute, globalAttributes) ||
-//         propExists(item as Attribute, tag?.attributes) ||
-//         KeysMap.indexOf(item.name) === -1
-//       )
-//         return [];
-//       // skip attributes that end with Event keyword.
-//       if (item.name.endsWith("Event")) return [];
+    intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
 
-//       const type = resolveAttributeType(item.name, (item as Attribute).type);
 
-//       const platformAttribues = [
-//         {
-//           ...(item as Attribute),
-//           name: `android:${item.name}`,
-//           description: (item.description || "") + "\n@platform android",
-//           type: type,
-//         },
-//         {
-//           ...(item as Attribute),
-//           name: `ios:${item.name}`,
-//           description: (item.description || "") + "\n@platform ios",
-//           type: type,
-//         },
-//       ];
-//       const attributes = [
-//         {
-//           ...(item as Attribute),
-//           type: type,
-//           description: item.description ? item.description : undefined,
-//         },
-//         ...platformAttribues,
-//       ];
+    if (!imports.find((t) => t === tag.name.trim())) {
+      imports.push(tag.name);
+    }
 
-//       if (isGlobal(tag.name)) {
-//         globalAttributes.push(...attributes);
-//         return [];
-//       } else {
-//         return attributes;
-//       }
-//     }
-//   }
-//   return [];
-// }
+    for (let property of tag.properties) {
+      if (property.name === "style") continue;
+      intrinsicElement.source += `\n\n      /**\n     * ${property.description}\n*/\n${property.name}?: ${resolveAttributeType(property.type)}`;
 
-// function getDescription(attr: Attribute) {
-//   return attr.description && attr.description.trim() !== ""
-//     ? `/**
-// * ${attr.description}
-// */`
-//     : "";
-// }
+      if (property.type) {
+        for (let type of property.type.split("|"))
+          if (!isSimpleType(type.trim())) {
+            const strippedType = type.trim().replace("[]", "");
+            if (
+              !imports.find((t) => t === strippedType) &&
+              !isCoreType(strippedType) &&
+              strippedType !== "Style"
+            ) {
+              imports.push(strippedType);
+            }
+          }
+      }
+    }
 
-// function vueWriter(metadata: HtmlCustomData) {
-//   const webTypes: WebTypesRoot = {
-//     name: "@nativescript-dom/vue-types",
-//     schema:
-//       "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
-//     version: "2.0.0",
-//     contributions: {
-//       html: {
-//         elements: [],
-//         attributes: [],
-//       },
-//     },
-//   };
-//   webTypes.contributions.html.elements.push(
-//     ...metadata.tags.map((tag) => ({
-//       ...tag,
-//       source: {
-//         module: tag.path,
-//         symbol: tag.name.includes("-") ? pascalize(tag.name) : tag.name,
-//       },
-//     }))
-//   );
+    if (tag.events) {
+      for (let event of tag.events) {
+        const eventType =
+          event.description === "Gesture Event"
+            ? event.type
+            : `NSDOMEvent<${event.type}>`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
+        const type = event.type.trim();
+        if (!imports.find((t) => t === type)) {
+          imports.push(type);
+        }
+      }
+    }
 
-//   webTypes.contributions.html.attributes.push(...metadata.globalAttributes);
+    intrinsicElement.source += `\n\n}\n\n`;
+    intrinsicElements.push(intrinsicElement);
+  }
 
-//   let interfacesString = `
-//     interface HTMLViewBaseElementAttributes<T extends HTMLViewBaseElement = HTMLViewBaseElement> extends ElementAttrs<T>, HTMLAttributes<T> {
-//       ${metadata.globalAttributes
-//         .filter((attr) => viewBaseAttributes.indexOf(attr.name) > -1)
-//         .map(
-//           (attr) => `
-//         ${getDescription(attr)} 
-//         "${attr.name}": ${attr.type};\n
-//         `
-//         )
-//         .join("\n")}
-//     }\n\n
-  
-//     interface HTMLViewElementAttributes<T extends HTMLViewElement = HTMLViewElement> extends HTMLViewBaseElementAttributes<T> {
-//       ${metadata.globalAttributes
-//         .filter((attr) => viewBaseAttributes.indexOf(attr.name) === -1)
-//         .map(
-//           (attr) => `
-//         ${getDescription(attr)} 
-//         "${attr.name}": ${attr.type};\n
-//         `
-//         )
-//         .join("\n")}
-//     }\n\n
-//   `;
+  const output = [
+    `import * as RuntimeCore from "@vue/runtime-core";`,
+    `import {\nCoreTypes,\n${imports.join(",\n")}\n} from "${importSource}";`,
+    `import { ClipPathFunction } from "@nativescript/core/ui/styling/clip-path-function";`,
+    `import { FlexGrow, FlexShrink, Order } from "@nativescript/core/ui/layouts/flexbox-layout";`,
+    "",
+    "",
+    CoreTypes,
+    "",
+    `export type NSDOMEvent<T> = T;`,
+    `type ReservedProps<T> = {
+  key?: string | number | symbol;
+  ref?:
+    | string
+    | RuntimeCore.Ref<T>
+    | ((ref: T, refs: Record<string, any>) => void);
+  ref_for?: boolean;
+  ref_key?: string;
+};
 
-//   for (let tag of metadata.tags) {
-//     const attrClass = `HTML${pascalize(tag.name)}ElementAttributes`;
-//     if (interfacesString.indexOf(attrClass) > -1) continue;
-//     const value = `\n
-//       interface ${attrClass}<T extends HTML${pascalize(
-//       tag.name
-//     )}Element = HTML${pascalize(
-//       tag.name
-//     )}Element> extends HTMLViewElementAttributes<T> {
-  
-//         ${tag.attributes
-//           .map(
-//             (attr) => `
-//           ${getDescription(attr)} 
-//           "${attr.name}": ${attr.type};\n
-//           `
-//           )
-//           .join("\n")}
-  
-//       }\n\n
-//       `;
-//     interfacesString += value;
-//   }
-//   const template = fs.readFileSync(
-//     path.join(__dirname, "../../src/templates/vue.template"),
-//     "utf-8"
-//   );
+type ElementAttrs<T> = ReservedProps<T>;`,
+    `export type NSDOMAttributes<T> = ElementAttrs<T>;`,
+    "",
+    JsxStyleObject,
+    ...intrinsicElements.map((e) => e.source),
+    `declare module "@vue/runtime-core" {`,
+    `export interface GlobalComponents {`,
+    ...intrinsicElements.map(
+      (e) => `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": DefineComponent<${e.name}>,`
+    ),
+    "}",
+    "}",
+  ].join("\n");
 
-//   fs.writeFileSync(
-//     path.join(__dirname, "..", "..", "..", "vue", "index.d.ts"),
-//     template.replace("<__CONTENT_HERE__>", interfacesString)
-//   );
-// }
-
-// export async function startVueGenerator() {
-//   const events = await getDefaultEventsMap();
-//   const data = await getMetadataFromPath("@nativescript/core", "ui/**/*.ts");
-//   generateMetadata(JSON.stringify(data), {
-//     visitor: vueVisitor,
-//     writer: vueWriter,
-//   });
-// }
-
-// startVueGenerator();
+  return [
+    {
+      data: await format(output, {
+        parser: "typescript",
+      }),
+      format: "d.ts",
+      nameSuffix: "jsx",
+    },
+  ];
+}
