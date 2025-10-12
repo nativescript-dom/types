@@ -4,10 +4,11 @@ import {
   HtmlCustomData,
   isCoreType,
   isSimpleType,
+  JsxStyleObject,
   OutputType,
 } from "../types";
-import { toKebabCase } from "../utils";
 import { format } from "prettier";
+import { resolveAttributeType } from "../utils";
 
 const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicElements>(
       tag: K
@@ -17,6 +18,9 @@ const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicEl
       Element extends IntrinsicElements,
       Key extends keyof IntrinsicElements
     >(element: Key | undefined | null, attrs: Element[Key]): Element[Key];
+
+     export interface ArrayElement extends SolidJSX.ArrayElement {}
+     type Element = SolidJSX.Element
 
     export function createElement<
       Element extends IntrinsicElements,
@@ -67,18 +71,22 @@ export async function generateSolidTypes(
   data: HtmlCustomData
 ): Promise<OutputType[]> {
   const importSource = path;
-  const imports = [];
+  const imports = ["AccessibilityLiveRegion"];
   const intrinsicElements: {
     htmlName: string;
     source: string;
     name: string;
+    description: string;
   }[] = [];
 
   for (let tag of data.tags) {
+    if (tag.name === "View" || tag.name === "ViewBase") continue;
+
     const intrinsicElement = {
-      htmlName: toKebabCase(tag.name),
+      htmlName: tag.name.toLocaleLowerCase(),
       source: "",
       name: `${tag.name}Attributes`,
+      description: tag.description
     };
 
     intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
@@ -88,7 +96,7 @@ export async function generateSolidTypes(
     }
 
     for (let property of tag.properties) {
-      intrinsicElement.source += `\n\n      /**\n     * ${property.description}\n*/\n${property.name}?: ${property.type}`;
+      intrinsicElement.source += `\n\n      /**\n     * ${property.description}\n*/\n${property.name}?: ${resolveAttributeType(property.type)}`;
 
       if (property.type) {
         for (let type of property.type.split("|"))
@@ -96,7 +104,8 @@ export async function generateSolidTypes(
             const strippedType = type.trim().replace("[]", "");
             if (
               !imports.find((t) => t === strippedType) &&
-              !isCoreType(strippedType)
+              !isCoreType(strippedType) &&
+              strippedType !== "Style"
             ) {
               imports.push(strippedType);
             }
@@ -106,7 +115,7 @@ export async function generateSolidTypes(
 
     if (tag.events) {
       for (let event of tag.events) {
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description}\n*/\n"on:${event.name}"?: (event:${event.type}) => void`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description}\n*/\n"on:${event.name}"?: (event:${event.description === "Gesture Event" ? event.type : `NSDOMEvent<${event.type}>`}) => void`;
         const type = event.type.trim();
         if (!imports.find((t) => t === type)) {
           imports.push(type);
@@ -120,21 +129,28 @@ export async function generateSolidTypes(
 
   const output = [
     `import {JSX as SolidJSX } from "solid-js";`,
-    `import {\nCoreTypes,\n${imports.join(",\n")}\n} from "${importSource}"`,
+    `import {\nCoreTypes,\n${imports.join(",\n")}\n} from "${importSource}";`,
+    `import { ClipPathFunction } from "@nativescript/core/ui/styling/clip-path-function";`,
+    `import { FlexGrow, FlexShrink, Order } from "@nativescript/core/ui/layouts/flexbox-layout";`,
     "",
     "",
     CoreTypes,
     "",
     "interface NSDOMAttributes<T> extends SolidJSX.CustomAttributes<T>, SolidJSX.DirectiveAttributes, SolidJSX.DirectiveFunctionAttributes<T> {}",
+    `export type NSDOMEvent<T> = Event & T;`,
     "",
-    `declare module "ns-solid-jsx" {`,
-    "   namespace JSX {",
+    JsxStyleObject,
+    `declare module "ns-solid/jsx-runtime" {`,
+    "   export namespace JSX {",
     SolidJSXTypes,
     ...intrinsicElements.map((e) => e.source),
     `export interface IntrinsicElements {`,
-    ...intrinsicElements.map((e) => `"${e.htmlName}": ${e.name},`),
+    ...intrinsicElements.map((e) => `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`),
     "}",
     "   }",
+    `function Fragment(props: { children: JSX.Element }): JSX.Element;`,
+    `function jsx(type: any, props: any): () => any;`,
+    `export { jsx, jsx as jsxs, jsx as jsxDEV, Fragment };`,
     "}",
   ].join("\n");
 
