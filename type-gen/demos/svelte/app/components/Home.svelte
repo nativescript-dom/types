@@ -1,5 +1,8 @@
 <page>
-    <actionBar title="Home" />
+    <actionBar title="Home" /> 
+
+    <actionBar on:live={() => {}}/>
+
     <gridLayout>
         <label class="info">
             <formattedString>

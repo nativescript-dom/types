@@ -21,6 +21,7 @@ import path = require("path");
 import ts = require("typescript");
 import { generateSolidTypes } from "./generators/solid";
 import { generateVueTypes } from "./generators/vue";
+import { generateSvelteTypes } from "./generators/svelte";
 const { resolvePackagePath } = require("@rigor789/resolve-package-path");
 
 async function visitFilesForSource(
@@ -162,6 +163,7 @@ export async function generateTypes(
     case "solid":
       return await generateSolidTypes(args, root, rawData);
     case "svelte":
+      return await generateSvelteTypes(args, root, rawData);
     case "vue":
       return await generateVueTypes(args, root, rawData);
   }
