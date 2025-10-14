@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "build": "rm -rf dist && yarn tsc",
+    "watch": "yarn tsc --watch",
     "generate-angular-types": "node ./dist/generators/angular.js",
     "generate-vue-types": "node ./dist/generators/vue.js",
     "generate-solid-types": "node ./dist/generators/solid.js",

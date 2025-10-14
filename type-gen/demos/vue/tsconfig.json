@@ -12,13 +12,14 @@
     "paths": {
       "~/*": ["src/*"],
       "@/*": ["src/*"],
+      "ns-vue/jsx-runtime": ["../../out/core_vue_jsx.d.ts"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "types": ["../../out/core_vue_jsx.d.ts"]
+    "types": ["../../out/core_vue_jsx.d.ts",]
   },
   "vueCompilerOptions": {
     "target": 3,

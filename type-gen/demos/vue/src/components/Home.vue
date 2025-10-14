@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import {
-  ref,
   computed,
   onMounted,
   onUnmounted,
-  $navigateTo,
+  ref
 } from 'nativescript-vue';
-import Details from './Details.vue';
 
 const counter = ref(0);
 const message = computed(() => {
@@ -35,7 +33,6 @@ onUnmounted(() => {
       <ActionBar>
         <Label text="Home" class="font-bold text-lg" />
       </ActionBar>
-
       <GridLayout rows="*, auto, auto, *" class="px-4">
         <Label
           row="1"

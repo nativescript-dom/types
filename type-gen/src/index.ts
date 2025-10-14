@@ -33,7 +33,9 @@ async function visitFilesForSource(
 ) {
   const sourceModulePath = isModule
     ? //@ts-ignore
-      path.dirname(resolvePackagePath(source))
+      path.dirname(resolvePackagePath(source, {
+        paths: [process.cwd()]
+      }))
     : path.join(__dirname, source);
 
   const globPattern = path.join(sourceModulePath, pattern);
@@ -77,6 +79,7 @@ export async function getMetadataFromPath(
   isModule = true
 ) {
   const jsonEntries: HtmlCustomData[] = [];
+
   await visitFilesForSource(source, pattern, isModule, (view: InputFile) => {
     const results: AnalyzerResult[] = [];
     for (let file of view.compiledTS.files) {
@@ -111,6 +114,7 @@ export async function getMetadataFromPath(
     version: 1.1,
     tags: [],
   };
+
 
   // Append all entries into a single entry
   for (let entry of jsonEntries) {
@@ -156,6 +160,7 @@ export async function generateTypes(
     "**/*.ts",
     args.directory ? false : true
   );
+
 
   switch (args.framework) {
     case "angular":

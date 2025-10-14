@@ -4,6 +4,7 @@ import { generateTypes } from "..";
 import { CliArgumentsMap } from "../types";
 import { sanitizeFileName } from "../utils";
 import path = require("path");
+import { resolvePackageJSONPath } from "@rigor789/resolve-package-path";
 
 const args = process.argv.slice(2);
 const workDir = process.cwd();
@@ -80,14 +81,14 @@ function parseArgs(args: any[]) {
 
 const parsedArgs = parseArgs(args);
 
-const isNativeScriptInstalled = (require as any).resolve("@nativescript/core");
+const isNativeScriptInstalled = resolvePackageJSONPath("@nativescript/core", {
+  paths: [workDir]
+})
 
 if (!isNativeScriptInstalled) {
   console.error("Please install @nativescript/core in your project.");
   process.exit(1);
 }
-
-const outputPath = parsedArgs.output || path.join(workDir, "typegen");
 
 if (!parsedArgs.package && !parsedArgs.core && !parsedArgs.all) {
   console.error("Please provide a package to generate types for.");
@@ -95,7 +96,9 @@ if (!parsedArgs.package && !parsedArgs.core && !parsedArgs.all) {
 }
 
 if (parsedArgs.package) {
-  const isPackageInstalled = (require as any).resolve(parsedArgs.package);
+  const isPackageInstalled = resolvePackageJSONPath(parsedArgs.package, {
+  paths: [workDir]
+});
   if (!isPackageInstalled) {
     console.error(
       `Package ${parsedArgs.package} is not installed in your project.`
@@ -133,7 +136,7 @@ export async function startCliTypeGenerator() {
       }
 
       fs.writeFileSync(
-        parsedArgs.output ? `${parsedArgs.output}/${filename}` : filename,
+        parsedArgs.output ? `${parsedArgs.output}/${filename}` : `types/${filename}`,
         type.data
       );
     }

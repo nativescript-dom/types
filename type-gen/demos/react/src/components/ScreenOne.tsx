@@ -15,6 +15,9 @@ export function ScreenOne({ navigation }: ScreenOneProps) {
       <label className="fas" style={styles.text}>
         &#xf135; You're viewing screen one!
       </label>
+
+      <collectionView />
+
       <button style={styles.button} onTap={() => Dialogs.alert("Tapped!")}>
         Tap me for an alert
       </button>
