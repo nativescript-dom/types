@@ -46,9 +46,10 @@ export function isSimpleType(type: string) {
 
 export function isCoreType(type: string) {
   if (type.includes("CoreTypes.")) return true;
-  return CoreTypes.includes("type " + type);
+  return CoreTypes.includes("type " + type + " =");
 }
-export const CoreTypes = `type ImageStretchType = CoreTypes.ImageStretchType;
+export const CoreTypes = `import {CoreTypes, FontWeightType, FontStyleType} from "@nativescript/core";
+type ImageStretchType = CoreTypes.ImageStretchType;
 type FontWeight = FontWeightType;
 type FontStyle = FontStyleType;
 type LengthDipUnit = CoreTypes.LengthDipUnit;

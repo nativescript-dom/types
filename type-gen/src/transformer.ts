@@ -392,7 +392,6 @@ function componentMemberToHtmlDataAttribute(
   if (member.attrName == null) {
     return undefined;
   }
-
   return {
     name: member.attrName,
     description: getDescriptionFromJsDoc(member.jsDoc),
@@ -417,7 +416,7 @@ function componentMemberToHtmlDataProperty(
   if (member.propName == null) {
     return undefined;
   }
-
+  
   return {
     name: member.propName,
     attribute: member.attrName,
