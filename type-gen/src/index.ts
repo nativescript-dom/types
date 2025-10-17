@@ -23,7 +23,7 @@ import { generateSolidTypes } from "./generators/solid";
 import { generateVueTypes } from "./generators/vue";
 import { generateSvelteTypes } from "./generators/svelte";
 import { generateReactTypes } from "./generators/react";
-const { resolvePackagePath } = require("@rigor789/resolve-package-path");
+import { resolvePackageJSONPath } from "@rigor789/resolve-package-path";
 
 async function visitFilesForSource(
   source: string,
@@ -32,13 +32,14 @@ async function visitFilesForSource(
   viewVisitor?: (view: Partial<InputFile>) => void
 ) {
   const sourceModulePath = isModule
-    ? //@ts-ignore
-      path.dirname(resolvePackagePath(source, {
-        paths: [process.cwd()]
-      }))
+    ? path.dirname(
+        resolvePackageJSONPath(source, {
+          paths: [process.cwd()],
+        })
+      )
     : path.join(__dirname, source);
 
-  const globPattern = path.join(sourceModulePath, pattern);
+  const globPattern = path.join(sourceModulePath.replace("package.json", ""), pattern);
   const files = await glob(globPattern);
 
   for (let file of files) {
@@ -115,7 +116,6 @@ export async function getMetadataFromPath(
     tags: [],
   };
 
-
   // Append all entries into a single entry
   for (let entry of jsonEntries) {
     //@ts-ignore
@@ -154,13 +154,18 @@ export async function generateTypes(
       : args.directory;
 
   if (!root) return [];
-
   const rawData = await getMetadataFromPath(
     root,
     "**/*.ts",
     args.directory ? false : true
   );
 
+  if (!rawData.tags.length) {
+    console.log("No NativeScript views found in", root);
+    return [];
+  }
+
+  console.log(rawData.tags.length, "views found in", root);
 
   switch (args.framework) {
     case "angular":

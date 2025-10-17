@@ -337,6 +337,7 @@ export type CliArgumentsMap = {
   all?: boolean;
   filename?: string;
   directory?: string;
+  resetLockFiles?: boolean;
 };
 
 export type InputFile = {
