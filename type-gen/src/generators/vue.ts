@@ -4,7 +4,7 @@ import {
   CoreTypes,
   HtmlCustomData,
   JsxStyleObject,
-  OutputType
+  OutputType,
 } from "../types";
 import {
   importEventDataTypeFromPackage,
@@ -62,17 +62,18 @@ export async function generateVueTypes(
 
     if (tag.events) {
       for (let event of tag.events) {
-        const eventType =
-          event.description === "Gesture Event"
-            ? event.type
-            : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ''}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
-        importEventDataTypeFromPackage(
+        const imported = importEventDataTypeFromPackage(
           event.type,
           importSource,
           coreImports,
           imports
         );
+        if (!imported) event.type = "EventData";
+        const eventType =
+          event.description === "Gesture Event"
+            ? event.type
+            : `NSDOMEvent<${event.type}>`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
       }
     }
 
@@ -85,8 +86,8 @@ export async function generateVueTypes(
         `import {${coreImports.join(",\n")}\n} from "@nativescript/core";`,
         `import {${imports.join(",\n")}\n} from "${importSource}";`,
         `import {NSDOMAttributes, NSDOMEvent, ColorValue, Style} from "ns-vue/jsx-runtime"`,
-         CoreTypes,
-         ...intrinsicElements.map((e) => e.source),
+        CoreTypes,
+        ...intrinsicElements.map((e) => e.source),
         `declare module "@vue/runtime-core" {`,
         `export interface GlobalComponents {`,
         ...intrinsicElements.map(

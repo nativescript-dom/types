@@ -1,7 +1,21 @@
 import { toSimpleType } from "ts-simple-type";
-import { BinaryExpression, ExpressionStatement, Node, ReturnStatement } from "typescript";
-import { AnalyzerDeclarationVisitContext, ComponentMember, getJsDoc, } from "web-component-analyzer";
-import { getMemberVisibilityFromNode, getModifiersFromNode, hasModifier, isNamePrivate } from "./ast-util";
+import {
+  BinaryExpression,
+  ExpressionStatement,
+  Node,
+  ReturnStatement,
+} from "typescript";
+import {
+  AnalyzerDeclarationVisitContext,
+  ComponentMember,
+  getJsDoc,
+} from "web-component-analyzer";
+import {
+  getMemberVisibilityFromNode,
+  getModifiersFromNode,
+  hasModifier,
+  isNamePrivate,
+} from "./ast-util";
 import { lazy } from "./lazy";
 import { resolveNodeValue } from "./resolve-node-value";
 import { relaxType } from "./type-util";
@@ -11,143 +25,186 @@ import { relaxType } from "./type-util";
  * @param node
  * @param context
  */
-export function discoverMembers(node: Node, context: AnalyzerDeclarationVisitContext): ComponentMember[] | undefined {
-	const { ts, checker } = context;
+export function discoverMembers(
+  node: Node,
+  context: AnalyzerDeclarationVisitContext
+): ComponentMember[] | undefined {
+  const { ts, checker } = context;
 
-	// Never pick up members not declared directly on the declaration node being traversed
-	if (node.parent !== context.declarationNode) {
-		return undefined;
-	}
+  // Never pick up members not declared directly on the declaration node being traversed
+  if (node.parent !== context.declarationNode) {
+    return undefined;
+  }
 
-     const jsDoc = getJsDoc(node, ts);
-     const found = jsDoc?.tags?.find((tag) => tag.tag === "nsProperty");
-     if (!found) return undefined;
+  const jsDoc = getJsDoc(node, ts);
+  const found = jsDoc?.tags?.find((tag) => tag.tag === "nsProperty");
 
-	// static get observedAttributes() { return ['c', 'l']; }
-	if (ts.isGetAccessor(node) && hasModifier(node, ts.SyntaxKind.StaticKeyword, ts)) {
-		if (node.name.getText() === "observedAttributes" && node.body != null) {
-			const members: ComponentMember[] = [];
+  if (
+    !found &&
+    (!globalThis.LEGACY_MODE || node.parent.getText().includes("@nsView"))
+  )
+    return undefined;
 
-			// Find either the first "return" statement or the first "array literal expression"
-			const arrayLiteralExpression =
-				(node.body.statements.find(statement => ts.isReturnStatement(statement)) as ReturnStatement | undefined)?.expression ??
-				node.body.statements.find(statement => ts.isArrayLiteralExpression(statement));
+  // static get observedAttributes() { return ['c', 'l']; }
+  if (
+    ts.isGetAccessor(node) &&
+    hasModifier(node, ts.SyntaxKind.StaticKeyword, ts)
+  ) {
+    if (node.name.getText() === "observedAttributes" && node.body != null) {
+      const members: ComponentMember[] = [];
 
-			if (arrayLiteralExpression != null && ts.isArrayLiteralExpression(arrayLiteralExpression)) {
-				// Emit an attribute for each string literal in the array.
-				for (const attrNameNode of arrayLiteralExpression.elements) {
-					const attrName = ts.isStringLiteralLike(attrNameNode) ? attrNameNode.text : undefined;
-					if (attrName == null) continue;
+      // Find either the first "return" statement or the first "array literal expression"
+      const arrayLiteralExpression =
+        (
+          node.body.statements.find((statement) =>
+            ts.isReturnStatement(statement)
+          ) as ReturnStatement | undefined
+        )?.expression ??
+        node.body.statements.find((statement) =>
+          ts.isArrayLiteralExpression(statement)
+        );
 
-					members.push({
-						priority: "medium",
-						node: attrNameNode,
-						jsDoc: getJsDoc(attrNameNode, ts),
-						kind: "attribute",
-						attrName,
-						type: undefined // () => ({ kind: "ANY" } as SimpleType),
-					});
-				}
-			}
+      if (
+        arrayLiteralExpression != null &&
+        ts.isArrayLiteralExpression(arrayLiteralExpression)
+      ) {
+        // Emit an attribute for each string literal in the array.
+        for (const attrNameNode of arrayLiteralExpression.elements) {
+          const attrName = ts.isStringLiteralLike(attrNameNode)
+            ? attrNameNode.text
+            : undefined;
+          if (attrName == null) continue;
 
-			return members;
-		}
-	}
+          members.push({
+            priority: "medium",
+            node: attrNameNode,
+            jsDoc: getJsDoc(attrNameNode, ts),
+            kind: "attribute",
+            attrName,
+            type: undefined, // () => ({ kind: "ANY" } as SimpleType),
+          });
+        }
+      }
 
-	// class { myProp = "hello"; }
-	else if (ts.isPropertyDeclaration(node) || ts.isPropertySignature(node)) {
-		const { name, initializer } = (() => {
-			if (ts.isPropertySignature(node)) {
-				return { name: node.name, initializer: undefined };
-			}
-			return node;
-		})();
+      return members;
+    }
+  }
 
-		if (ts.isIdentifier(name) || ts.isStringLiteralLike(name)) {
-			// Always ignore the "prototype" property
-			if (name.text === "prototype") {
-				return undefined;
-			}
+  // class { myProp = "hello"; }
+  else if (ts.isPropertyDeclaration(node) || ts.isPropertySignature(node)) {
+    const { name, initializer } = (() => {
+      if (ts.isPropertySignature(node)) {
+        return { name: node.name, initializer: undefined };
+      }
+      return node;
+    })();
 
-			// Find default value based on initializer
-			const resolvedDefaultValue = initializer != null ? resolveNodeValue(initializer, context) : undefined;
-			const def = resolvedDefaultValue != null ? resolvedDefaultValue.value : initializer?.getText();
+    if (ts.isIdentifier(name) || ts.isStringLiteralLike(name)) {
+      // Always ignore the "prototype" property
+      if (name.text === "prototype") {
+        return undefined;
+      }
 
-			return [
-				{
-					priority: "high",
-					node,
-					kind: "property",
-					jsDoc: getJsDoc(node, ts),
-					propName: name.text,
-					type: lazy(() => checker.getTypeAtLocation(node)),
-					default: def,
-					visibility: getMemberVisibilityFromNode(node, ts),
-					modifiers: getModifiersFromNode(node, ts)
-					//required: isPropertyRequired(node, context.checker),
-				}
-			];
-		}
-	}
+      // Find default value based on initializer
+      const resolvedDefaultValue =
+        initializer != null
+          ? resolveNodeValue(initializer, context)
+          : undefined;
+      const def =
+        resolvedDefaultValue != null
+          ? resolvedDefaultValue.value
+          : initializer?.getText();
 
-	// class { set myProp(value: string) { ... } }
-	else if (ts.isSetAccessor(node) || ts.isGetAccessor(node)) {
-		const { name, parameters } = node;
+      return [
+        {
+          priority: "high",
+          node,
+          kind: "property",
+          jsDoc: getJsDoc(node, ts),
+          propName: name.text,
+          type: lazy(() => checker.getTypeAtLocation(node)),
+          default: def,
+          visibility: getMemberVisibilityFromNode(node, ts),
+          modifiers: getModifiersFromNode(node, ts),
+          //required: isPropertyRequired(node, context.checker),
+        },
+      ];
+    }
+  }
 
-		if (ts.isIdentifier(name)) {
-			const parameter = ts.isSetAccessor(node) != null && parameters?.length > 0 ? parameters[0] : undefined;
+  // class { set myProp(value: string) { ... } }
+  else if (ts.isSetAccessor(node) || ts.isGetAccessor(node)) {
+    const { name, parameters } = node;
 
-			return [
-				{
-					priority: "high",
-					node,
-					jsDoc: getJsDoc(node, ts),
-					kind: "property",
-					propName: name.text,
-					type: lazy(() => (parameter == null ? context.checker.getTypeAtLocation(node) : context.checker.getTypeAtLocation(parameter))),
-					visibility: getMemberVisibilityFromNode(node, ts),
-					modifiers: getModifiersFromNode(node, ts)
-				}
-			];
-		}
-	}
+    if (ts.isIdentifier(name)) {
+      const parameter =
+        ts.isSetAccessor(node) != null && parameters?.length > 0
+          ? parameters[0]
+          : undefined;
 
-	// constructor { super(); this.title = "Hello"; }
-	else if (ts.isConstructorDeclaration(node)) {
-		if (node.body != null) {
-			const assignments = node.body.statements
-				.filter((stmt): stmt is ExpressionStatement => ts.isExpressionStatement(stmt))
-				.map(stmt => stmt.expression)
-				.filter((exp): exp is BinaryExpression => ts.isBinaryExpression(exp));
+      return [
+        {
+          priority: "high",
+          node,
+          jsDoc: getJsDoc(node, ts),
+          kind: "property",
+          propName: name.text,
+          type: lazy(() =>
+            parameter == null
+              ? context.checker.getTypeAtLocation(node)
+              : context.checker.getTypeAtLocation(parameter)
+          ),
+          visibility: getMemberVisibilityFromNode(node, ts),
+          modifiers: getModifiersFromNode(node, ts),
+        },
+      ];
+    }
+  }
 
-			const members: ComponentMember[] = [];
-			for (const assignment of assignments) {
-				const { left, right } = assignment;
+  // constructor { super(); this.title = "Hello"; }
+  else if (ts.isConstructorDeclaration(node)) {
+    if (node.body != null) {
+      const assignments = node.body.statements
+        .filter((stmt): stmt is ExpressionStatement =>
+          ts.isExpressionStatement(stmt)
+        )
+        .map((stmt) => stmt.expression)
+        .filter((exp): exp is BinaryExpression => ts.isBinaryExpression(exp));
 
-				if (ts.isPropertyAccessExpression(left)) {
-					if (left.expression.kind === ts.SyntaxKind.ThisKeyword) {
-						const propName = left.name.getText();
+      const members: ComponentMember[] = [];
+      for (const assignment of assignments) {
+        const { left, right } = assignment;
 
-						const resolvedInitializer = resolveNodeValue(right, context);
-						const def = resolvedInitializer != null ? resolvedInitializer.value : undefined; //right.getText();
+        if (ts.isPropertyAccessExpression(left)) {
+          if (left.expression.kind === ts.SyntaxKind.ThisKeyword) {
+            const propName = left.name.getText();
 
-						members.push({
-							priority: "low",
-							node,
-							kind: "property",
-							propName,
-							default: def,
-							type: () => relaxType(toSimpleType(checker.getTypeAtLocation(right), checker)),
-							jsDoc: getJsDoc(assignment.parent, ts),
-							visibility: isNamePrivate(propName) ? "private" : undefined
-						});
-					}
-				}
-			}
+            const resolvedInitializer = resolveNodeValue(right, context);
+            const def =
+              resolvedInitializer != null
+                ? resolvedInitializer.value
+                : undefined; //right.getText();
 
-			return members;
-		}
-	}
+            members.push({
+              priority: "low",
+              node,
+              kind: "property",
+              propName,
+              default: def,
+              type: () =>
+                relaxType(
+                  toSimpleType(checker.getTypeAtLocation(right), checker)
+                ),
+              jsDoc: getJsDoc(assignment.parent, ts),
+              visibility: isNamePrivate(propName) ? "private" : undefined,
+            });
+          }
+        }
+      }
 
-	return undefined;
+      return members;
+    }
+  }
+
+  return undefined;
 }

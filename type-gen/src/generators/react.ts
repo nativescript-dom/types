@@ -65,17 +65,18 @@ export async function generateReactTypes(
 
     if (tag.events) {
       for (let event of tag.events) {
-        const eventType =
-          event.description === "Gesture Event"
-            ? event.type
-            : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
-        importEventDataTypeFromPackage(
+        const imported = importEventDataTypeFromPackage(
           event.type,
           importSource,
           coreImports,
           imports
         );
+        if (!imported) event.type = "EventData";
+                const eventType =
+          event.description === "Gesture Event"
+            ? event.type
+            : `NSDOMEvent<${event.type}>`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
       }
     }
 
