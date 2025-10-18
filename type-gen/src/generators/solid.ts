@@ -114,20 +114,33 @@ export async function generateSolidTypes(
       intrinsicElement.source += `\n\n      ${property.description ? `/**\n     * ${property.description}\n*/` : ""}\n${property.name}?: ${resolveAttributeType(property.type)}`;
 
       if (property.type) {
-        for (let type of property.type.split("|"))
-          importTypeFromPackage(type, importSource, coreImports, imports);
+        if (!isSimpleType(property.type)) {
+          for (let type of property.type.split("|")) {
+           importTypeFromPackage(
+              type,
+              importSource,
+              coreImports,
+              imports
+            );
+          }
+        }
       }
     }
 
     if (tag.events) {
       for (let event of tag.events) {
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n*/\n"on:${event.name}"?: (event:${event.description === "Gesture Event" ? event.type : `NSDOMEvent<${event.type}>`}) => void`;
-        importEventDataTypeFromPackage(
+        const imported = importEventDataTypeFromPackage(
           event.type,
           importSource,
           coreImports,
           imports
         );
+        if (!imported) event.type = "EventData";
+        const eventType =
+          event.description === "Gesture Event"
+            ? event.type
+            : `NSDOMEvent<${event.type}>`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n*/\n"on:${event.name}"?: (event:${eventType}) => void`;
       }
     }
 
@@ -140,6 +153,7 @@ export async function generateSolidTypes(
         `import {${coreImports.join(",\n")}\n} from "@nativescript/core";`,
         `import {${imports.join(",\n")}\n} from "${importSource}";`,
         `import {NSDOMAttributes, NSDOMEvent, ColorValue, Style} from "ns-solid/jsx-runtime"`,
+        CoreTypes,
         `declare module "ns-solid/jsx-runtime" {`,
         "   export namespace JSX {",
         ...intrinsicElements.map((e) => e.source),

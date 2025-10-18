@@ -28,6 +28,7 @@ Options:
     -d | --directory: Generate types from a directory.
     -r | --reset: Reset lock files
     -n | --filename: Name of the output file.
+    -l | --legacy: Use legacy mode to find views. This is experimental and might result in inaccurate types
     -h | --help: Show help.    
 `);
   process.exit(0);
@@ -67,6 +68,10 @@ function parseArgs(args: any[]) {
       case "--core":
         parsedArgs.core = true;
         break;
+      case "-l":
+      case "--legacy":
+        parsedArgs.legacy = true;
+        break;
       case "-a":
       case "--all":
         parsedArgs.all = true;
@@ -94,11 +99,6 @@ if (!isNativeScriptInstalled) {
   console.error("Please install @nativescript/core in your project.");
   process.exit(1);
 }
-
-// if (!parsedArgs.package && !parsedArgs.core && !parsedArgs.all) {
-//   console.error("Please provide a package to generate types for.");
-//   process.exit(1);
-// }
 
 if (parsedArgs.package) {
   const isPackageInstalled = resolvePackageJSONPath(parsedArgs.package, {
@@ -161,7 +161,6 @@ export async function startCliTypeGenerator() {
   ) {
     return;
   }
-    
 
   if (!parsedArgs.framework) {
     console.error(

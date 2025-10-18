@@ -34,13 +34,18 @@ export function isSimpleType(type: string) {
     "undefined",
     "Date",
   ];
-  return simpleTypes.some(
-    (simpleType) =>
-      simpleType.includes(type) ||
-      type.startsWith(`"`) ||
-      type.startsWith("(") ||
-      type.includes("=>") ||
-      type.includes("any")
+  return (
+    type.startsWith(`"`) ||
+    type.startsWith("(") ||
+    type.includes("=>") ||
+    type.includes("any") ||
+    type.startsWith("{") ||
+    type.startsWith("[") ||
+    type.startsWith("Record<") ||
+    type.startsWith("Map<") ||
+    type.startsWith("Set<") ||
+    type.includes("[]") ||
+    simpleTypes.some((simpleType) => simpleType.includes(type))
   );
 }
 
@@ -338,6 +343,7 @@ export type CliArgumentsMap = {
   filename?: string;
   directory?: string;
   resetLockFiles?: boolean;
+  legacy?: boolean;
 };
 
 export type InputFile = {

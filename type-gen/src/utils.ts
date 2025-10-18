@@ -4,6 +4,10 @@ import ts = require("typescript");
 import * as fs from "fs";
 import { resolvePackageJSONPath } from "@rigor789/resolve-package-path";
 
+export function isCore(source: string) {
+  return source === "@nativescript/core";
+}
+
 export function capitalize(string: string) {
   // take first character, uppercase it
   // add the rest of the string
@@ -160,13 +164,24 @@ export function importEventDataTypeFromPackage(
       );
       if (isExported) {
         imports.push(type);
+        return true;
       } else {
-        coreImports.push(type);
+        const coreExported = moduleExportsSymbolForPackage(
+          "@nativescript/core",
+          process.cwd(),
+          type
+        );
+        if (coreExported) {
+          coreImports.push(type);
+          return true;
+        }
       }
     } else {
       imports.push(type);
+      return true;
     }
   }
+  return false;
 }
 
 export function importTypeFromPackage(
@@ -192,12 +207,19 @@ export function importTypeFromPackage(
         );
         if (isExported) {
           imports.push(strippedType);
+          return true;
         } else {
-          coreImports.push(strippedType);
+          coreImports.push(type);
+          return true;
         }
       } else {
         imports.push(strippedType);
+        return true;
       }
+    } else {
+      return true;
     }
+  } else {
+    return true;
   }
 }

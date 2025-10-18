@@ -126,7 +126,7 @@ export async function generateSvelteTypes(
 
     for (let property of tag.properties) {
       if (property.name === "style") continue;
-      intrinsicElement.source += `\n\n      ${property.description ? `/**\n     * ${property.description}\n*/` : ''}\n${property.name}?: ${resolveAttributeType(property.type)}`;
+      intrinsicElement.source += `\n\n      ${property.description ? `/**\n     * ${property.description}\n*/` : ""}\n${property.name}?: ${resolveAttributeType(property.type)}`;
 
       if (property.type) {
         for (let type of property.type.split("|"))
@@ -136,17 +136,18 @@ export async function generateSvelteTypes(
 
     if (tag.events) {
       for (let event of tag.events) {
-        const eventType =
-          event.description === "Gesture Event"
-            ? event.type
-            : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on:${event.name}"?: (event:${eventType}) => void`;
-        importEventDataTypeFromPackage(
+        const imported = importEventDataTypeFromPackage(
           event.type,
           importSource,
           coreImports,
           imports
         );
+        if (!imported) event.type = "EventData";
+        const eventType =
+          event.description === "Gesture Event"
+            ? event.type
+            : `NSDOMEvent<${event.type}>`;
+        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on:${event.name}"?: (event:${eventType}) => void`;
       }
     }
 

@@ -29,6 +29,7 @@ async function visitFilesForSource(
   source: string,
   pattern: string,
   isModule?: boolean,
+  legacyMode?: boolean,
   viewVisitor?: (view: Partial<InputFile>) => void
 ) {
   const sourceModulePath = isModule
@@ -39,12 +40,15 @@ async function visitFilesForSource(
       )
     : path.join(__dirname, source);
 
-  const globPattern = path.join(sourceModulePath.replace("package.json", ""), pattern);
+  const globPattern = path.join(
+    sourceModulePath.replace("package.json", ""),
+    pattern
+  );
   const files = await glob(globPattern);
 
   for (let file of files) {
     const fileText = fs.readFileSync(file, "utf-8");
-    if (!fileText.includes("@nsView")) continue;
+    if (!fileText.includes("@nsView") && !legacyMode) continue;
     const fileData = {
       file: file,
       compiledTS: compileTypescript([file]),
@@ -77,37 +81,48 @@ export function transformResults(
 export async function getMetadataFromPath(
   source: string,
   pattern: string,
-  isModule = true
+  isModule = true,
+  legacyMode = false
 ) {
   const jsonEntries: HtmlCustomData[] = [];
 
-  await visitFilesForSource(source, pattern, isModule, (view: InputFile) => {
-    const results: AnalyzerResult[] = [];
-    for (let file of view.compiledTS.files) {
-      const result = analyzeSourceFile(file as any, {
-        program: view.compiledTS.program as any,
-        ts: ts as any,
-        flavors: [new NativeScriptFlavor()],
-        config: {
-          analyzeAllDeclarations: true,
-          analyzeDependencies: true,
-          analyzeDefaultLib: true,
-          analyzeGlobalFeatures: true,
-        },
+  if (legacyMode) {
+    console.log("Trying to find views using legacy mode");
+  }
+
+  await visitFilesForSource(
+    source,
+    pattern,
+    isModule,
+    legacyMode,
+    (view: InputFile) => {
+      const results: AnalyzerResult[] = [];
+      for (let file of view.compiledTS.files) {
+        const result = analyzeSourceFile(file as any, {
+          program: view.compiledTS.program as any,
+          ts: ts as any,
+          flavors: [new NativeScriptFlavor(legacyMode)],
+          config: {
+            analyzeAllDeclarations: true,
+            analyzeDependencies: true,
+            analyzeDefaultLib: true,
+            analyzeGlobalFeatures: true,
+          },
+        });
+        results.push(result);
+      }
+
+      const json = transformResults(results, view.compiledTS.program, {
+        inlineTypes: false,
+        visibility: "public",
+        format: "json",
       });
-      results.push(result);
+      const htmlData = JSON.parse(json) as HtmlCustomData;
+      if (!htmlData.tags || !htmlData.tags.length) return;
+
+      jsonEntries.push(htmlData);
     }
-
-    const json = transformResults(results, view.compiledTS.program, {
-      inlineTypes: false,
-      visibility: "public",
-      format: "json",
-    });
-    const htmlData = JSON.parse(json) as HtmlCustomData;
-    if (!htmlData.tags || !htmlData.tags.length) return;
-
-    jsonEntries.push(htmlData);
-  });
+  );
 
   const htmlCustomData: HtmlCustomData = {
     $schema:
@@ -118,9 +133,9 @@ export async function getMetadataFromPath(
 
   // Append all entries into a single entry
   for (let entry of jsonEntries) {
-    //@ts-ignore
     if (entry.tags.length === 0) continue;
     for (let tag of entry.tags) {
+      if (htmlCustomData.tags.some((t) => t.name === tag.name)) continue;
       tag.events = tag.events ?? [];
       for (const ge of gestureEvents) {
         const exists = tag.events.some((e) => e.name === ge.name);
@@ -140,13 +155,21 @@ export async function getMetadataFromPath(
     }
   }
 
-  // console.log(htmlCustomData.tags[0].properties);
+  if (
+    !htmlCustomData.tags.length &&
+    !legacyMode &&
+    globalThis.USE_LEGACY_MODE
+  ) {
+    return getMetadataFromPath(source, pattern, isModule, true);
+  }
+
   return htmlCustomData;
 }
 
 export async function generateTypes(
   args: CliArgumentsMap
 ): Promise<OutputType[]> {
+  globalThis.USE_LEGACY_MODE = args.legacy;
   const root = args.package
     ? args.package
     : args.core
