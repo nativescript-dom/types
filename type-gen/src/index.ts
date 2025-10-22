@@ -15,6 +15,7 @@ import {
   gestureEvents,
   HtmlCustomData,
   InputFile,
+  MetadataOptions,
   OutputType,
 } from "./types";
 import path = require("path");
@@ -24,12 +25,10 @@ import { generateVueTypes } from "./generators/vue";
 import { generateSvelteTypes } from "./generators/svelte";
 import { generateReactTypes } from "./generators/react";
 import { resolvePackageJSONPath } from "@rigor789/resolve-package-path";
+import { CORE_PKG } from "./utils";
 
 async function visitFilesForSource(
-  source: string,
-  pattern: string,
-  isModule?: boolean,
-  legacyMode?: boolean,
+  { isModule, source, pattern, legacyMode, viewNames }: MetadataOptions,
   viewVisitor?: (view: Partial<InputFile>) => void
 ) {
   const sourceModulePath = isModule
@@ -49,6 +48,13 @@ async function visitFilesForSource(
   for (let file of files) {
     const fileText = fs.readFileSync(file, "utf-8");
     if (!fileText.includes("@nsView") && !legacyMode) continue;
+
+    if (
+      viewNames &&
+      !viewNames.some((name) => fileText.includes(`@nsView ${name}`))
+    )
+      continue;
+
     const fileData = {
       file: file,
       compiledTS: compileTypescript([file]),
@@ -78,52 +84,37 @@ export function transformResults(
   return jsonTransformerLocal(results, program, transformerConfig);
 }
 
-export async function getMetadataFromPath(
-  source: string,
-  pattern: string,
-  isModule = true,
-  legacyMode = false
-) {
-  const jsonEntries: HtmlCustomData[] = [];
-
-  if (legacyMode) {
-    console.log("Trying to find views using legacy mode");
-  }
-
-  await visitFilesForSource(
-    source,
-    pattern,
-    isModule,
-    legacyMode,
-    (view: InputFile) => {
-      const results: AnalyzerResult[] = [];
-      for (let file of view.compiledTS.files) {
-        const result = analyzeSourceFile(file as any, {
-          program: view.compiledTS.program as any,
-          ts: ts as any,
-          flavors: [new NativeScriptFlavor(legacyMode)],
-          config: {
-            analyzeAllDeclarations: true,
-            analyzeDependencies: true,
-            analyzeDefaultLib: true,
-            analyzeGlobalFeatures: true,
-          },
-        });
-        results.push(result);
-      }
-
-      const json = transformResults(results, view.compiledTS.program, {
-        inlineTypes: false,
-        visibility: "public",
-        format: "json",
+function analyzeInputFile(entries: HtmlCustomData[], legacyMode: boolean) {
+  return (view: InputFile) => {
+    const results: AnalyzerResult[] = [];
+    for (let file of view.compiledTS.files) {
+      const result = analyzeSourceFile(file as any, {
+        program: view.compiledTS.program as any,
+        ts: ts as any,
+        flavors: [new NativeScriptFlavor(legacyMode)],
+        config: {
+          analyzeAllDeclarations: true,
+          analyzeDependencies: true,
+          analyzeDefaultLib: true,
+          analyzeGlobalFeatures: true,
+        },
       });
-      const htmlData = JSON.parse(json) as HtmlCustomData;
-      if (!htmlData.tags || !htmlData.tags.length) return;
-
-      jsonEntries.push(htmlData);
+      results.push(result);
     }
-  );
 
+    const json = transformResults(results, view.compiledTS.program, {
+      inlineTypes: false,
+      visibility: "public",
+      format: "json",
+    });
+    const htmlData = JSON.parse(json) as HtmlCustomData;
+    if (!htmlData.tags || !htmlData.tags.length) return;
+
+    entries.push(htmlData);
+  };
+}
+
+function mergeEntries(entries: HtmlCustomData[]) {
   const htmlCustomData: HtmlCustomData = {
     $schema:
       "https://raw.githubusercontent.com/microsoft/vscode-html-languageservice/refs/heads/main/docs/customData.schema.json",
@@ -131,8 +122,7 @@ export async function getMetadataFromPath(
     tags: [],
   };
 
-  // Append all entries into a single entry
-  for (let entry of jsonEntries) {
+  for (let entry of entries) {
     if (entry.tags.length === 0) continue;
     for (let tag of entry.tags) {
       if (htmlCustomData.tags.some((t) => t.name === tag.name)) continue;
@@ -154,18 +144,61 @@ export async function getMetadataFromPath(
       htmlCustomData.tags.push(tag);
     }
   }
+  return htmlCustomData;
+}
 
+export async function getCoreViewMetadata(options: MetadataOptions) {
+  return getMetadataFromPath(options);
+}
+
+export async function getMetadataFromPath({
+  source,
+  pattern,
+  isModule = true,
+  legacyMode = false,
+  args,
+  context,
+  viewNames,
+}: MetadataOptions) {
+  const jsonEntries: HtmlCustomData[] = [];
+
+  if (legacyMode) {
+    console.log("Trying to find views using legacy mode");
+  }
+
+  await visitFilesForSource(
+    {
+      source,
+      pattern,
+      isModule,
+      legacyMode,
+      args,
+      context,
+      viewNames,
+    },
+    analyzeInputFile(jsonEntries, legacyMode)
+  );
+
+  const htmlCustomData = mergeEntries(jsonEntries);
   if (
     !htmlCustomData.tags.length &&
     !legacyMode &&
     globalThis.USE_LEGACY_MODE
   ) {
-    return getMetadataFromPath(source, pattern, isModule, true);
+    return getMetadataFromPath({
+      source,
+      pattern,
+      isModule,
+      legacyMode: true,
+      args: args,
+      context,
+    });
   }
 
   return htmlCustomData;
 }
 
+const context = {};
 export async function generateTypes(
   args: CliArgumentsMap
 ): Promise<OutputType[]> {
@@ -173,15 +206,42 @@ export async function generateTypes(
   const root = args.package
     ? args.package
     : args.core
-      ? "@nativescript/core"
+      ? CORE_PKG
       : args.directory;
 
   if (!root) return [];
-  const rawData = await getMetadataFromPath(
-    root,
-    "**/*.ts",
-    args.directory ? false : true
-  );
+
+  const options = {
+    source: root,
+    pattern: "**/*.ts",
+    isModule: args.directory ? false : true,
+    legacyMode: false,
+    args,
+    context,
+  };
+
+  if (!args.core && !context["coreViewData"]) {
+    const coreViewData = await getCoreViewMetadata({
+      ...options,
+      source: CORE_PKG,
+      viewNames: ["View", "ViewBase"],
+    });
+    console.log("core view data", coreViewData.tags?.length);
+    context["coreViewData"] = coreViewData;
+  }
+
+  const rawData = await getMetadataFromPath({
+    source: root,
+    pattern: "**/*.ts",
+    isModule: args.directory ? false : true,
+    legacyMode: false,
+    args,
+    context,
+  });
+
+  if (args.core) {
+    context["coreViewData"] = rawData;
+  }
 
   if (!rawData.tags.length) {
     console.log("No NativeScript views found in", root);
@@ -192,14 +252,14 @@ export async function generateTypes(
 
   switch (args.framework) {
     case "angular":
-      return generateAngularTypes(args, root, rawData);
+      return generateAngularTypes(args, root, rawData, context);
     case "react":
-      return generateReactTypes(args, root, rawData);
+      return generateReactTypes(args, root, rawData, context);
     case "solid":
-      return await generateSolidTypes(args, root, rawData);
+      return await generateSolidTypes(args, root, rawData, context);
     case "svelte":
-      return await generateSvelteTypes(args, root, rawData);
+      return await generateSvelteTypes(args, root, rawData, context);
     case "vue":
-      return await generateVueTypes(args, root, rawData);
+      return await generateVueTypes(args, root, rawData, context);
   }
 }

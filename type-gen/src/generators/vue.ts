@@ -5,18 +5,21 @@ import {
   HtmlCustomData,
   JsxStyleObject,
   OutputType,
+  Tag,
 } from "../types";
 import {
-  importEventDataTypeFromPackage,
-  importTypeFromPackage,
+  generateJSXAttributesInterface,
+  isCoreView,
   pascalize,
-  resolveAttributeType,
+  sortTagsByPrority,
+  toCamelCase,
 } from "../utils";
 
 export async function generateVueTypes(
   args: CliArgumentsMap,
   path: string,
-  data: HtmlCustomData
+  data: HtmlCustomData,
+  context: Record<string, any>
 ): Promise<OutputType[]> {
   const importSource = path;
   const isCore = importSource === "@nativescript/core";
@@ -32,61 +35,52 @@ export async function generateVueTypes(
     source: string;
     name: string;
     description: string;
+    tagName: string;
   }[] = [];
 
+  sortTagsByPrority(data.tags);
+
+  const viewBaseTag: Tag =
+    data.tags.find((tag) => tag.name === "ViewBase") ||
+    (context.coreViewData as HtmlCustomData).tags.find(
+      (tag) => tag.name === "ViewBase"
+    );
+  const viewTag: Tag =
+    data.tags.find((tag) => tag.name === "View") ||
+    (context.coreViewData as HtmlCustomData).tags.find(
+      (tag) => tag.name === "View"
+    );
+
   for (let tag of data.tags) {
-    if (tag.name === "View" || tag.name === "ViewBase") continue;
-
-    const intrinsicElement = {
-      htmlName: tag.name,
-      source: "",
-      name: `${tag.name}Attributes`,
-      description: tag.description,
-    };
-
-    intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
-
-    if (!imports.find((t) => t === tag.name.trim())) {
-      imports.push(tag.name);
+    try {
+      intrinsicElements.push(
+        generateJSXAttributesInterface({
+          tag: tag,
+          transformers: {
+            name: (name) => name,
+            propertyName: (name) => name,
+            eventName: (eventName) => `on${pascalize(eventName)}`,
+          },
+          context: {
+            view: viewTag,
+            viewBase: viewBaseTag,
+            imports,
+            importSource,
+            coreImports,
+          },
+        })
+      );
+    } catch (e) {
+      console.error(`Error generating types for tag: ${tag.name}`, e);
     }
-
-    for (let property of tag.properties) {
-      if (property.name === "style") continue;
-      intrinsicElement.source += `\n\n      ${property.description ? `/**\n     * ${property.description}\n*/` : ""}\n${property.name}?: ${resolveAttributeType(property.type)}`;
-
-      if (property.type) {
-        for (let type of property.type.split("|"))
-          importTypeFromPackage(type, importSource, coreImports, imports);
-      }
-    }
-
-    if (tag.events) {
-      for (let event of tag.events) {
-        const imported = importEventDataTypeFromPackage(
-          event.type,
-          importSource,
-          coreImports,
-          imports
-        );
-        if (!imported) event.type = "EventData";
-        const eventType =
-          event.description === "Gesture Event"
-            ? event.type
-            : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on${pascalize(event.name)}"?: (event:${eventType}) => void`;
-      }
-    }
-
-    intrinsicElement.source += `\n\n}\n\n`;
-    intrinsicElements.push(intrinsicElement);
   }
 
   const output = !isCore
     ? [
+        `import {NSDOMAttributes,ViewAttributes,ViewBaseAttributes, NSDOMEvent, ColorValue, Style} from "ns-vue/jsx-runtime"`,
         `import {${coreImports.join(",\n")}\n} from "@nativescript/core";`,
         `import {${imports.join(",\n")}\n} from "${importSource}";`,
-        `import {NSDOMAttributes, NSDOMEvent, ColorValue, Style} from "ns-vue/jsx-runtime"`,
-        CoreTypes,
+        CoreTypes(),
         ...intrinsicElements.map((e) => e.source),
         `declare module "@vue/runtime-core" {`,
         `export interface GlobalComponents {`,
@@ -104,7 +98,7 @@ export async function generateVueTypes(
         `import { FlexGrow, FlexShrink, Order } from "@nativescript/core/ui/layouts/flexbox-layout";`,
         "",
         "",
-        CoreTypes,
+        CoreTypes(),
         "",
         `export type NSDOMEvent<T> = T;`,
         `type ReservedProps<T> = {
@@ -124,10 +118,12 @@ type ElementAttrs<T> = ReservedProps<T>;`,
         ...intrinsicElements.map((e) => e.source),
         `declare module "@vue/runtime-core" {`,
         `export interface GlobalComponents {`,
-        ...intrinsicElements.map(
-          (e) =>
-            `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": DefineComponent<${e.name}>,`
-        ),
+        ...intrinsicElements
+          .filter((e) => !isCoreView(e.tagName))
+          .map(
+            (e) =>
+              `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": DefineComponent<${e.name}>,`
+          ),
         "}",
         "}",
       ].join("\n");

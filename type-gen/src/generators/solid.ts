@@ -1,21 +1,17 @@
+import { format } from "prettier";
 import {
   CliArgumentsMap,
   CoreTypes,
   HtmlCustomData,
-  isCoreType,
-  isSimpleType,
   JsxStyleObject,
   OutputType,
+  Tag
 } from "../types";
-import { format } from "prettier";
 import {
-  importEventDataTypeFromPackage,
-  importTypeFromPackage,
-  moduleExportsSymbolForPackage,
-  resolveAttributeType,
+  generateJSXAttributesInterface,
+  isCoreView,
+  sortTagsByPrority
 } from "../utils";
-import ts = require("typescript");
-import path = require("path");
 
 const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicElements>(
       tag: K
@@ -75,7 +71,8 @@ const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicEl
 export async function generateSolidTypes(
   args: CliArgumentsMap,
   path: string,
-  data: HtmlCustomData
+  data: HtmlCustomData,
+  context: Record<string, any>
 ): Promise<OutputType[]> {
   const importSource = path;
   const isCore = importSource === "@nativescript/core";
@@ -91,69 +88,52 @@ export async function generateSolidTypes(
     source: string;
     name: string;
     description: string;
+    tagName: string;
   }[] = [];
 
+  sortTagsByPrority(data.tags);
+
+  const viewBaseTag: Tag =
+    data.tags.find((tag) => tag.name === "ViewBase") ||
+    (context.coreViewData as HtmlCustomData).tags.find(
+      (tag) => tag.name === "ViewBase"
+    );
+  const viewTag: Tag =
+    data.tags.find((tag) => tag.name === "View") ||
+    (context.coreViewData as HtmlCustomData).tags.find(
+      (tag) => tag.name === "View"
+    );
+
   for (let tag of data.tags) {
-    if (tag.name === "View" || tag.name === "ViewBase") continue;
-
-    const intrinsicElement = {
-      htmlName: tag.name.toLocaleLowerCase(),
-      source: "",
-      name: `${tag.name}Attributes`,
-      description: tag.description,
-    };
-
-    intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
-    intrinsicElement.source += `\n[name: string]: any`;
-
-    if (!imports.find((t) => t === tag.name.trim())) {
-      imports.push(tag.name);
+    try {
+      intrinsicElements.push(
+        generateJSXAttributesInterface({
+          tag: tag,
+          transformers: {
+            name: (name) => name.toLowerCase(),
+            propertyName: (name) => name,
+            eventName: (eventName) => `on:${eventName}`,
+          },
+          context: {
+            view: viewTag,
+            viewBase: viewBaseTag,
+            imports,
+            importSource,
+            coreImports,
+          },
+        })
+      );
+    } catch (e) {
+      console.error(`Error generating types for tag: ${tag.name}`, e);
     }
-
-    for (let property of tag.properties) {
-      intrinsicElement.source += `\n\n      ${property.description ? `/**\n     * ${property.description}\n*/` : ""}\n${property.name}?: ${resolveAttributeType(property.type)}`;
-
-      if (property.type) {
-        if (!isSimpleType(property.type)) {
-          for (let type of property.type.split("|")) {
-           importTypeFromPackage(
-              type,
-              importSource,
-              coreImports,
-              imports
-            );
-          }
-        }
-      }
-    }
-
-    if (tag.events) {
-      for (let event of tag.events) {
-        const imported = importEventDataTypeFromPackage(
-          event.type,
-          importSource,
-          coreImports,
-          imports
-        );
-        if (!imported) event.type = "EventData";
-        const eventType =
-          event.description === "Gesture Event"
-            ? event.type
-            : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n*/\n"on:${event.name}"?: (event:${eventType}) => void`;
-      }
-    }
-
-    intrinsicElement.source += `\n\n}\n\n`;
-    intrinsicElements.push(intrinsicElement);
   }
 
   const output = !isCore
     ? [
         `import {${coreImports.join(",\n")}\n} from "@nativescript/core";`,
         `import {${imports.join(",\n")}\n} from "${importSource}";`,
-        `import {NSDOMAttributes, NSDOMEvent, ColorValue, Style} from "ns-solid/jsx-runtime"`,
-        CoreTypes,
+        `import {NSDOMAttributes, ViewAttributes, ViewBaseAttributes, NSDOMEvent, ColorValue, Style} from "ns-solid/jsx-runtime"`,
+        CoreTypes(),
         `declare module "ns-solid/jsx-runtime" {`,
         "   export namespace JSX {",
         ...intrinsicElements.map((e) => e.source),
@@ -173,7 +153,7 @@ export async function generateSolidTypes(
         `import { FlexGrow, FlexShrink, Order } from "@nativescript/core/ui/layouts/flexbox-layout";`,
         "",
         "",
-        CoreTypes,
+        CoreTypes(),
         "",
         `declare module "ns-solid/jsx-runtime" {`,
         "export interface NSDOMAttributes<T> extends SolidJSX.CustomAttributes<T>, SolidJSX.DirectiveAttributes, SolidJSX.DirectiveFunctionAttributes<T> {}",
@@ -184,10 +164,12 @@ export async function generateSolidTypes(
         SolidJSXTypes,
         ...intrinsicElements.map((e) => e.source),
         `export interface IntrinsicElements {`,
-        ...intrinsicElements.map(
-          (e) =>
-            `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
-        ),
+        ...intrinsicElements
+          .filter((e) => !isCoreView(e.tagName))
+          .map(
+            (e) =>
+              `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
+          ),
         "}",
         "   }",
         `function Fragment(props: { children: JSX.Element }): JSX.Element;`,

@@ -3,16 +3,15 @@ import {
   CliArgumentsMap,
   CoreTypes,
   HtmlCustomData,
-  isCoreType,
-  isSimpleType,
   JsxStyleObject,
   OutputType,
+  Tag
 } from "../types";
 import {
-  importEventDataTypeFromPackage,
-  importTypeFromPackage,
-  resolveAttributeType,
-  toCamelCase,
+  generateJSXAttributesInterface,
+  isCoreView,
+  sortTagsByPrority,
+  toCamelCase
 } from "../utils";
 
 const SvelteJSX = ` // Every namespace eligible for use with the new Svelte intellisense needs to implement the following two functions
@@ -90,7 +89,8 @@ const SvelteJSX = ` // Every namespace eligible for use with the new Svelte inte
 export async function generateSvelteTypes(
   args: CliArgumentsMap,
   path: string,
-  data: HtmlCustomData
+  data: HtmlCustomData,
+  context: Record<string, any>
 ): Promise<OutputType[]> {
   const importSource = path;
   const isCore = importSource === "@nativescript/core";
@@ -106,61 +106,52 @@ export async function generateSvelteTypes(
     source: string;
     name: string;
     description: string;
+    tagName: string;
   }[] = [];
 
+  sortTagsByPrority(data.tags);
+
+  const viewBaseTag: Tag =
+    data.tags.find((tag) => tag.name === "ViewBase") ||
+    (context.coreViewData as HtmlCustomData).tags.find(
+      (tag) => tag.name === "ViewBase"
+    );
+  const viewTag: Tag =
+    data.tags.find((tag) => tag.name === "View") ||
+    (context.coreViewData as HtmlCustomData).tags.find(
+      (tag) => tag.name === "View"
+    );
+
   for (let tag of data.tags) {
-    if (tag.name === "View" || tag.name === "ViewBase") continue;
-
-    const intrinsicElement = {
-      htmlName: toCamelCase(tag.name),
-      source: "",
-      name: `${tag.name}Attributes`,
-      description: tag.description,
-    };
-
-    intrinsicElement.source += `export interface ${intrinsicElement.name} extends NSDOMAttributes<${tag.name}> {`;
-
-    if (!imports.find((t) => t === tag.name.trim())) {
-      imports.push(tag.name);
+    try {
+      intrinsicElements.push(
+        generateJSXAttributesInterface({
+          tag: tag,
+          transformers: {
+            name: (name) => toCamelCase(name),
+            propertyName: (name) => name,
+            eventName: (eventName) => `on:${eventName}`,
+          },
+          context: {
+            view: viewTag,
+            viewBase: viewBaseTag,
+            imports,
+            importSource,
+            coreImports,
+          },
+        })
+      );
+    } catch (e) {
+      console.error(`Error generating types for tag: ${tag.name}`, e);
     }
-
-    for (let property of tag.properties) {
-      if (property.name === "style") continue;
-      intrinsicElement.source += `\n\n      ${property.description ? `/**\n     * ${property.description}\n*/` : ""}\n${property.name}?: ${resolveAttributeType(property.type)}`;
-
-      if (property.type) {
-        for (let type of property.type.split("|"))
-          importTypeFromPackage(type, importSource, coreImports, imports);
-      }
-    }
-
-    if (tag.events) {
-      for (let event of tag.events) {
-        const imported = importEventDataTypeFromPackage(
-          event.type,
-          importSource,
-          coreImports,
-          imports
-        );
-        if (!imported) event.type = "EventData";
-        const eventType =
-          event.description === "Gesture Event"
-            ? event.type
-            : `NSDOMEvent<${event.type}>`;
-        intrinsicElement.source += `\n\n      /**\n     * ${event.description || ""}\n@type ${event.type}\n*/\n"on:${event.name}"?: (event:${eventType}) => void`;
-      }
-    }
-
-    intrinsicElement.source += `\n\n}\n\n`;
-    intrinsicElements.push(intrinsicElement);
   }
 
   const output = !isCore
     ? [
-        `import {NSDOMAttributes, NSDOMEvent, ColorValue, Style} from "ns-svelte/jsx-runtime"`,
+        `import {NSDOMAttributes,ViewAttributes,ViewBaseAttributes, NSDOMEvent, ColorValue, Style} from "ns-svelte/jsx-runtime"`,
         `import {\n${imports.join(",\n")}\n} from "${importSource}";`,
         `import {${coreImports.join(",\n")}\n} from "@nativescript/core";`,
-        CoreTypes,
+        CoreTypes(),
         ...intrinsicElements.map((e) => e.source),
         `declare global {`,
         `   namespace svelteNS.JSX {`,
@@ -180,7 +171,7 @@ export async function generateSvelteTypes(
         `import { FlexGrow, FlexShrink, Order } from "@nativescript/core/ui/layouts/flexbox-layout";`,
         "",
         "",
-        CoreTypes,
+        CoreTypes(),
         "",
         `export type NSDOMEvent<T> = T;`,
         `export interface NSDOMAttributes<T> {
@@ -193,10 +184,12 @@ export async function generateSvelteTypes(
         `   namespace svelteNS.JSX {`,
         SvelteJSX,
         `export interface IntrinsicElements {`,
-        ...intrinsicElements.map(
-          (e) =>
-            `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
-        ),
+        ...intrinsicElements
+          .filter((e) => !isCoreView(e.tagName))
+          .map(
+            (e) =>
+              `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
+          ),
         "}",
         "}",
         "}",
