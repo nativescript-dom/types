@@ -1,4 +1,5 @@
 import ts = require("typescript");
+import { CORE_PKG } from "./utils";
 
 export type NativeScriptFramework =
   | "react"
@@ -34,6 +35,7 @@ export function isSimpleType(type: string) {
     "undefined",
     "Date",
   ];
+  if (type.includes("|")) return false;
   return (
     type.startsWith(`"`) ||
     type.startsWith("(") ||
@@ -44,16 +46,16 @@ export function isSimpleType(type: string) {
     type.startsWith("Record<") ||
     type.startsWith("Map<") ||
     type.startsWith("Set<") ||
-    type.includes("[]") ||
+    simpleTypes.some(simpleType => type.includes(simpleType + "[]")) ||
     simpleTypes.some((simpleType) => simpleType.includes(type))
   );
 }
 
 export function isCoreType(type: string) {
   if (type.includes("CoreTypes.")) return true;
-  return CoreTypes.includes("type " + type + " =");
+  return CoreTypes().includes("type " + type + " =") || type === "FontStyleType" || type === "FontWeightType";
 }
-export const CoreTypes = `import {CoreTypes, FontWeightType, FontStyleType} from "@nativescript/core";
+export const CoreTypes = () => `import {CoreTypes, FontWeightType, FontStyleType} from "${CORE_PKG}";
 type ImageStretchType = CoreTypes.ImageStretchType;
 type FontWeight = FontWeightType;
 type FontStyle = FontStyleType;
@@ -333,6 +335,17 @@ interface Style {
   iosAccessibilityMinFontScale: number;
   iosAccessibilityMaxFontScale: number;
 }`;
+
+export type MetadataOptions = {
+  source: string;
+  pattern: string;
+  isModule: boolean;
+  legacyMode: boolean;
+  args: CliArgumentsMap;
+  context: Record<string, any>;
+  viewNames?: string[]
+};
+
 
 export type CliArgumentsMap = {
   package?: string;

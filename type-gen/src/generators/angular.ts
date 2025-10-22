@@ -28,7 +28,8 @@ function extractValuesFromAttributeType(
 export function generateAngularTypes(
   args: CliArgumentsMap,
   path: string,
-  data: HtmlCustomData
+  data: HtmlCustomData,
+  context: Record<string, any>
 ): OutputType[] {
   const webTypes: WebTypesRoot = {
     name: "@nativescript-dom/angular-types",
