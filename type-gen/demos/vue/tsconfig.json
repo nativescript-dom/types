@@ -19,7 +19,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "types": ["./types/core_vue_jsx.d.ts",]
   },
   "vueCompilerOptions": {
     "target": 3,

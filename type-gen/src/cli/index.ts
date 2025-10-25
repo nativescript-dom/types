@@ -25,7 +25,6 @@ Options:
     -f | --framework: The framework to generate the types for. (solidjs | vue | svelte | angular | react)
     -c | --core: Generate types for @nativescript/core.
     -a | --all: Generate types for all packages based on project dependencies.
-    -d | --directory: Generate types from a directory.
     -r | --reset: Reset lock files
     -n | --filename: Name of the output file.
     -l | --legacy: Use legacy mode to find views. This is experimental and might result in inaccurate types
@@ -76,10 +75,10 @@ function parseArgs(args: any[]) {
       case "--all":
         parsedArgs.all = true;
         break;
-      case "-d":
-      case "--directory":
-        parsedArgs.directory = _args[i + 1];
-        break;
+      // case "-d":
+      // case "--directory":
+      //   parsedArgs.directory = _args[i + 1];
+      //   break;
       case "-n":
       case "--filename":
         parsedArgs.filename = _args[i + 1];

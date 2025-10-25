@@ -233,7 +233,7 @@ export function importTypeFromPackage(
           imports.push(strippedType);
           return true;
         } else {
-          coreImports.push(type);
+          coreImports.push(strippedType);
           return true;
         }
       } else {
@@ -248,6 +248,7 @@ export function importTypeFromPackage(
   }
 }
 
+const EVENT_NAME_REGEX = /\b[a-z][a-zA-Z0-9]*Event\b/;
 export function generateJSXAttributesInterface({
   tag,
   context,
@@ -293,7 +294,12 @@ export function generateJSXAttributesInterface({
 
   for (let property of tag.properties) {
     const propertyName = transformers.propertyName(property.name);
-    if (extendsCoreViewTypeName === "ViewBaseAttributes") {
+    if (EVENT_NAME_REGEX.test(property.name)) continue;
+
+    if (
+      extendsCoreViewTypeName === "ViewBaseAttributes" ||
+      extendsCoreViewTypeName === "ViewAttributes"
+    ) {
       if (
         viewBase.properties.find(
           (p) =>
@@ -302,7 +308,9 @@ export function generateJSXAttributesInterface({
         )
       )
         continue;
-    } else if (extendsCoreViewTypeName === "ViewAttributes") {
+    }
+
+    if (extendsCoreViewTypeName === "ViewAttributes") {
       if (
         view.properties.find(
           (p) =>
@@ -327,7 +335,10 @@ export function generateJSXAttributesInterface({
   if (tag.events) {
     for (let event of tag.events) {
       const eventName = transformers.eventName(event.name);
-      if (extendsCoreViewTypeName === "ViewBaseAttributes") {
+      if (
+        extendsCoreViewTypeName === "ViewBaseAttributes" ||
+        extendsCoreViewTypeName === "ViewAttributes"
+      ) {
         const found = viewBase.events.find((e) => e.name === event.name);
         if (found) {
           if (found.type !== event.type) {
@@ -336,7 +347,9 @@ export function generateJSXAttributesInterface({
             continue;
           }
         }
-      } else if (extendsCoreViewTypeName === "ViewAttributes") {
+      }
+
+      if (extendsCoreViewTypeName === "ViewAttributes") {
         const found = view.events.find((e) => e.name === event.name);
         if (found) {
           if (found.type !== event.type) {
@@ -366,7 +379,7 @@ export function generateJSXAttributesInterface({
     if (omittedTypes.length) {
       intrinsicElement.source = intrinsicElement.source.replace(
         EXTEND_VIEW_MARKER,
-        `Omit<${extendsCoreViewTypeName}<${intrinsicElement.tagName}>, ${omittedTypes.map(type => `"${type}"`).join(" | ")}>`
+        `Omit<${extendsCoreViewTypeName}<${intrinsicElement.tagName}>, ${omittedTypes.map((type) => `"${type}"`).join(" | ")}>`
       );
     } else {
       intrinsicElement.source = intrinsicElement.source.replace(

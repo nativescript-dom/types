@@ -5,12 +5,12 @@ import {
   HtmlCustomData,
   JsxStyleObject,
   OutputType,
-  Tag
+  Tag,
 } from "../types";
 import {
   generateJSXAttributesInterface,
   isCoreView,
-  sortTagsByPrority
+  sortTagsByPrority,
 } from "../utils";
 
 const SolidJSXTypes = `export function mapElementTag<K extends keyof IntrinsicElements>(
@@ -136,12 +136,16 @@ export async function generateSolidTypes(
         CoreTypes(),
         `declare module "ns-solid/jsx-runtime" {`,
         "   export namespace JSX {",
-        ...intrinsicElements.map((e) => e.source),
+        ...intrinsicElements
+          .filter((e) => !isCoreView(e.tagName))
+          .map((e) => e.source),
         `export interface IntrinsicElements {`,
-        ...intrinsicElements.map(
-          (e) =>
-            `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
-        ),
+        ...intrinsicElements
+          .filter((e) => !isCoreView(e.tagName))
+          .map(
+            (e) =>
+              `${e.description ? `/** ${e.description} */\n` : ``}"${e.htmlName}": ${e.name},`
+          ),
         "}",
         "}",
         "}",

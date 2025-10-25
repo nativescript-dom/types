@@ -14,7 +14,7 @@
     "paths": {
       "~/*": ["src/*"],
       "@/*": ["src/*"],
-      "ns-solid/jsx-runtime": ["../../out/core_solid_jsx.d.ts"]
+      "ns-solid/jsx-runtime": ["./types/core_solid_jsx.d.ts"]
     },
     "allowJs": true,
     "types": ["node"],

@@ -6,6 +6,5 @@ purpose of the file is to pass control to the app’s first page.
 
 import { svelteNativeNoFrame } from '@nativescript-community/svelte-native'
 import App from './App.svelte'
-// import "../../../out/core_svelte_jsx.d.ts"
 
 svelteNativeNoFrame(App, {})

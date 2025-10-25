@@ -1,8 +1,5 @@
 <page>
-    <actionBar title="Home" /> 
-
-    <actionBar on:live={() => {}}/>
-
+    <actionBar title="Home" />
     <gridLayout>
         <label class="info">
             <formattedString>
@@ -14,7 +11,7 @@
 </page>
 
 <script lang="ts">
-    let message: string = "Blank Svelte Native App"
+    let message: string = "Hello world "
 </script>
 
 <style>

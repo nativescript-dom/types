@@ -6,7 +6,7 @@ import {
   TransformerConfig,
 } from "web-component-analyzer";
 import { compileTypescript } from "./cli/compile";
-import { NativeScriptFlavor } from "./cli/flavor";
+import { clearEventDiscovery, NativeScriptFlavor } from "./cli/flavor";
 import { generateAngularTypes } from "./generators/angular";
 import { jsonTransformerLocal } from "./transformer";
 import {
@@ -203,6 +203,8 @@ export async function generateTypes(
   args: CliArgumentsMap
 ): Promise<OutputType[]> {
   globalThis.USE_LEGACY_MODE = args.legacy;
+  globalThis.LEGACY_MODE = false;
+  clearEventDiscovery();
   const root = args.package
     ? args.package
     : args.core
@@ -226,7 +228,6 @@ export async function generateTypes(
       source: CORE_PKG,
       viewNames: ["View", "ViewBase"],
     });
-    console.log("core view data", coreViewData.tags?.length);
     context["coreViewData"] = coreViewData;
   }
 

@@ -35,13 +35,13 @@ export function isSimpleType(type: string) {
     "undefined",
     "Date",
   ];
+  if (type.startsWith("{")) return true;
   if (type.includes("|")) return false;
   return (
     type.startsWith(`"`) ||
     type.startsWith("(") ||
     type.includes("=>") ||
     type.includes("any") ||
-    type.startsWith("{") ||
     type.startsWith("[") ||
     type.startsWith("Record<") ||
     type.startsWith("Map<") ||
@@ -226,7 +226,7 @@ export const JsxStyleObject = `type KnownColorNames =
 // Extend the type to also allow any string value
 export type ColorValue = KnownColorNames | (string & {});
 
-interface Style {
+interface ViewStyle {
   rotate: number;
   rotateX: number;
   rotateY: number;
@@ -334,7 +334,11 @@ interface Style {
   iosAccessibilityAdjustsFontSize: boolean;
   iosAccessibilityMinFontScale: number;
   iosAccessibilityMaxFontScale: number;
-}`;
+}
+export type Style = {
+  [K in keyof ViewStyle]?: ViewStyle[K] | ({} & string);
+};
+;`;
 
 export type MetadataOptions = {
   source: string;

@@ -13,7 +13,7 @@
     "paths": {
       "~/*": ["app/*"],
       "@/*": ["app/*"],
-      "ns-svelte/jsx-runtime": ["../../out/core_svelte_jsx.d.ts"]
+      "ns-svelte/jsx-runtime": ["./types/core_svelte_jsx.d.ts"]
     },
     "typeRoots": ["types"],
     "types": ["node"],

@@ -120,7 +120,7 @@ interface ClassAttributes<T> extends Attributes {
         "",
         JsxStyleObject,
         ...intrinsicElements.map((e) => e.source),
-        `declare module "ns-react/jsx-runtime" {`,
+        `declare global {`,
         `   export namespace JSX {`,
         `export interface IntrinsicElements {`,
         ...intrinsicElements

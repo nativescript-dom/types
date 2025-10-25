@@ -40,10 +40,10 @@ export function discoverMembers(
   const found = jsDoc?.tags?.find((tag) => tag.tag === "nsProperty");
 
   if (
-    !found &&
-    (!globalThis.LEGACY_MODE || node.parent.getText().includes("@nsView"))
-  )
+    !found && !globalThis.LEGACY_MODE
+  ) {
     return undefined;
+  }  
 
   // static get observedAttributes() { return ['c', 'l']; }
   if (

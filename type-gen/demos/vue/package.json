@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "dependencies": {
     "@nativescript-community/ui-collectionview": "^6.0.13",
-    "@nativescript/core": "9.0.0-alpha.20",
+    "@nativescript/core": "8.9.7",
     "@vue/runtime-dom": "^3.5.22",
     "nativescript-vue": "3.0.1",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@nativescript/android": "8.9.2",
     "@nativescript/preview-cli": "1.0.14",
     "@nativescript/stackblitz": "0.0.8",
     "@nativescript/tailwind": "~4.0.3",

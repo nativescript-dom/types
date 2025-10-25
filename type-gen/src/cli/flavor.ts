@@ -349,6 +349,14 @@ export const EVENTS_DISCOVERY: {
   node: ts.Node;
 }[] = [];
 
+export function getEvents() {
+  return EVENTS_DISCOVERY;
+}
+
+export function clearEventDiscovery() {
+  EVENTS_DISCOVERY.splice(0, EVENTS_DISCOVERY.length);
+}
+
 globalThis.LEGACY_MODE = false;
 export class NativeScriptFlavor implements AnalyzerFlavor {
   constructor(legacyMode: boolean = false) {
@@ -422,15 +430,12 @@ export class NativeScriptFlavor implements AnalyzerFlavor {
             isEventLegacy &&
             node.type?.kind === ts.SyntaxKind.StringKeyword
           ) {
-            // itemRecyclingEvent -> ItemRecyclingEventData
-            // Will fallback to EventData if it can't find such event type
-            const possibleEventTypeName = pascalize(nodeName) + "Data";
             const name = nodeName.slice(0, nodeName.length - "Event".length);
             return [
               {
                 name: name,
                 node: node,
-                typeHint: possibleEventTypeName || "EventData",
+                typeHint: "EventData",
                 jsDoc: jsDoc,
               },
             ];
